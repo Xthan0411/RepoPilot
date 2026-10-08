@@ -1,0 +1,28 @@
+{
+  "task": {
+    "task_id": "fixture-001",
+    "repository_path": "/fixtures/tiny_repo",
+    "repository_url": null,
+    "base_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "issue_title": "Handle an empty configuration file",
+    "issue_body": "The parser raises an unexpected exception when the file is empty.",
+    "setup_commands": [
+      {
+        "argv": ["python", "-m", "pip", "install", "-e", "."],
+        "cwd": null,
+        "timeout_seconds": 120
+      }
+    ],
+    "test_commands": [
+      {
+        "argv": ["python", "-m", "pytest", "-q"],
+        "cwd": null,
+        "timeout_seconds": 300
+      }
+    ],
+    "timeout_seconds": 900
+  },
+  "expected_patch": "diff --git a/parser.py b/parser.py\n--- a/parser.py\n+++ b/parser.py\n@@ -1 +1 @@\n-raise ValueError\n+return {}\n",
+  "gold_files": ["parser.py"],
+  "split": "dev"
+}

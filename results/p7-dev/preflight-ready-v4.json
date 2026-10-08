@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "preflight_version": "dev-calibration-preflight-v1",
+  "experiment_id": "repopilot-p7-v2",
+  "matrix_sha256": "d75d36d711f23190062aded9e97a8f5abfaba859416466027b227421ea7407e8",
+  "checked_at": "2026-08-08T00:35:22.666982Z",
+  "source_commit": "a294ef1502ddc49b755818e91972954b97c0eed4",
+  "source_dirty": false,
+  "ready_for_paid_dev": true,
+  "holdout_accessed": false,
+  "checks": [
+    {
+      "check_id": "dependency-lock",
+      "status": "passed",
+      "error_code": null
+    },
+    {
+      "check_id": "dev-task-set",
+      "status": "passed",
+      "error_code": null
+    },
+    {
+      "check_id": "embedding-snapshot",
+      "status": "passed",
+      "error_code": null
+    },
+    {
+      "check_id": "local-dependencies",
+      "status": "passed",
+      "error_code": null
+    },
+    {
+      "check_id": "output-root",
+      "status": "passed",
+      "error_code": null
+    },
+    {
+      "check_id": "provider-credential",
+      "status": "passed",
+      "error_code": null
+    },
+    {
+      "check_id": "sandbox-image",
+      "status": "passed",
+      "error_code": null
+    },
+    {
+      "check_id": "source-snapshot",
+      "status": "passed",
+      "error_code": null
+    },
+    {
+      "check_id": "vector-backend",
+      "status": "passed",
+      "error_code": null
+    }
+  ],
+  "content_sha256": "3ff61968e85f437bcc2019d659d1a45713c6abedb526e6f0a40207c8f43afda5"
+}

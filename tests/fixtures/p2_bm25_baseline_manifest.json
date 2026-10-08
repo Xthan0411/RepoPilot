@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "p2.synthetic-smoke",
+  "repository_id": "fixture.baseline",
+  "repository_root": "repositories/read_only",
+  "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "retrieval_depth": 100,
+  "tasks": [
+    {
+      "task": {
+        "task_id": "baseline-001",
+        "repository_path": "repositories/read_only",
+        "repository_url": null,
+        "base_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "issue_title": "Handle empty key value configuration",
+        "issue_body": "The parse function in parser.py should return an empty mapping for empty configuration text.",
+        "setup_commands": [],
+        "test_commands": [
+          {
+            "argv": ["python", "-m", "pytest", "-q"],
+            "cwd": null,
+            "timeout_seconds": 300
+          }
+        ],
+        "timeout_seconds": 900
+      },
+      "expected_patch": "EVALUATOR_ONLY_PATCH_CANARY_001",
+      "gold_files": ["pkg/parser.py"],
+      "split": "dev"
+    },
+    {
+      "task": {
+        "task_id": "baseline-002",
+        "repository_path": "repositories/read_only",
+        "repository_url": null,
+        "base_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "issue_title": "Support asynchronous parser service",
+        "issue_body": "ParserService parse_async should normalize raw input without external I/O.",
+        "setup_commands": [],
+        "test_commands": [
+          {
+            "argv": ["python", "-m", "pytest", "-q"],
+            "cwd": null,
+            "timeout_seconds": 300
+          }
+        ],
+        "timeout_seconds": 900
+      },
+      "expected_patch": "EVALUATOR_ONLY_PATCH_CANARY_002",
+      "gold_files": ["pkg/service.py"],
+      "split": "dev"
+    },
+    {
+      "task": {
+        "task_id": "baseline-003",
+        "repository_path": "repositories/read_only",
+        "repository_url": null,
+        "base_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "issue_title": "Expose parse from package",
+        "issue_body": "The package __init__ public API should import parse in __all__.",
+        "setup_commands": [],
+        "test_commands": [
+          {
+            "argv": ["python", "-m", "pytest", "-q"],
+            "cwd": null,
+            "timeout_seconds": 300
+          }
+        ],
+        "timeout_seconds": 900
+      },
+      "expected_patch": "EVALUATOR_ONLY_PATCH_CANARY_003",
+      "gold_files": ["pkg/__init__.py"],
+      "split": "holdout"
+    }
+  ]
+}

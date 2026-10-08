@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "authorization_version": "holdout-authorization-v1",
+  "authorization_id": "p7-holdout-user-approved-v1",
+  "experiment_id": "repopilot-p7-v2",
+  "matrix_sha256": "d75d36d711f23190062aded9e97a8f5abfaba859416466027b227421ea7407e8",
+  "freeze_marker_sha256": "9dbac71aca6063cc864567b1c69e7b0bfe5f866d3035fb91f86a5d621aabe7b5",
+  "plan_sha256": "e998481dab733bcb3c6590db35caf75fb2d27e48dc4a007ff9916ef5f0e3f7f7",
+  "approved_by": "ethan",
+  "approved_at": "2026-08-08T17:47:51.038982Z",
+  "paid_execution_approved": true,
+  "max_total_cost_usd": "32.00",
+  "final_in_flight_response_overshoot_acknowledged": true,
+  "content_sha256": "561f47755a255c22b1a3c6a604071b2981f68df49b05dc12e65e8b57f0aa3402"
+}

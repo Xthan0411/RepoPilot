@@ -1,0 +1,44 @@
+{
+    "total_instances": 8,
+    "submitted_instances": 8,
+    "completed_instances": 8,
+    "resolved_instances": 0,
+    "unresolved_instances": 8,
+    "empty_patch_instances": 0,
+    "error_instances": 0,
+    "completed_ids": [
+        "django__django-15902",
+        "mwaskom__seaborn-3190",
+        "pallets__flask-4992",
+        "pydata__xarray-4094",
+        "pydata__xarray-5131",
+        "pytest-dev__pytest-11143",
+        "pytest-dev__pytest-11148",
+        "sympy__sympy-20590"
+    ],
+    "incomplete_ids": [],
+    "empty_patch_ids": [],
+    "submitted_ids": [
+        "django__django-15902",
+        "mwaskom__seaborn-3190",
+        "pallets__flask-4992",
+        "pydata__xarray-4094",
+        "pydata__xarray-5131",
+        "pytest-dev__pytest-11143",
+        "pytest-dev__pytest-11148",
+        "sympy__sympy-20590"
+    ],
+    "resolved_ids": [],
+    "unresolved_ids": [
+        "django__django-15902",
+        "mwaskom__seaborn-3190",
+        "pallets__flask-4992",
+        "pydata__xarray-4094",
+        "pydata__xarray-5131",
+        "pytest-dev__pytest-11143",
+        "pytest-dev__pytest-11148",
+        "sympy__sympy-20590"
+    ],
+    "error_ids": [],
+    "schema_version": 2
+}

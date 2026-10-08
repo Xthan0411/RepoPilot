@@ -1,0 +1,21 @@
+schema_version: 1
+adapter_version: baseline-adapter-v1
+baseline_id: no-semantic-rag-v1
+kind: no_semantic_rag
+context_mode: bm25
+retrieval_mode: bm25
+query_rewrite_enabled: false
+memory_enabled: false
+arbitrary_shell_enabled: false
+evaluator_patch_access: forbidden
+evaluator_gold_file_access: forbidden
+test_patch_access: evaluator_only
+tool_names:
+  - apply_patch
+  - inspect_diff
+  - inspect_symbol
+  - list_files
+  - read_file
+  - run_tests
+  - search_code
+success_criterion: rule-based-verifier-v1

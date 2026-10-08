@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/
+build/
+
+# Test and quality-tool caches
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+
+# Local IDE and operating-system files
+.DS_Store
+.idea/
+.vscode/
+
+# Local scratch artifacts (result-owned nested artifact directories remain trackable)
+/artifacts/
+tmp/
+results/tmp/
+results/p0-smoke/
+
+# Learning notes are outside the project execution scope and may contain private values.
+RepoPilot_学习计划_2026.07.md
+
+# Publication snapshot: private notes, transport files, and future local executions
+*.bundle
+*.pem
+*.key
+*.p12
+RepoPilot_字节Agent开发岗_10天复习子计划.md
+/github_submission/
+/.submission-local/
+/results/p1-fixture/
+/results/repair/
+/results/p7-dev/p7-dev-*/
+/results/p7-dev/authorization-*.json
+/results/p7-holdout/raw/

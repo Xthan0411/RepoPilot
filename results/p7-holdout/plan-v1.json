@@ -1,0 +1,336 @@
+{
+  "schema_version": 1,
+  "plan_version": "holdout-application-plan-v1",
+  "plan_id": "p7-holdout-d75d36d711f2-a1fdecc1d338",
+  "experiment_id": "repopilot-p7-v2",
+  "matrix_sha256": "d75d36d711f23190062aded9e97a8f5abfaba859416466027b227421ea7407e8",
+  "freeze_marker_sha256": "9dbac71aca6063cc864567b1c69e7b0bfe5f866d3035fb91f86a5d621aabe7b5",
+  "frozen_source_commit": "a1fdecc1d33857cb5655d2b129e129f240dbbcfb",
+  "controller_commit": "a4a425e8e3f2def67588d90fa59ca31df2e862b6",
+  "dependency_lock_sha256": "73ae9e712946a1fd0f79ba27e9e975c57597690679c364f0afa71fade655997a",
+  "dataset_manifest_sha256": "89496bc2200149601333dadb9a6c7ac6b7d660b4bc7acf29c23597d33b660f60",
+  "prompt_versions": [
+    "repopilot-agent-v1"
+  ],
+  "model": "gpt-5.6-terra",
+  "embedding_model": "jinaai/jina-embeddings-v2-base-code",
+  "embedding_revision": "516f4baf13dec4ddddda8631e019b5737c8bc250",
+  "embedding_code_revision": "3baf9e3ac750e76e8edd3019170176884695fb94",
+  "frozen_sandbox_image_reference": "python@sha256:6d43704baacd1bfbe7c295d7f13079d5d8104ed33568873133f8fc69980419df",
+  "created_at": "2026-08-08T12:11:07.699174Z",
+  "split": "holdout",
+  "arm_ids": [
+    "dense-only-v1",
+    "hybrid-rrf-v1",
+    "mini-swe-safe-v1",
+    "no-semantic-rag-v1"
+  ],
+  "task_ids": [
+    "django__django-15902",
+    "mwaskom__seaborn-3190",
+    "pallets__flask-4992",
+    "pydata__xarray-4094",
+    "pydata__xarray-5131",
+    "pytest-dev__pytest-11143",
+    "pytest-dev__pytest-11148",
+    "sympy__sympy-20590"
+  ],
+  "repetitions": 1,
+  "per_task_cost_limit_usd": "1.00",
+  "theoretical_application_cost_usd": "32.00",
+  "final_in_flight_response_may_overshoot": true,
+  "authorization_required": true,
+  "aggregation_deferred_to": "P7-S7",
+  "tuning_from_holdout_forbidden": true,
+  "run_slots": [
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "django__django-15902",
+      "run_id": "8010b0ee-77ab-5966-a26a-6496e1ddd19a",
+      "configuration_sha256": "3a9987f5e4890091ffbac0ebea34815e0494900e6830057d1d5a436f0db41f20",
+      "base_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/dense-only-v1/django__django-15902"
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "mwaskom__seaborn-3190",
+      "run_id": "e9514e71-ec49-5aef-9321-f5cc91ed01c4",
+      "configuration_sha256": "3a9987f5e4890091ffbac0ebea34815e0494900e6830057d1d5a436f0db41f20",
+      "base_commit": "4a9e54962a29c12a8b103d75f838e0e795a6974d",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/dense-only-v1/mwaskom__seaborn-3190"
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pallets__flask-4992",
+      "run_id": "0ef11bc2-f0c1-574c-a147-d68475cb3b24",
+      "configuration_sha256": "3a9987f5e4890091ffbac0ebea34815e0494900e6830057d1d5a436f0db41f20",
+      "base_commit": "4c288bc97ea371817199908d0d9b12de9dae327e",
+      "python_version": "3.12.13",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/dense-only-v1/pallets__flask-4992"
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pydata__xarray-4094",
+      "run_id": "7d2c41ed-c8d1-51ae-b44c-f533f96e77f7",
+      "configuration_sha256": "3a9987f5e4890091ffbac0ebea34815e0494900e6830057d1d5a436f0db41f20",
+      "base_commit": "a64cf2d5476e7bbda099b34c40b7be1880dbd39a",
+      "python_version": "3.10",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/dense-only-v1/pydata__xarray-4094"
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pydata__xarray-5131",
+      "run_id": "9761d596-2b48-5d23-9634-9da0e3aff378",
+      "configuration_sha256": "3a9987f5e4890091ffbac0ebea34815e0494900e6830057d1d5a436f0db41f20",
+      "base_commit": "e56905889c836c736152b11a7e6117a229715975",
+      "python_version": "3.10",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/dense-only-v1/pydata__xarray-5131"
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pytest-dev__pytest-11143",
+      "run_id": "04e77c29-2d54-58e1-bba9-32788f4ad9bd",
+      "configuration_sha256": "3a9987f5e4890091ffbac0ebea34815e0494900e6830057d1d5a436f0db41f20",
+      "base_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/dense-only-v1/pytest-dev__pytest-11143"
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pytest-dev__pytest-11148",
+      "run_id": "f731b224-d993-5ca3-8cf9-6a9efd357c9d",
+      "configuration_sha256": "3a9987f5e4890091ffbac0ebea34815e0494900e6830057d1d5a436f0db41f20",
+      "base_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/dense-only-v1/pytest-dev__pytest-11148"
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "sympy__sympy-20590",
+      "run_id": "0df31d15-28d1-546f-8da2-5482dfcf13bc",
+      "configuration_sha256": "3a9987f5e4890091ffbac0ebea34815e0494900e6830057d1d5a436f0db41f20",
+      "base_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/dense-only-v1/sympy__sympy-20590"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "django__django-15902",
+      "run_id": "bc39d15b-5df4-5995-9808-321deb28245a",
+      "configuration_sha256": "74653e59d08d211286d158010bc5242329c32e046eeee5559d818e659544f7ae",
+      "base_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/hybrid-rrf-v1/django__django-15902"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "mwaskom__seaborn-3190",
+      "run_id": "c51ba839-339a-54ac-acb6-2aada9663472",
+      "configuration_sha256": "74653e59d08d211286d158010bc5242329c32e046eeee5559d818e659544f7ae",
+      "base_commit": "4a9e54962a29c12a8b103d75f838e0e795a6974d",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/hybrid-rrf-v1/mwaskom__seaborn-3190"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pallets__flask-4992",
+      "run_id": "fa5f4e42-9f94-5d58-b19a-aa152d6c485e",
+      "configuration_sha256": "74653e59d08d211286d158010bc5242329c32e046eeee5559d818e659544f7ae",
+      "base_commit": "4c288bc97ea371817199908d0d9b12de9dae327e",
+      "python_version": "3.12.13",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/hybrid-rrf-v1/pallets__flask-4992"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pydata__xarray-4094",
+      "run_id": "b384c7c5-2224-5973-9ebf-545743c86c16",
+      "configuration_sha256": "74653e59d08d211286d158010bc5242329c32e046eeee5559d818e659544f7ae",
+      "base_commit": "a64cf2d5476e7bbda099b34c40b7be1880dbd39a",
+      "python_version": "3.10",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/hybrid-rrf-v1/pydata__xarray-4094"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pydata__xarray-5131",
+      "run_id": "0817e763-9645-592c-9562-46cb89105a15",
+      "configuration_sha256": "74653e59d08d211286d158010bc5242329c32e046eeee5559d818e659544f7ae",
+      "base_commit": "e56905889c836c736152b11a7e6117a229715975",
+      "python_version": "3.10",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/hybrid-rrf-v1/pydata__xarray-5131"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pytest-dev__pytest-11143",
+      "run_id": "25ae94f0-42d4-509d-b57d-36ab8d46e463",
+      "configuration_sha256": "74653e59d08d211286d158010bc5242329c32e046eeee5559d818e659544f7ae",
+      "base_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/hybrid-rrf-v1/pytest-dev__pytest-11143"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pytest-dev__pytest-11148",
+      "run_id": "9c467562-56d2-5197-b3f2-acb27b8d7f1d",
+      "configuration_sha256": "74653e59d08d211286d158010bc5242329c32e046eeee5559d818e659544f7ae",
+      "base_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/hybrid-rrf-v1/pytest-dev__pytest-11148"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "sympy__sympy-20590",
+      "run_id": "8f0f3edb-be88-5afe-a537-2e72f0dd965e",
+      "configuration_sha256": "74653e59d08d211286d158010bc5242329c32e046eeee5559d818e659544f7ae",
+      "base_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/hybrid-rrf-v1/sympy__sympy-20590"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "django__django-15902",
+      "run_id": "e73280ad-bfa7-5e87-89de-41fef1c026e5",
+      "configuration_sha256": "ea0f80d0905e730dacb6d8d3b23e1eab0656456e267b7d3a331ac5d835d10555",
+      "base_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/mini-swe-safe-v1/django__django-15902"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "mwaskom__seaborn-3190",
+      "run_id": "d60b0add-b732-5876-8e57-825e866d9ac0",
+      "configuration_sha256": "ea0f80d0905e730dacb6d8d3b23e1eab0656456e267b7d3a331ac5d835d10555",
+      "base_commit": "4a9e54962a29c12a8b103d75f838e0e795a6974d",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/mini-swe-safe-v1/mwaskom__seaborn-3190"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pallets__flask-4992",
+      "run_id": "3e7ed3c5-e256-5cb3-99f2-d5df7ffa01d0",
+      "configuration_sha256": "ea0f80d0905e730dacb6d8d3b23e1eab0656456e267b7d3a331ac5d835d10555",
+      "base_commit": "4c288bc97ea371817199908d0d9b12de9dae327e",
+      "python_version": "3.12.13",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/mini-swe-safe-v1/pallets__flask-4992"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pydata__xarray-4094",
+      "run_id": "07b783bd-80c1-580d-8c81-5c09e7ffe785",
+      "configuration_sha256": "ea0f80d0905e730dacb6d8d3b23e1eab0656456e267b7d3a331ac5d835d10555",
+      "base_commit": "a64cf2d5476e7bbda099b34c40b7be1880dbd39a",
+      "python_version": "3.10",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/mini-swe-safe-v1/pydata__xarray-4094"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pydata__xarray-5131",
+      "run_id": "39922ad3-b7b6-58d2-bca9-57a184354879",
+      "configuration_sha256": "ea0f80d0905e730dacb6d8d3b23e1eab0656456e267b7d3a331ac5d835d10555",
+      "base_commit": "e56905889c836c736152b11a7e6117a229715975",
+      "python_version": "3.10",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/mini-swe-safe-v1/pydata__xarray-5131"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pytest-dev__pytest-11143",
+      "run_id": "5578dd80-8042-5dde-bdde-d0155c127664",
+      "configuration_sha256": "ea0f80d0905e730dacb6d8d3b23e1eab0656456e267b7d3a331ac5d835d10555",
+      "base_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/mini-swe-safe-v1/pytest-dev__pytest-11143"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pytest-dev__pytest-11148",
+      "run_id": "a8558402-7020-5905-a249-fbc5e77a7005",
+      "configuration_sha256": "ea0f80d0905e730dacb6d8d3b23e1eab0656456e267b7d3a331ac5d835d10555",
+      "base_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/mini-swe-safe-v1/pytest-dev__pytest-11148"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "sympy__sympy-20590",
+      "run_id": "8589fb2a-0723-545c-8cb4-846aa9194b23",
+      "configuration_sha256": "ea0f80d0905e730dacb6d8d3b23e1eab0656456e267b7d3a331ac5d835d10555",
+      "base_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/mini-swe-safe-v1/sympy__sympy-20590"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "django__django-15902",
+      "run_id": "c6320d54-1885-5748-b3a1-e4725d350671",
+      "configuration_sha256": "d386b041fb0f16108007c6c71bb58921b7c823fedc8dfcb95e94dd5b74bcbdf5",
+      "base_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/no-semantic-rag-v1/django__django-15902"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "mwaskom__seaborn-3190",
+      "run_id": "311b77a8-c6a6-5df4-b6ee-8e6c5625f136",
+      "configuration_sha256": "d386b041fb0f16108007c6c71bb58921b7c823fedc8dfcb95e94dd5b74bcbdf5",
+      "base_commit": "4a9e54962a29c12a8b103d75f838e0e795a6974d",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/no-semantic-rag-v1/mwaskom__seaborn-3190"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pallets__flask-4992",
+      "run_id": "47099096-5276-5bfb-a803-a2903d5b14b7",
+      "configuration_sha256": "d386b041fb0f16108007c6c71bb58921b7c823fedc8dfcb95e94dd5b74bcbdf5",
+      "base_commit": "4c288bc97ea371817199908d0d9b12de9dae327e",
+      "python_version": "3.12.13",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/no-semantic-rag-v1/pallets__flask-4992"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pydata__xarray-4094",
+      "run_id": "891d83df-9054-5298-8188-20fb951fcbef",
+      "configuration_sha256": "d386b041fb0f16108007c6c71bb58921b7c823fedc8dfcb95e94dd5b74bcbdf5",
+      "base_commit": "a64cf2d5476e7bbda099b34c40b7be1880dbd39a",
+      "python_version": "3.10",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/no-semantic-rag-v1/pydata__xarray-4094"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pydata__xarray-5131",
+      "run_id": "804657d7-2e86-594c-b39b-6d304f0665d8",
+      "configuration_sha256": "d386b041fb0f16108007c6c71bb58921b7c823fedc8dfcb95e94dd5b74bcbdf5",
+      "base_commit": "e56905889c836c736152b11a7e6117a229715975",
+      "python_version": "3.10",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/no-semantic-rag-v1/pydata__xarray-5131"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pytest-dev__pytest-11143",
+      "run_id": "7d59a8ed-0f6e-5505-8071-31813592e5e6",
+      "configuration_sha256": "d386b041fb0f16108007c6c71bb58921b7c823fedc8dfcb95e94dd5b74bcbdf5",
+      "base_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/no-semantic-rag-v1/pytest-dev__pytest-11143"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pytest-dev__pytest-11148",
+      "run_id": "68f0e660-04c2-5b94-976b-ca6da7e7d705",
+      "configuration_sha256": "d386b041fb0f16108007c6c71bb58921b7c823fedc8dfcb95e94dd5b74bcbdf5",
+      "base_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/no-semantic-rag-v1/pytest-dev__pytest-11148"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "sympy__sympy-20590",
+      "run_id": "8804cf40-3a03-563f-bbb5-a3043db3bbe9",
+      "configuration_sha256": "d386b041fb0f16108007c6c71bb58921b7c823fedc8dfcb95e94dd5b74bcbdf5",
+      "base_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+      "python_version": "3.9",
+      "output_path": "results/p7-holdout/raw/p7-holdout-d75d36d711f2-a1fdecc1d338/no-semantic-rag-v1/sympy__sympy-20590"
+    }
+  ],
+  "content_sha256": "e998481dab733bcb3c6590db35caf75fb2d27e48dc4a007ff9916ef5f0e3f7f7"
+}

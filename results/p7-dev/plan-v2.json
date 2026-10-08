@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "plan_version": "dev-calibration-plan-v1",
+  "calibration_id": "p7-dev-d75d36d711f2",
+  "experiment_id": "repopilot-p7-v2",
+  "matrix_sha256": "d75d36d711f23190062aded9e97a8f5abfaba859416466027b227421ea7407e8",
+  "authorization_sha256": "53bdf25051845e2cbc254f584abeaf338e9c2853aba8b85d0e47b8ef40e4da13",
+  "created_at": "2026-08-08T00:13:04.596876Z",
+  "source_commit": "2a48d036e6e0154c33c91ab806bd16375443cfc2",
+  "source_dirty": false,
+  "split": "dev",
+  "task_ids": [
+    "p5-config-parser-blank",
+    "p5-parser-service-async"
+  ],
+  "task_set_sha256": "2331061b9e0e88098465d059ac5fa695cce4780122485a8c7def5c5c5f10fba7",
+  "repetitions": 1,
+  "per_task_cost_limit_usd": "1.00",
+  "theoretical_max_cost_usd": "8.00",
+  "holdout_accessed": false,
+  "run_slots": [
+    {
+      "arm_id": "dense-only-v1",
+      "run_id": "0ff7f753-1449-5cc3-8531-487965171261",
+      "configuration_sha256": "3a9987f5e4890091ffbac0ebea34815e0494900e6830057d1d5a436f0db41f20",
+      "output_path": "results/p7-dev/p7-dev-d75d36d711f2/dense-only-v1"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "run_id": "ad61fe1f-2470-5dcf-9d60-471b4059d5c1",
+      "configuration_sha256": "74653e59d08d211286d158010bc5242329c32e046eeee5559d818e659544f7ae",
+      "output_path": "results/p7-dev/p7-dev-d75d36d711f2/hybrid-rrf-v1"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "run_id": "0b4905a1-0a51-5db8-9b04-5cac38a5ea01",
+      "configuration_sha256": "ea0f80d0905e730dacb6d8d3b23e1eab0656456e267b7d3a331ac5d835d10555",
+      "output_path": "results/p7-dev/p7-dev-d75d36d711f2/mini-swe-safe-v1"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "run_id": "e0f7989f-f030-531d-b4df-a68c8394539d",
+      "configuration_sha256": "d386b041fb0f16108007c6c71bb58921b7c823fedc8dfcb95e94dd5b74bcbdf5",
+      "output_path": "results/p7-dev/p7-dev-d75d36d711f2/no-semantic-rag-v1"
+    }
+  ],
+  "content_sha256": "fd2f51380c7262818a50f32ca26c59e9dff6a14ee67fe4dd0b48981c9315425c"
+}

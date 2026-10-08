@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "preflight_version": "experiment-preflight-v1",
+  "experiment_id": "repopilot-p7-v1",
+  "matrix_sha256": "7462e2c21a2ffb64c8b12d2e1a17f45e0a1a22dc97bbdbfd44922dce16874421",
+  "checked_at": "2026-08-07T22:00:00Z",
+  "source_commit": "a10417a14fe5dfca0860478ff28b0ebdc31ccb94",
+  "status": "blocked",
+  "ready_for_formal_run": false,
+  "checks": [
+    {
+      "check_id": "dataset",
+      "status": "passed",
+      "error_code": null,
+      "detail": "verified"
+    },
+    {
+      "check_id": "dependency-lock",
+      "status": "passed",
+      "error_code": null,
+      "detail": "verified"
+    },
+    {
+      "check_id": "embedding-configuration",
+      "status": "passed",
+      "error_code": null,
+      "detail": "verified"
+    },
+    {
+      "check_id": "embedding-snapshot",
+      "status": "blocked",
+      "error_code": "embedding_snapshot_invalid",
+      "detail": "blocked"
+    },
+    {
+      "check_id": "fairness",
+      "status": "passed",
+      "error_code": null,
+      "detail": "verified"
+    },
+    {
+      "check_id": "gold-boundary",
+      "status": "passed",
+      "error_code": null,
+      "detail": "verified"
+    },
+    {
+      "check_id": "local-dependencies",
+      "status": "blocked",
+      "error_code": "provider_unavailable",
+      "detail": "blocked"
+    },
+    {
+      "check_id": "memory-snapshots",
+      "status": "passed",
+      "error_code": null,
+      "detail": "verified"
+    },
+    {
+      "check_id": "model-snapshot",
+      "status": "passed",
+      "error_code": null,
+      "detail": "verified"
+    },
+    {
+      "check_id": "output-root",
+      "status": "passed",
+      "error_code": null,
+      "detail": "verified"
+    },
+    {
+      "check_id": "prompt-version",
+      "status": "passed",
+      "error_code": null,
+      "detail": "verified"
+    },
+    {
+      "check_id": "provider-credential",
+      "status": "blocked",
+      "error_code": "provider_unavailable",
+      "detail": "blocked"
+    },
+    {
+      "check_id": "sandbox-image",
+      "status": "passed",
+      "error_code": null,
+      "detail": "verified"
+    },
+    {
+      "check_id": "source-snapshot",
+      "status": "blocked",
+      "error_code": "source_snapshot_unclean",
+      "detail": "blocked"
+    },
+    {
+      "check_id": "vector-backend",
+      "status": "passed",
+      "error_code": null,
+      "detail": "verified"
+    }
+  ],
+  "content_sha256": "22f66330e33740d4558e18bdd109cb5a4e899e3eba410d6186493d9ede22c5ae"
+}

@@ -1,0 +1,1139 @@
+{
+  "schema_version": 1,
+  "repository_id": "fixture.baseline",
+  "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "k1": 1.5,
+  "b": 0.75,
+  "default_top_k": 10,
+  "path_boost": 2,
+  "symbol_boost": 3,
+  "corpus_sha256": "4d418f2cb676947aa6fe59f880845dcc3643fbfedda832b7405060adfcdd143e",
+  "document_count": 10,
+  "total_document_length": 340,
+  "average_document_length": 34.0,
+  "documents": [
+    {
+      "chunk_id": "chunk_00cd89cbc8dfbc3979e90fbd2ee345814e5e4c1f841de7e041e1f34126cabc4f",
+      "relative_path": "pkg/parser.py",
+      "symbol_name": "pkg.parser",
+      "length": 24,
+      "term_frequencies": [
+        {
+          "term": "configuration",
+          "count": 1
+        },
+        {
+          "term": "key",
+          "count": 1
+        },
+        {
+          "term": "key/value",
+          "count": 1
+        },
+        {
+          "term": "parse",
+          "count": 1
+        },
+        {
+          "term": "parser",
+          "count": 5
+        },
+        {
+          "term": "pkg",
+          "count": 5
+        },
+        {
+          "term": "pkg.parser",
+          "count": 3
+        },
+        {
+          "term": "pkg/parser.py",
+          "count": 2
+        },
+        {
+          "term": "py",
+          "count": 2
+        },
+        {
+          "term": "simple",
+          "count": 1
+        },
+        {
+          "term": "text",
+          "count": 1
+        },
+        {
+          "term": "value",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "chunk_id": "chunk_1bd36570ed5e83ecedb1de9b963b836b910543a38ffdd50c9bd6886e82a58961",
+      "relative_path": "pkg/service.py",
+      "symbol_name": "load_parser",
+      "length": 42,
+      "term_frequencies": [
+        {
+          "term": "_",
+          "count": 1
+        },
+        {
+          "term": "a",
+          "count": 1
+        },
+        {
+          "term": "async",
+          "count": 1
+        },
+        {
+          "term": "build",
+          "count": 1
+        },
+        {
+          "term": "def",
+          "count": 1
+        },
+        {
+          "term": "external",
+          "count": 1
+        },
+        {
+          "term": "i",
+          "count": 1
+        },
+        {
+          "term": "i/o",
+          "count": 1
+        },
+        {
+          "term": "load",
+          "count": 4
+        },
+        {
+          "term": "load_parser",
+          "count": 4
+        },
+        {
+          "term": "name",
+          "count": 2
+        },
+        {
+          "term": "o",
+          "count": 1
+        },
+        {
+          "term": "parser",
+          "count": 7
+        },
+        {
+          "term": "parserservice",
+          "count": 2
+        },
+        {
+          "term": "pkg",
+          "count": 2
+        },
+        {
+          "term": "pkg/service.py",
+          "count": 2
+        },
+        {
+          "term": "py",
+          "count": 2
+        },
+        {
+          "term": "return",
+          "count": 1
+        },
+        {
+          "term": "service",
+          "count": 5
+        },
+        {
+          "term": "str",
+          "count": 1
+        },
+        {
+          "term": "without",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "chunk_id": "chunk_1f890ae00ce60f8ccdf1b1ce0029814e5033d3a570cef95886c7030309e4d0d9",
+      "relative_path": "README.md",
+      "symbol_name": "Read-only repository fixture",
+      "length": 38,
+      "term_frequencies": [
+        {
+          "term": "and",
+          "count": 1
+        },
+        {
+          "term": "bounded",
+          "count": 1
+        },
+        {
+          "term": "deterministic",
+          "count": 1
+        },
+        {
+          "term": "exists",
+          "count": 1
+        },
+        {
+          "term": "fixture",
+          "count": 4
+        },
+        {
+          "term": "listing",
+          "count": 1
+        },
+        {
+          "term": "md",
+          "count": 2
+        },
+        {
+          "term": "only",
+          "count": 4
+        },
+        {
+          "term": "read",
+          "count": 4
+        },
+        {
+          "term": "read-only",
+          "count": 4
+        },
+        {
+          "term": "readme",
+          "count": 2
+        },
+        {
+          "term": "readme.md",
+          "count": 2
+        },
+        {
+          "term": "reads",
+          "count": 1
+        },
+        {
+          "term": "repository",
+          "count": 4
+        },
+        {
+          "term": "small",
+          "count": 1
+        },
+        {
+          "term": "test",
+          "count": 1
+        },
+        {
+          "term": "text",
+          "count": 1
+        },
+        {
+          "term": "this",
+          "count": 1
+        },
+        {
+          "term": "to",
+          "count": 1
+        },
+        {
+          "term": "tree",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "chunk_id": "chunk_213c58ef00a3538b6599e8a47f4ecf128a55878e9100e0eef111532021dfa173",
+      "relative_path": "pkg/service.py",
+      "symbol_name": "ParserService",
+      "length": 48,
+      "term_frequencies": [
+        {
+          "term": "async",
+          "count": 2
+        },
+        {
+          "term": "class",
+          "count": 1
+        },
+        {
+          "term": "def",
+          "count": 2
+        },
+        {
+          "term": "operations",
+          "count": 1
+        },
+        {
+          "term": "parse",
+          "count": 3
+        },
+        {
+          "term": "parse_async",
+          "count": 1
+        },
+        {
+          "term": "parser",
+          "count": 5
+        },
+        {
+          "term": "parserservice",
+          "count": 4
+        },
+        {
+          "term": "pkg",
+          "count": 2
+        },
+        {
+          "term": "pkg/service.py",
+          "count": 2
+        },
+        {
+          "term": "py",
+          "count": 2
+        },
+        {
+          "term": "raw",
+          "count": 4
+        },
+        {
+          "term": "raw.strip",
+          "count": 1
+        },
+        {
+          "term": "return",
+          "count": 2
+        },
+        {
+          "term": "self",
+          "count": 3
+        },
+        {
+          "term": "self.parse",
+          "count": 1
+        },
+        {
+          "term": "service",
+          "count": 6
+        },
+        {
+          "term": "str",
+          "count": 4
+        },
+        {
+          "term": "strip",
+          "count": 1
+        },
+        {
+          "term": "wrap",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "chunk_id": "chunk_4d0ebfdec03b43fff230de552252a0e60db5d0c6d527c5e10cce8efbfdcc1e98",
+      "relative_path": "pkg/service.py",
+      "symbol_name": "pkg.service",
+      "length": 22,
+      "term_frequencies": [
+        {
+          "term": "fixture",
+          "count": 1
+        },
+        {
+          "term": "inspection",
+          "count": 1
+        },
+        {
+          "term": "pkg",
+          "count": 5
+        },
+        {
+          "term": "pkg.service",
+          "count": 3
+        },
+        {
+          "term": "pkg/service.py",
+          "count": 2
+        },
+        {
+          "term": "py",
+          "count": 2
+        },
+        {
+          "term": "service",
+          "count": 5
+        },
+        {
+          "term": "small",
+          "count": 1
+        },
+        {
+          "term": "symbol",
+          "count": 1
+        },
+        {
+          "term": "symbol-inspection",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "chunk_id": "chunk_573141b4e4735b8794450416791786653a6dafce12df92c20b571c9b7f27144d",
+      "relative_path": "pkg/service.py",
+      "symbol_name": "ParserService.parse",
+      "length": 33,
+      "term_frequencies": [
+        {
+          "term": "def",
+          "count": 1
+        },
+        {
+          "term": "parse",
+          "count": 4
+        },
+        {
+          "term": "parser",
+          "count": 3
+        },
+        {
+          "term": "parserservice",
+          "count": 3
+        },
+        {
+          "term": "parserservice.parse",
+          "count": 3
+        },
+        {
+          "term": "pkg",
+          "count": 2
+        },
+        {
+          "term": "pkg/service.py",
+          "count": 2
+        },
+        {
+          "term": "py",
+          "count": 2
+        },
+        {
+          "term": "raw",
+          "count": 2
+        },
+        {
+          "term": "raw.strip",
+          "count": 1
+        },
+        {
+          "term": "return",
+          "count": 1
+        },
+        {
+          "term": "self",
+          "count": 1
+        },
+        {
+          "term": "service",
+          "count": 5
+        },
+        {
+          "term": "str",
+          "count": 2
+        },
+        {
+          "term": "strip",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "chunk_id": "chunk_5c8c5f169f124c34a0fb4e6432514deef102101bd33ae4a498387d1cbcf4f2e2",
+      "relative_path": "pkg/__init__.py",
+      "symbol_name": "pkg",
+      "length": 25,
+      "term_frequencies": [
+        {
+          "term": "__all__",
+          "count": 1
+        },
+        {
+          "term": "__init__",
+          "count": 2
+        },
+        {
+          "term": "all",
+          "count": 1
+        },
+        {
+          "term": "fixture",
+          "count": 1
+        },
+        {
+          "term": "from",
+          "count": 1
+        },
+        {
+          "term": "import",
+          "count": 1
+        },
+        {
+          "term": "init",
+          "count": 2
+        },
+        {
+          "term": "package",
+          "count": 1
+        },
+        {
+          "term": "parse",
+          "count": 2
+        },
+        {
+          "term": "parser",
+          "count": 1
+        },
+        {
+          "term": "pkg",
+          "count": 6
+        },
+        {
+          "term": "pkg.parser",
+          "count": 1
+        },
+        {
+          "term": "pkg/__init__.py",
+          "count": 2
+        },
+        {
+          "term": "py",
+          "count": 2
+        },
+        {
+          "term": "tiny",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "chunk_id": "chunk_6ecde46cf5458d22f1526be3e091469c622470913bb06b08091401730afc1184",
+      "relative_path": "pkg/service.py",
+      "symbol_name": "ParserService.parse_async",
+      "length": 43,
+      "term_frequencies": [
+        {
+          "term": "async",
+          "count": 5
+        },
+        {
+          "term": "def",
+          "count": 1
+        },
+        {
+          "term": "parse",
+          "count": 5
+        },
+        {
+          "term": "parse_async",
+          "count": 4
+        },
+        {
+          "term": "parser",
+          "count": 3
+        },
+        {
+          "term": "parserservice",
+          "count": 3
+        },
+        {
+          "term": "parserservice.parse_async",
+          "count": 3
+        },
+        {
+          "term": "pkg",
+          "count": 2
+        },
+        {
+          "term": "pkg/service.py",
+          "count": 2
+        },
+        {
+          "term": "py",
+          "count": 2
+        },
+        {
+          "term": "raw",
+          "count": 2
+        },
+        {
+          "term": "return",
+          "count": 1
+        },
+        {
+          "term": "self",
+          "count": 2
+        },
+        {
+          "term": "self.parse",
+          "count": 1
+        },
+        {
+          "term": "service",
+          "count": 5
+        },
+        {
+          "term": "str",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "chunk_id": "chunk_893ddb9e72250ef05c98e281ed5d6470e010270faeedd4cf1722c72820e796b2",
+      "relative_path": "pkg/parser.py",
+      "symbol_name": "parse",
+      "length": 50,
+      "term_frequencies": [
+        {
+          "term": "1",
+          "count": 1
+        },
+        {
+          "term": "def",
+          "count": 1
+        },
+        {
+          "term": "dict",
+          "count": 2
+        },
+        {
+          "term": "for",
+          "count": 1
+        },
+        {
+          "term": "in",
+          "count": 1
+        },
+        {
+          "term": "key",
+          "count": 3
+        },
+        {
+          "term": "key.strip",
+          "count": 1
+        },
+        {
+          "term": "key/value",
+          "count": 1
+        },
+        {
+          "term": "line",
+          "count": 2
+        },
+        {
+          "term": "line.split",
+          "count": 1
+        },
+        {
+          "term": "maxsplit",
+          "count": 1
+        },
+        {
+          "term": "pairs",
+          "count": 1
+        },
+        {
+          "term": "parse",
+          "count": 4
+        },
+        {
+          "term": "parser",
+          "count": 2
+        },
+        {
+          "term": "pkg",
+          "count": 2
+        },
+        {
+          "term": "pkg/parser.py",
+          "count": 2
+        },
+        {
+          "term": "py",
+          "count": 2
+        },
+        {
+          "term": "raw",
+          "count": 2
+        },
+        {
+          "term": "raw.splitlines",
+          "count": 1
+        },
+        {
+          "term": "result",
+          "count": 3
+        },
+        {
+          "term": "return",
+          "count": 2
+        },
+        {
+          "term": "split",
+          "count": 1
+        },
+        {
+          "term": "splitlines",
+          "count": 1
+        },
+        {
+          "term": "str",
+          "count": 5
+        },
+        {
+          "term": "strip",
+          "count": 2
+        },
+        {
+          "term": "stripped",
+          "count": 1
+        },
+        {
+          "term": "value",
+          "count": 3
+        },
+        {
+          "term": "value.strip",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "chunk_id": "chunk_e671931877239df508b317ff323432169005df486c6e4679edc6d0f5f2af0fbe",
+      "relative_path": "docs/说明.md",
+      "symbol_name": "说明",
+      "length": 15,
+      "term_frequencies": [
+        {
+          "term": "8",
+          "count": 1
+        },
+        {
+          "term": "docs",
+          "count": 2
+        },
+        {
+          "term": "md",
+          "count": 2
+        },
+        {
+          "term": "utf",
+          "count": 1
+        },
+        {
+          "term": "utf-8",
+          "count": 1
+        },
+        {
+          "term": "说明",
+          "count": 6
+        },
+        {
+          "term": "路径和内容读取",
+          "count": 1
+        },
+        {
+          "term": "这个文件用于验证",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "document_frequencies": [
+    {
+      "term": "1",
+      "document_count": 1
+    },
+    {
+      "term": "8",
+      "document_count": 1
+    },
+    {
+      "term": "_",
+      "document_count": 1
+    },
+    {
+      "term": "__all__",
+      "document_count": 1
+    },
+    {
+      "term": "__init__",
+      "document_count": 1
+    },
+    {
+      "term": "a",
+      "document_count": 1
+    },
+    {
+      "term": "all",
+      "document_count": 1
+    },
+    {
+      "term": "and",
+      "document_count": 1
+    },
+    {
+      "term": "async",
+      "document_count": 3
+    },
+    {
+      "term": "bounded",
+      "document_count": 1
+    },
+    {
+      "term": "build",
+      "document_count": 1
+    },
+    {
+      "term": "class",
+      "document_count": 1
+    },
+    {
+      "term": "configuration",
+      "document_count": 1
+    },
+    {
+      "term": "def",
+      "document_count": 5
+    },
+    {
+      "term": "deterministic",
+      "document_count": 1
+    },
+    {
+      "term": "dict",
+      "document_count": 1
+    },
+    {
+      "term": "docs",
+      "document_count": 1
+    },
+    {
+      "term": "exists",
+      "document_count": 1
+    },
+    {
+      "term": "external",
+      "document_count": 1
+    },
+    {
+      "term": "fixture",
+      "document_count": 3
+    },
+    {
+      "term": "for",
+      "document_count": 1
+    },
+    {
+      "term": "from",
+      "document_count": 1
+    },
+    {
+      "term": "i",
+      "document_count": 1
+    },
+    {
+      "term": "i/o",
+      "document_count": 1
+    },
+    {
+      "term": "import",
+      "document_count": 1
+    },
+    {
+      "term": "in",
+      "document_count": 1
+    },
+    {
+      "term": "init",
+      "document_count": 1
+    },
+    {
+      "term": "inspection",
+      "document_count": 1
+    },
+    {
+      "term": "key",
+      "document_count": 2
+    },
+    {
+      "term": "key.strip",
+      "document_count": 1
+    },
+    {
+      "term": "key/value",
+      "document_count": 2
+    },
+    {
+      "term": "line",
+      "document_count": 1
+    },
+    {
+      "term": "line.split",
+      "document_count": 1
+    },
+    {
+      "term": "listing",
+      "document_count": 1
+    },
+    {
+      "term": "load",
+      "document_count": 1
+    },
+    {
+      "term": "load_parser",
+      "document_count": 1
+    },
+    {
+      "term": "maxsplit",
+      "document_count": 1
+    },
+    {
+      "term": "md",
+      "document_count": 2
+    },
+    {
+      "term": "name",
+      "document_count": 1
+    },
+    {
+      "term": "o",
+      "document_count": 1
+    },
+    {
+      "term": "only",
+      "document_count": 1
+    },
+    {
+      "term": "operations",
+      "document_count": 1
+    },
+    {
+      "term": "package",
+      "document_count": 1
+    },
+    {
+      "term": "pairs",
+      "document_count": 1
+    },
+    {
+      "term": "parse",
+      "document_count": 6
+    },
+    {
+      "term": "parse_async",
+      "document_count": 2
+    },
+    {
+      "term": "parser",
+      "document_count": 7
+    },
+    {
+      "term": "parserservice",
+      "document_count": 4
+    },
+    {
+      "term": "parserservice.parse",
+      "document_count": 1
+    },
+    {
+      "term": "parserservice.parse_async",
+      "document_count": 1
+    },
+    {
+      "term": "pkg",
+      "document_count": 8
+    },
+    {
+      "term": "pkg.parser",
+      "document_count": 2
+    },
+    {
+      "term": "pkg.service",
+      "document_count": 1
+    },
+    {
+      "term": "pkg/__init__.py",
+      "document_count": 1
+    },
+    {
+      "term": "pkg/parser.py",
+      "document_count": 2
+    },
+    {
+      "term": "pkg/service.py",
+      "document_count": 5
+    },
+    {
+      "term": "py",
+      "document_count": 8
+    },
+    {
+      "term": "raw",
+      "document_count": 4
+    },
+    {
+      "term": "raw.splitlines",
+      "document_count": 1
+    },
+    {
+      "term": "raw.strip",
+      "document_count": 2
+    },
+    {
+      "term": "read",
+      "document_count": 1
+    },
+    {
+      "term": "read-only",
+      "document_count": 1
+    },
+    {
+      "term": "readme",
+      "document_count": 1
+    },
+    {
+      "term": "readme.md",
+      "document_count": 1
+    },
+    {
+      "term": "reads",
+      "document_count": 1
+    },
+    {
+      "term": "repository",
+      "document_count": 1
+    },
+    {
+      "term": "result",
+      "document_count": 1
+    },
+    {
+      "term": "return",
+      "document_count": 5
+    },
+    {
+      "term": "self",
+      "document_count": 3
+    },
+    {
+      "term": "self.parse",
+      "document_count": 2
+    },
+    {
+      "term": "service",
+      "document_count": 5
+    },
+    {
+      "term": "simple",
+      "document_count": 1
+    },
+    {
+      "term": "small",
+      "document_count": 2
+    },
+    {
+      "term": "split",
+      "document_count": 1
+    },
+    {
+      "term": "splitlines",
+      "document_count": 1
+    },
+    {
+      "term": "str",
+      "document_count": 5
+    },
+    {
+      "term": "strip",
+      "document_count": 3
+    },
+    {
+      "term": "stripped",
+      "document_count": 1
+    },
+    {
+      "term": "symbol",
+      "document_count": 1
+    },
+    {
+      "term": "symbol-inspection",
+      "document_count": 1
+    },
+    {
+      "term": "test",
+      "document_count": 1
+    },
+    {
+      "term": "text",
+      "document_count": 2
+    },
+    {
+      "term": "this",
+      "document_count": 1
+    },
+    {
+      "term": "tiny",
+      "document_count": 1
+    },
+    {
+      "term": "to",
+      "document_count": 1
+    },
+    {
+      "term": "tree",
+      "document_count": 1
+    },
+    {
+      "term": "utf",
+      "document_count": 1
+    },
+    {
+      "term": "utf-8",
+      "document_count": 1
+    },
+    {
+      "term": "value",
+      "document_count": 2
+    },
+    {
+      "term": "value.strip",
+      "document_count": 1
+    },
+    {
+      "term": "without",
+      "document_count": 1
+    },
+    {
+      "term": "wrap",
+      "document_count": 1
+    },
+    {
+      "term": "说明",
+      "document_count": 1
+    },
+    {
+      "term": "路径和内容读取",
+      "document_count": 1
+    },
+    {
+      "term": "这个文件用于验证",
+      "document_count": 1
+    }
+  ],
+  "content_sha256": "2a594dc8ad08426ec3bd71f271bc6d4e6393fbd08ad895ee3e555c45ca6c800a"
+}

@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "canary_version": "p7-django-sandbox-canary-v1",
+  "controller_commit": "10a99b74632f65b32dcf83ef8ca0a3399a9c83aa",
+  "collected_at": "2026-08-08T14:54:20.676840Z",
+  "task_id": "django__django-15902",
+  "base_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+  "upstream_qualification_sha256": "87485a4698f4fcda080c97ac1e1efb49f4024aae0d1455f022dc03a41ad4d416",
+  "upstream_image_reference": "swebench/sweb.eval.x86_64.django_1776_django-15902@sha256:caaa0c07529900219d037e08ca6349252c1d2e3c88dd3aea1b0c775e6ec9d66b",
+  "adapted_local_image_id": "sha256:b3d6d7d9a2988420631e64f4c9457d9319fed10c76045d918e6ed13cbff3927c",
+  "adapted_policy_reference": "repopilot.local/p7/django-django-15902@sha256:b3d6d7d9a2988420631e64f4c9457d9319fed10c76045d918e6ed13cbff3927c",
+  "checkout_relative_path": "artifacts/p7-holdout/checkouts/django__django-15902",
+  "checkout_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+  "checkout_clean": true,
+  "observed_python_version": "3.9.20",
+  "sandbox_preparation": {
+    "container_id": "d883ed1a40406fcf6b03e40ad63ecbbe086cd333aa4177de517ae8273dc6dfbb",
+    "container_name": "repopilot-sbx-p7-django-canary-v1",
+    "policy_request_sha256": "bc65156da0472957727f546a7890b83f101c52cecfba86b06e519b5ff8b38b46",
+    "inspection": {
+      "container_id": "d883ed1a40406fcf6b03e40ad63ecbbe086cd333aa4177de517ae8273dc6dfbb",
+      "image_id": "sha256:b3d6d7d9a2988420631e64f4c9457d9319fed10c76045d918e6ed13cbff3927c",
+      "running": true,
+      "user": "65532:65532",
+      "network_mode": "none",
+      "network_names": [
+        "none"
+      ],
+      "read_only_rootfs": true,
+      "privileged": false,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_options": [
+        "no-new-privileges"
+      ],
+      "nano_cpus": 1000000000,
+      "memory_bytes": 1073741824,
+      "pids_limit": 256,
+      "tmpfs": {
+        "/workspace": "rw,nosuid,nodev,size=256m,uid=65532,gid=65532,mode=0750"
+      },
+      "mounts": [],
+      "environment_names": [
+        "CI",
+        "HOME",
+        "PATH",
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+        "PYTHONDONTWRITEBYTECODE",
+        "PYTHONUNBUFFERED",
+        "PYTHONUSERBASE",
+        "TZ"
+      ],
+      "labels": {
+        "com.repopilot.managed": "true",
+        "com.repopilot.policy_request_sha256": "bc65156da0472957727f546a7890b83f101c52cecfba86b06e519b5ff8b38b46",
+        "com.repopilot.repository_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+        "com.repopilot.sandbox_id": "sbx-p7-django-canary-v1",
+        "com.repopilot.task_id_sha256": "5e7589a5666dbbd9156664fe2fa9f5f9191bdc78d40fe59996457e93f0927706",
+        "org.opencontainers.image.ref.name": "ubuntu",
+        "org.opencontainers.image.version": "22.04"
+      },
+      "workdir": "/workspace"
+    },
+    "workspace_copy": {
+      "file_count": 6641,
+      "directory_count": 3165,
+      "byte_count": 41631121,
+      "skipped_symlink_count": 4,
+      "skipped_denied_count": 1
+    }
+  },
+  "setup_commands": [
+    {
+      "phase": "setup",
+      "command_index": 0,
+      "declared_timeout_seconds": 600,
+      "effective_timeout_seconds": 300,
+      "network_requested": false,
+      "policy_decision": "allowed",
+      "exit_code": 0
+    },
+    {
+      "phase": "setup",
+      "command_index": 1,
+      "declared_timeout_seconds": 600,
+      "effective_timeout_seconds": 300,
+      "network_requested": false,
+      "policy_decision": "allowed",
+      "exit_code": 0
+    }
+  ],
+  "baseline_test": {
+    "phase": "baseline",
+    "command_index": 0,
+    "declared_timeout_seconds": 600,
+    "effective_timeout_seconds": 300,
+    "network_requested": false,
+    "policy_decision": "allowed",
+    "exit_code": 1
+  },
+  "gold_test": {
+    "phase": "gold",
+    "command_index": 0,
+    "declared_timeout_seconds": 600,
+    "effective_timeout_seconds": 300,
+    "network_requested": false,
+    "policy_decision": "allowed",
+    "exit_code": 0
+  },
+  "test_patch_persisted_outside_temporary_evaluator": false,
+  "gold_persisted_outside_temporary_evaluator": false,
+  "gold_visible_to_agent": false,
+  "paid_requests_made": 0,
+  "compatibility_canary_passed": true,
+  "formal_environment_ready": false,
+  "formal_blockers": [
+    "registry_digest_required",
+    "task_command_timeout_contract_mismatch",
+    "remaining_tasks_unverified"
+  ],
+  "content_sha256": "672b78668a7f34ee46ba019b2c6639bdf725ab7cbd7f3df70298d8846fb9325d"
+}

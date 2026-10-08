@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "suite_id": "p5.repair-fixtures.v1",
+  "cases": [
+    {
+      "evaluation_task": {
+        "task": {
+          "task_id": "p5-config-parser-blank",
+          "repository_path": "repositories/config_parser",
+          "base_commit": "a7a7dbfcca8e40e347a4136e4012833c5319dcc6",
+          "issue_title": "Treat blank configuration input as empty",
+          "issue_body": "Parsing a configuration containing only blank lines should return an empty mapping instead of raising an exception.",
+          "setup_commands": [],
+          "test_commands": [
+            {
+              "argv": [
+                "python",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "checks",
+                "-p",
+                "check_*.py",
+                "-q"
+              ],
+              "timeout_seconds": 30
+            }
+          ],
+          "timeout_seconds": 60
+        },
+        "expected_patch": "diff --git a/config_parser/parser.py b/config_parser/parser.py\n--- a/config_parser/parser.py\n+++ b/config_parser/parser.py\n@@ -5,7 +5,9 @@ def parse_config(raw: str) -> dict[str, str]:\n     \"\"\"Return stripped key/value pairs.\"\"\"\n \n     result: dict[str, str] = {}\n     for line in raw.splitlines():\n+        if not line.strip():\n+            continue\n         key, value = line.split(\"=\", maxsplit=1)\n         result[key.strip()] = value.strip()\n     return result\n",
+        "gold_files": [
+          "config_parser/parser.py"
+        ],
+        "split": "dev"
+      },
+      "repository_sha256": "2cac25f3100200fa288aad3f4e1a1d38b21c3bd514fafc43ecfdf033b3c8d94b",
+      "expected_base_exit_code": 1,
+      "expected_failure_markers": [
+        "FAILED",
+        "test_blank_configuration_is_empty"
+      ]
+    },
+    {
+      "evaluation_task": {
+        "task": {
+          "task_id": "p5-parser-service-async",
+          "repository_path": "repositories/parser_service",
+          "base_commit": "77eeea104b45802b76f50c39330e442412d07627",
+          "issue_title": "Keep asynchronous parsing consistent",
+          "issue_body": "The asynchronous parser entry point should apply the same deterministic normalization as the synchronous entry point without external I/O.",
+          "setup_commands": [],
+          "test_commands": [
+            {
+              "argv": [
+                "python",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "checks",
+                "-p",
+                "check_*.py",
+                "-q"
+              ],
+              "timeout_seconds": 30
+            }
+          ],
+          "timeout_seconds": 60
+        },
+        "expected_patch": "diff --git a/parser_service/service.py b/parser_service/service.py\n--- a/parser_service/service.py\n+++ b/parser_service/service.py\n@@ -7,5 +7,5 @@ class ParserService:\n     def parse(self, raw: str) -> str:\n         return \" \".join(raw.split()).lower()\n \n     async def parse_async(self, raw: str) -> str:\n-        return raw\n+        return self.parse(raw)\n",
+        "gold_files": [
+          "parser_service/service.py"
+        ],
+        "split": "dev"
+      },
+      "repository_sha256": "91854cc6c24d54129b86a543d6397fa2b1632eb4ec3f08865a032c55e969045e",
+      "expected_base_exit_code": 1,
+      "expected_failure_markers": [
+        "FAILED",
+        "test_async_parse_matches_sync_normalization",
+        "test_sync_and_async_results_match"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,439 @@
+{
+  "schema_version": 1,
+  "input_version": "holdout-agent-inputs-v1",
+  "experiment_id": "repopilot-p7-v2",
+  "matrix_sha256": "d75d36d711f23190062aded9e97a8f5abfaba859416466027b227421ea7407e8",
+  "dataset_manifest_raw_sha256": "073732c2deb706c49c26ef4712f70186b0a6f6175a25837768ae156ee171fe29",
+  "dataset_manifest_content_sha256": "89496bc2200149601333dadb9a6c7ac6b7d660b4bc7acf29c23597d33b660f60",
+  "source_rows_raw_sha256": "66235d8dc551ae5aa7049705f6ff726a04310b4090e0624292260199f0dfa41b",
+  "source_evaluator_task_set_sha256": "ee6c8b363c3d69d5d531defcd0ceab54945d82712dfd4a19b745e446b97540da",
+  "runtime_command_contract_sha256": "feea5cb1e8c5fbaff8c1dcdb65c58d2a67d127b4e7d8dee9a9f5608a5d008b7b",
+  "projected_at": "2026-08-08T18:33:19.751862Z",
+  "task_ids": [
+    "django__django-15902",
+    "mwaskom__seaborn-3190",
+    "pallets__flask-4992",
+    "pydata__xarray-4094",
+    "pydata__xarray-5131",
+    "pytest-dev__pytest-11143",
+    "pytest-dev__pytest-11148",
+    "sympy__sympy-20590"
+  ],
+  "tasks": [
+    {
+      "task_id": "django__django-15902",
+      "repository_path": null,
+      "repository_url": "https://github.com/django/django.git",
+      "base_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+      "issue_title": "Avoid the default template deprecation warning for ManagementForm",
+      "issue_body": "\"default.html\" deprecation warning raised for ManagementForm's\nDescription\n\t\nI have a project where I never render forms with the {{ form }} expression. However, I'm still getting the new template deprecation warning because of the formset management form production, during which the template used is insignificant (only hidden inputs are produced).\nIs it worth special-casing this and avoid producing the warning for the management forms?",
+      "setup_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "-r",
+            "tests/requirements/py3.txt"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        },
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "-e",
+            "."
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python",
+            "tests/runtests.py",
+            "--verbosity",
+            "2",
+            "--settings=test_sqlite",
+            "--parallel",
+            "1",
+            "forms_tests.tests.test_formsets"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "timeout_seconds": 1800
+    },
+    {
+      "task_id": "mwaskom__seaborn-3190",
+      "repository_path": null,
+      "repository_url": "https://github.com/mwaskom/seaborn.git",
+      "base_commit": "4a9e54962a29c12a8b103d75f838e0e795a6974d",
+      "issue_title": "Color mapping fails with boolean data",
+      "issue_body": "Color mapping fails with boolean data\n```python\r\nso.Plot([\"a\", \"b\"], [1, 2], color=[True, False]).add(so.Bar())\r\n```\r\n```python-traceback\r\n---------------------------------------------------------------------------\r\nTypeError                                 Traceback (most recent call last)\r\n...\r\nFile ~/code/seaborn/seaborn/_core/plot.py:841, in Plot._plot(self, pyplot)\r\n    838 plotter._compute_stats(self, layers)\r\n    840 # Process scale spec for semantic variables and coordinates computed by stat\r\n--> 841 plotter._setup_scales(self, common, layers)\r\n    843 # TODO Remove these after updating other methods\r\n    844 # ---- Maybe have debug= param that attaches these when True?\r\n    845 plotter._data = common\r\n\r\nFile ~/code/seaborn/seaborn/_core/plot.py:1252, in Plotter._setup_scales(self, p, common, layers, variables)\r\n   1250     self._scales[var] = Scale._identity()\r\n   1251 else:\r\n-> 1252     self._scales[var] = scale._setup(var_df[var], prop)\r\n   1254 # Everything below here applies only to coordinate variables\r\n   1255 # We additionally skip it when we're working with a value\r\n   1256 # that is derived from a coordinate we've already processed.\r\n   1257 # e.g., the Stat consumed y and added ymin/ymax. In that case,\r\n   1258 # we've already setup the y scale and ymin/max are in scale space.\r\n   1259 if axis is None or (var != coord and coord in p._variables):\r\n\r\nFile ~/code/seaborn/seaborn/_core/scales.py:351, in ContinuousBase._setup(self, data, prop, axis)\r\n    349 vmin, vmax = axis.convert_units((vmin, vmax))\r\n    350 a = forward(vmin)\r\n--> 351 b = forward(vmax) - forward(vmin)\r\n    353 def normalize(x):\r\n    354     return (x - a) / b\r\n\r\nTypeError: numpy boolean subtract, the `-` operator, is not supported, use the bitwise_xor, the `^` operator, or the logical_xor function instead.\r\n```",
+      "setup_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "matplotlib==3.7.2",
+            "numpy==1.25.2",
+            "pandas==2.0.0",
+            "pytest",
+            "scipy==1.11.2",
+            "setuptools"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        },
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "-e",
+            ".[dev]"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pytest",
+            "-q",
+            "tests/_core/test_scales.py::TestContinuous::test_interval_with_bools"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "timeout_seconds": 1800
+    },
+    {
+      "task_id": "pallets__flask-4992",
+      "repository_path": null,
+      "repository_url": "https://github.com/pallets/flask.git",
+      "base_commit": "4c288bc97ea371817199908d0d9b12de9dae327e",
+      "issue_title": "Add a binary file mode option to Config.from_file",
+      "issue_body": "Add a file mode parameter to flask.Config.from_file()\nPython 3.11 introduced native TOML support with the `tomllib` package. This could work nicely with the `flask.Config.from_file()` method as an easy way to load TOML config files:\r\n\r\n```python\r\napp.config.from_file(\"config.toml\", tomllib.load)\r\n```\r\n\r\nHowever, `tomllib.load()` takes an object readable in binary mode, while `flask.Config.from_file()` opens a file in text mode, resulting in this error:\r\n\r\n```\r\nTypeError: File must be opened in binary mode, e.g. use `open('foo.toml', 'rb')`\r\n```\r\n\r\nWe can get around this with a more verbose expression, like loading from a file opened with the built-in `open()` function and passing the `dict` to `app.Config.from_mapping()`:\r\n\r\n```python\r\n# We have to repeat the path joining that from_file() does\r\nwith open(os.path.join(app.config.root_path, \"config.toml\"), \"rb\") as file:\r\n    app.config.from_mapping(tomllib.load(file))\r\n```\r\n\r\nBut adding a file mode parameter to `flask.Config.from_file()` would enable the use of a simpler expression. E.g.:\r\n\r\n```python\r\napp.config.from_file(\"config.toml\", tomllib.load, mode=\"b\")\r\n```",
+      "setup_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "setuptools==70.0.0",
+            "click==8.1.3",
+            "itsdangerous==2.1.2",
+            "Jinja2==3.1.2",
+            "MarkupSafe==2.1.1",
+            "Werkzeug==2.3.7",
+            "pytest==8.4.2"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        },
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "-e",
+            "."
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pytest",
+            "-q",
+            "tests/test_config.py::test_config_from_file_toml"
+          ],
+          "cwd": null,
+          "timeout_seconds": 120
+        }
+      ],
+      "timeout_seconds": 900
+    },
+    {
+      "task_id": "pydata__xarray-4094",
+      "repository_path": null,
+      "repository_url": "https://github.com/pydata/xarray.git",
+      "base_commit": "a64cf2d5476e7bbda099b34c40b7be1880dbd39a",
+      "issue_title": "Fix to_unstacked_dataset for single-dimension variables",
+      "issue_body": "to_unstacked_dataset broken for single-dim variables\n<!-- A short summary of the issue, if appropriate -->\r\n\r\n\r\n#### MCVE Code Sample\r\n\r\n```python\r\narr = xr.DataArray(\r\n     np.arange(3),\r\n     coords=[(\"x\", [0, 1, 2])],\r\n )\r\ndata = xr.Dataset({\"a\": arr, \"b\": arr})\r\nstacked = data.to_stacked_array('y', sample_dims=['x'])\r\nunstacked = stacked.to_unstacked_dataset('y')\r\n# MergeError: conflicting values for variable 'y' on objects to be combined. You can skip this check by specifying compat='override'.\r\n```\r\n\r\n#### Expected Output\r\nA working roundtrip.\r\n\r\n#### Problem Description\r\nI need to stack a bunch of variables and later unstack them again, however this doesn't work if the variables only have a single dimension.\r\n\r\n#### Versions\r\n\r\n<details><summary>Output of <tt>xr.show_versions()</tt></summary>\r\n\r\nINSTALLED VERSIONS\r\n------------------\r\ncommit: None\r\npython: 3.7.3 (default, Mar 27 2019, 22:11:17) \r\n[GCC 7.3.0]\r\npython-bits: 64\r\nOS: Linux\r\nOS-release: 4.15.0-96-generic\r\nmachine: x86_64\r\nprocessor: x86_64\r\nbyteorder: little\r\nLC_ALL: None\r\nLANG: en_GB.UTF-8\r\nLOCALE: en_GB.UTF-8\r\nlibhdf5: 1.10.4\r\nlibnetcdf: 4.6.2\r\n\r\nxarray: 0.15.1\r\npandas: 1.0.3\r\nnumpy: 1.17.3\r\nscipy: 1.3.1\r\nnetCDF4: 1.4.2\r\npydap: None\r\nh5netcdf: None\r\nh5py: 2.10.0\r\nNio: None\r\nzarr: None\r\ncftime: 1.0.4.2\r\nnc_time_axis: None\r\nPseudoNetCDF: None\r\nrasterio: None\r\ncfgrib: None\r\niris: None\r\nbottleneck: None\r\ndask: 2.10.1\r\ndistributed: 2.10.0\r\nmatplotlib: 3.1.1\r\ncartopy: None\r\nseaborn: 0.10.0\r\nnumbagg: None\r\nsetuptools: 41.0.0\r\npip: 19.0.3\r\nconda: 4.8.3\r\npytest: 5.3.5\r\nIPython: 7.9.0\r\nsphinx: None\r\n\r\n\r\n</details>",
+      "setup_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "numpy==1.23.0",
+            "pandas==1.5.3",
+            "pytest==7.4.0",
+            "scipy==1.11.1",
+            "setuptools==68.0.0"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        },
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "-e",
+            "."
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pytest",
+            "-q",
+            "xarray/tests/test_dataset.py::TestDataset::test_to_stacked_array_to_unstacked_dataset"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "timeout_seconds": 1800
+    },
+    {
+      "task_id": "pydata__xarray-5131",
+      "repository_path": null,
+      "repository_url": "https://github.com/pydata/xarray.git",
+      "base_commit": "e56905889c836c736152b11a7e6117a229715975",
+      "issue_title": "Remove trailing whitespace from DatasetGroupBy repr",
+      "issue_body": "Trailing whitespace in DatasetGroupBy text representation\nWhen displaying a DatasetGroupBy in an interactive Python session, the first line of output contains a trailing whitespace. The first example in the documentation demonstrate this:\r\n\r\n```pycon\r\n>>> import xarray as xr, numpy as np\r\n>>> ds = xr.Dataset(\r\n...     {\"foo\": ((\"x\", \"y\"), np.random.rand(4, 3))},\r\n...     coords={\"x\": [10, 20, 30, 40], \"letters\": (\"x\", list(\"abba\"))},\r\n... )\r\n>>> ds.groupby(\"letters\")\r\nDatasetGroupBy, grouped over 'letters' \r\n2 groups with labels 'a', 'b'.\r\n```\r\n\r\nThere is a trailing whitespace in the first line of output which is \"DatasetGroupBy, grouped over 'letters' \". This can be seen more clearly by converting the object to a string (note the whitespace before `\\n`):\r\n\r\n```pycon\r\n>>> str(ds.groupby(\"letters\"))\r\n\"DatasetGroupBy, grouped over 'letters' \\n2 groups with labels 'a', 'b'.\"\r\n```\r\n\r\n\r\nWhile this isn't a problem in itself, it causes an issue for us because we use flake8 in continuous integration to verify that our code is correctly formatted and we also have doctests that rely on DatasetGroupBy textual representation. Flake8 reports a violation on the trailing whitespaces in our docstrings. If we remove the trailing whitespaces, our doctests fail because the expected output doesn't match the actual output. So we have conflicting constraints coming from our tools which both seem reasonable. Trailing whitespaces are forbidden by flake8 because, among other reasons, they lead to noisy git diffs. Doctest want the expected output to be exactly the same as the actual output and considers a trailing whitespace to be a significant difference. We could configure flake8 to ignore this particular violation for the files in which we have these doctests, but this may cause other trailing whitespaces to creep in our code, which we don't want. Unfortunately it's not possible to just add `# NoQA` comments to get flake8 to ignore the violation only for specific lines because that creates a difference between expected and actual output from doctest point of view. Flake8 doesn't allow to disable checks for blocks of code either.\r\n\r\nIs there a reason for having this trailing whitespace in DatasetGroupBy representation? Whould it be OK to remove it? If so please let me know and I can make a pull request.",
+      "setup_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "numpy==1.23.0",
+            "pandas==1.5.3",
+            "pytest==7.4.0",
+            "scipy==1.11.1",
+            "setuptools==68.0.0"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        },
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "-e",
+            "."
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pytest",
+            "-q",
+            "xarray/tests/test_groupby.py"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "timeout_seconds": 1800
+    },
+    {
+      "task_id": "pytest-dev__pytest-11143",
+      "repository_path": null,
+      "repository_url": "https://github.com/pytest-dev/pytest.git",
+      "base_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+      "issue_title": "Assertion rewrite mistakes an integer expression for a docstring",
+      "issue_body": "Rewrite fails when first expression of file is a number and mistaken as docstring \n<!--\r\nThanks for submitting an issue!\r\n\r\nQuick check-list while reporting bugs:\r\n-->\r\n\r\n- [x] a detailed description of the bug or problem you are having\r\n- [x] output of `pip list` from the virtual environment you are using\r\n- [x] pytest and operating system versions\r\n- [x] minimal example if possible\r\n```\r\nInstalling collected packages: zipp, six, PyYAML, python-dateutil, MarkupSafe, importlib-metadata, watchdog, tomli, soupsieve, pyyaml-env-tag, pycparser, pluggy, packaging, mergedeep, Markdown, jinja2, iniconfig, ghp-import, exceptiongroup, click, websockets, urllib3, tqdm, smmap, pytest, pyee, mkdocs, lxml, importlib-resources, idna, cssselect, charset-normalizer, cffi, certifi, beautifulsoup4, attrs, appdirs, w3lib, typing-extensions, texttable, requests, pyzstd, pytest-metadata, pyquery, pyppmd, pyppeteer, pynacl, pymdown-extensions, pycryptodomex, pybcj, pyasn1, py, psutil, parse, multivolumefile, mkdocs-autorefs, inflate64, gitdb, fake-useragent, cryptography, comtypes, bs4, brotli, bcrypt, allure-python-commons, xlwt, xlrd, rsa, requests-html, pywinauto, python-i18n, python-dotenv, pytest-rerunfailures, pytest-html, pytest-check, PySocks, py7zr, paramiko, mkdocstrings, loguru, GitPython, ftputil, crcmod, chardet, brotlicffi, allure-pytest\r\nSuccessfully installed GitPython-3.1.31 Markdown-3.3.7 MarkupSafe-2.1.3 PySocks-1.7.1 PyYAML-6.0 allure-pytest-2.13.2 allure-python-commons-2.13.2 appdirs-1.4.4 attrs-23.1.0 bcrypt-4.0.1 beautifulsoup4-4.12.2 brotli-1.0.9 brotlicffi-1.0.9.2 bs4-0.0.1 certifi-2023.5.7 cffi-1.15.1 chardet-5.1.0 charset-normalizer-3.1.0 click-8.1.3 comtypes-1.2.0 crcmod-1.7 cryptography-41.0.1 cssselect-1.2.0 exceptiongroup-1.1.1 fake-useragent-1.1.3 ftputil-5.0.4 ghp-import-2.1.0 gitdb-4.0.10 idna-3.4 importlib-metadata-6.7.0 importlib-resources-5.12.0 inflate64-0.3.1 iniconfig-2.0.0 jinja2-3.1.2 loguru-0.7.0 lxml-4.9.2 mergedeep-1.3.4 mkdocs-1.4.3 mkdocs-autorefs-0.4.1 mkdocstrings-0.22.0 multivolumefile-0.2.3 packaging-23.1 paramiko-3.2.0 parse-1.19.1 pluggy-1.2.0 psutil-5.9.5 py-1.11.0 py7zr-0.20.5 pyasn1-0.5.0 pybcj-1.0.1 pycparser-2.21 pycryptodomex-3.18.0 pyee-8.2.2 pymdown-extensions-10.0.1 pynacl-1.5.0 pyppeteer-1.0.2 pyppmd-1.0.0 pyquery-2.0.0 pytest-7.4.0 pytest-check-2.1.5 pytest-html-3.2.0 pytest-metadata-3.0.0 pytest-rerunfailures-11.1.2 python-dateutil-2.8.2 python-dotenv-1.0.0 python-i18n-0.3.9 pywinauto-0.6.6 pyyaml-env-tag-0.1 pyzstd-0.15.9 requests-2.31.0 requests-html-0.10.0 rsa-4.9 six-1.16.0 smmap-5.0.0 soupsieve-2.4.1 texttable-1.6.7 tomli-2.0.1 tqdm-4.65.0 typing-extensions-4.6.3 urllib3-1.26.16 w3lib-2.1.1 watchdog-3.0.0 websockets-10.4 xlrd-2.0.1 xlwt-1.3.0 zipp-3.15.0\r\n```\r\nuse `pytest -k xxx`， report an error：`TypeError: argument of type 'int' is not iterable`\r\n\r\nit seems a error in collecting testcase\r\n```\r\n==================================== ERRORS ====================================\r\n_ ERROR collecting testcases/基线/代理策略/SOCKS二级代理迭代二/在线用户/在线用户更新/上线用户/test_socks_user_011.py _\r\n/usr/local/lib/python3.8/site-packages/_pytest/runner.py:341: in from_call\r\n    result: Optional[TResult] = func()\r\n/usr/local/lib/python3.8/site-packages/_pytest/runner.py:372: in <lambda>\r\n    call = CallInfo.from_call(lambda: list(collector.collect()), \"collect\")\r\n/usr/local/lib/python3.8/site-packages/_pytest/python.py:531: in collect\r\n    self._inject_setup_module_fixture()\r\n/usr/local/lib/python3.8/site-packages/_pytest/python.py:545: in _inject_setup_module_fixture\r\n    self.obj, (\"setUpModule\", \"setup_module\")\r\n/usr/local/lib/python3.8/site-packages/_pytest/python.py:310: in obj\r\n    self._obj = obj = self._getobj()\r\n/usr/local/lib/python3.8/site-packages/_pytest/python.py:528: in _getobj\r\n    return self._importtestmodule()\r\n/usr/local/lib/python3.8/site-packages/_pytest/python.py:617: in _importtestmodule\r\n    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)\r\n/usr/local/lib/python3.8/site-packages/_pytest/pathlib.py:565: in import_path\r\n    importlib.import_module(module_name)\r\n/usr/local/lib/python3.8/importlib/__init__.py:127: in import_module\r\n    return _bootstrap._gcd_import(name[level:], package, level)\r\n<frozen importlib._bootstrap>:1014: in _gcd_import\r\n    ???\r\n<frozen importlib._bootstrap>:991: in _find_and_load\r\n    ???\r\n<frozen importlib._bootstrap>:975: in _find_and_load_unlocked\r\n    ???\r\n<frozen importlib._bootstrap>:671: in _load_unlocked\r\n    ???\r\n/usr/local/lib/python3.8/site-packages/_pytest/assertion/rewrite.py:169: in exec_module\r\n    source_stat, co = _rewrite_test(fn, self.config)\r\n/usr/local/lib/python3.8/site-packages/_pytest/assertion/rewrite.py:352: in _rewrite_test\r\n    rewrite_asserts(tree, source, strfn, config)\r\n/usr/local/lib/python3.8/site-packages/_pytest/assertion/rewrite.py:413: in rewrite_asserts\r\n    AssertionRewriter(module_path, config, source).run(mod)\r\n/usr/local/lib/python3.8/site-packages/_pytest/assertion/rewrite.py:695: in run\r\n    if self.is_rewrite_disabled(doc):\r\n/usr/local/lib/python3.8/site-packages/_pytest/assertion/rewrite.py:760: in is_rewrite_disabled\r\n    return \"PYTEST_DONT_REWRITE\" in docstring\r\nE   TypeError: argument of type 'int' is not iterable\r\n```",
+      "setup_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "iniconfig==2.0.0",
+            "packaging==23.1",
+            "pluggy==1.3.0",
+            "exceptiongroup==1.1.3",
+            "tomli==2.0.1"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        },
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "-e",
+            "."
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pytest",
+            "-q",
+            "testing/test_assertrewrite.py::TestIssue11140::test_constant_not_picked_as_module_docstring"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "timeout_seconds": 1200
+    },
+    {
+      "task_id": "pytest-dev__pytest-11148",
+      "repository_path": null,
+      "repository_url": "https://github.com/pytest-dev/pytest.git",
+      "base_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+      "issue_title": "Avoid duplicated imports with importlib mode and doctest modules",
+      "issue_body": "Module imported twice under import-mode=importlib\nIn pmxbot/pmxbot@7f189ad, I'm attempting to switch pmxbot off of pkg_resources style namespace packaging to PEP 420 namespace packages. To do so, I've needed to switch to `importlib` for the `import-mode` and re-organize the tests to avoid import errors on the tests.\r\n\r\nYet even after working around these issues, the tests are failing when the effect of `core.initialize()` doesn't seem to have had any effect.\r\n\r\nInvestigating deeper, I see that initializer is executed and performs its actions (setting a class variable `pmxbot.logging.Logger.store`), but when that happens, there are two different versions of `pmxbot.logging` present, one in `sys.modules` and another found in `tests.unit.test_commands.logging`:\r\n\r\n```\r\n=========================================================================== test session starts ===========================================================================\r\nplatform darwin -- Python 3.11.1, pytest-7.2.0, pluggy-1.0.0\r\ncachedir: .tox/python/.pytest_cache\r\nrootdir: /Users/jaraco/code/pmxbot/pmxbot, configfile: pytest.ini\r\nplugins: black-0.3.12, mypy-0.10.3, jaraco.test-5.3.0, checkdocs-2.9.0, flake8-1.1.1, enabler-2.0.0, jaraco.mongodb-11.2.1, pmxbot-1122.14.3.dev13+g7f189ad\r\ncollected 421 items / 180 deselected / 241 selected                                                                                                                       \r\nrun-last-failure: rerun previous 240 failures (skipped 14 files)\r\n\r\ntests/unit/test_commands.py E\r\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> traceback >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\r\n\r\ncls = <class 'tests.unit.test_commands.TestCommands'>\r\n\r\n    @classmethod\r\n    def setup_class(cls):\r\n        path = os.path.dirname(os.path.abspath(__file__))\r\n        configfile = os.path.join(path, 'testconf.yaml')\r\n        config = pmxbot.dictlib.ConfigDict.from_yaml(configfile)\r\n        cls.bot = core.initialize(config)\r\n>       logging.Logger.store.message(\"logged\", \"testrunner\", \"some text\")\r\nE       AttributeError: type object 'Logger' has no attribute 'store'\r\n\r\ntests/unit/test_commands.py:37: AttributeError\r\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> entering PDB >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\r\n\r\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PDB post_mortem (IO-capturing turned off) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\r\n> /Users/jaraco/code/pmxbot/pmxbot/tests/unit/test_commands.py(37)setup_class()\r\n-> logging.Logger.store.message(\"logged\", \"testrunner\", \"some text\")\r\n(Pdb) logging.Logger\r\n<class 'pmxbot.logging.Logger'>\r\n(Pdb) logging\r\n<module 'pmxbot.logging' from '/Users/jaraco/code/pmxbot/pmxbot/pmxbot/logging.py'>\r\n(Pdb) import sys\r\n(Pdb) sys.modules['pmxbot.logging']\r\n<module 'pmxbot.logging' from '/Users/jaraco/code/pmxbot/pmxbot/pmxbot/logging.py'>\r\n(Pdb) sys.modules['pmxbot.logging'] is logging\r\nFalse\r\n```\r\n\r\nI haven't yet made a minimal reproducer, but I wanted to first capture this condition.",
+      "setup_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "iniconfig==2.0.0",
+            "packaging==23.1",
+            "pluggy==1.3.0",
+            "exceptiongroup==1.1.3",
+            "tomli==2.0.1"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        },
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "-e",
+            "."
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pytest",
+            "-q",
+            "testing/acceptance_test.py::test_doctest_and_normal_imports_with_importlib",
+            "testing/test_pathlib.py::TestImportPath::test_remembers_previous_imports"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "timeout_seconds": 1200
+    },
+    {
+      "task_id": "sympy__sympy-20590",
+      "repository_path": null,
+      "repository_url": "https://github.com/sympy/sympy.git",
+      "base_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+      "issue_title": "Restore slot-based immutability for Symbol instances",
+      "issue_body": "Symbol instances have __dict__ since 1.7?\nIn version 1.6.2 Symbol instances had no `__dict__` attribute\r\n```python\r\n>>> sympy.Symbol('s').__dict__\r\n---------------------------------------------------------------------------\r\nAttributeError                            Traceback (most recent call last)\r\n<ipython-input-3-e2060d5eec73> in <module>\r\n----> 1 sympy.Symbol('s').__dict__\r\n\r\nAttributeError: 'Symbol' object has no attribute '__dict__'\r\n>>> sympy.Symbol('s').__slots__\r\n('name',)\r\n```\r\n\r\nThis changes in 1.7 where `sympy.Symbol('s').__dict__` now exists (and returns an empty dict)\r\nI may misinterpret this, but given the purpose of `__slots__`, I assume this is a bug, introduced because some parent class accidentally stopped defining `__slots__`.",
+      "setup_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "mpmath==1.3.0",
+            "flake8-comprehensions"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        },
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "-e",
+            "."
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pytest",
+            "-q",
+            "sympy/core/tests/test_basic.py::test_immutable"
+          ],
+          "cwd": null,
+          "timeout_seconds": 300
+        }
+      ],
+      "timeout_seconds": 1200
+    }
+  ],
+  "projection_scope": "agent_visible_fields_only",
+  "source_rows_loaded_by_formal_runner": false,
+  "evaluator_gold_serialized": false,
+  "provider_requests_made": 0,
+  "paid_requests_made": 0,
+  "content_sha256": "7250647265fc2faaf162d4ad7ea347e704457cbe022ceaf4e4b0884b1ba11821"
+}

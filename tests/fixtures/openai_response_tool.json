@@ -1,0 +1,30 @@
+{
+  "id": "resp_fixture_tool_001",
+  "model": "gpt-5.6-terra",
+  "status": "completed",
+  "output": [
+    {
+      "type": "reasoning",
+      "id": "rs_fixture_001"
+    },
+    {
+      "type": "function_call",
+      "call_id": "call_fixture_search_001",
+      "name": "search_code",
+      "arguments": "{\"query\":\"empty configuration\",\"case_sensitive\":false}",
+      "status": "completed"
+    }
+  ],
+  "usage": {
+    "input_tokens": 100,
+    "input_tokens_details": {
+      "cached_tokens": 10,
+      "cache_write_tokens": 5
+    },
+    "output_tokens": 20,
+    "output_tokens_details": {
+      "reasoning_tokens": 8
+    },
+    "total_tokens": 120
+  }
+}

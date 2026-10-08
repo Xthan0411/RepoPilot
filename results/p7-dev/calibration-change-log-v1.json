@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "change_log_version": "calibration-change-log-v1",
+  "from_matrix_version": "experiment-matrix-v1",
+  "from_matrix_sha256": "7462e2c21a2ffb64c8b12d2e1a17f45e0a1a22dc97bbdbfd44922dce16874421",
+  "to_matrix_version": "experiment-matrix-v2",
+  "to_matrix_sha256": "d75d36d711f23190062aded9e97a8f5abfaba859416466027b227421ea7407e8",
+  "recorded_at": "2026-08-07T23:30:00Z",
+  "holdout_accessed": false,
+  "changes": [
+    {
+      "change_id": "embedding-identity-secondary-code-v1",
+      "category": "embedding_identity",
+      "before": {
+        "remote_code_revision": "implicit upstream main"
+      },
+      "after": {
+        "remote_code_revision": "3baf9e3ac750e76e8edd3019170176884695fb94"
+      },
+      "reason": "The pinned Jina model delegates custom configuration and model code to a second repository, so the primary model revision alone did not fully identify executable embedding code.",
+      "evidence": "A local model load resolved jinaai/jina-bert-v2-qk-post-norm from its mutable main branch; v2 now passes code_revision to both config and model loading and includes it in the embedding fingerprint.",
+      "holdout_informed": false
+    },
+    {
+      "change_id": "transformers-major-compat-v1",
+      "category": "dependency_compatibility",
+      "before": {
+        "transformers": "5.14.1"
+      },
+      "after": {
+        "transformers": "4.57.6",
+        "constraint": ">=4.57,<5"
+      },
+      "reason": "The immutable Jina remote code imports find_pruneable_heads_and_indices, which Transformers 5 removed.",
+      "evidence": "The initial local load failed with ImportError before any dev model or holdout task execution; after locking Transformers 4.57.6 the fixed model produced a normalized 768-dimensional vector.",
+      "holdout_informed": false
+    }
+  ],
+  "content_sha256": "c451b4c2aa40469eddfa7e2bde37b322ac50c4161c80511e0b2aad85d423c1d5"
+}

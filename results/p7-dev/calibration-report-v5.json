@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "report_version": "dev-calibration-report-v1",
+  "calibration_id": "p7-dev-d75d36d711f2-a1fdecc1d338",
+  "experiment_id": "repopilot-p7-v2",
+  "matrix_sha256": "d75d36d711f23190062aded9e97a8f5abfaba859416466027b227421ea7407e8",
+  "plan_sha256": "dd1e61d3c8db2721671b26222e44ea551b00d746a6a35cf7db7e42372d9c643f",
+  "completed_at": "2026-08-08T00:42:41.623803Z",
+  "split": "dev",
+  "task_ids": [
+    "p5-config-parser-blank",
+    "p5-parser-service-async"
+  ],
+  "holdout_accessed": false,
+  "runs": [
+    {
+      "arm_id": "dense-only-v1",
+      "run_id": "0ff7f753-1449-5cc3-8531-487965171261",
+      "run_manifest_ref": {
+        "relative_path": "results/p7-dev/p7-dev-d75d36d711f2-a1fdecc1d338/dense-only-v1/manifest.json",
+        "sha256": "76b74433870260e1c304da01c8ce9af2640cdc5bdc59656d6c7be20feb4d33f8",
+        "size_bytes": 1428,
+        "media_type": "application/json"
+      },
+      "total_attempts": 2,
+      "completed_attempts": 2,
+      "failed_attempts": 0,
+      "estimated_cost_usd": "0.186140000",
+      "termination_reasons": [
+        "success",
+        "success"
+      ],
+      "runner_failure_codes": []
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "run_id": "ad61fe1f-2470-5dcf-9d60-471b4059d5c1",
+      "run_manifest_ref": {
+        "relative_path": "results/p7-dev/p7-dev-d75d36d711f2-a1fdecc1d338/hybrid-rrf-v1/manifest.json",
+        "sha256": "7e7ae1e6871e37fa662e688591f3284e671a3973389d467e8a385ca4713881df",
+        "size_bytes": 1429,
+        "media_type": "application/json"
+      },
+      "total_attempts": 2,
+      "completed_attempts": 2,
+      "failed_attempts": 0,
+      "estimated_cost_usd": "0.138182500",
+      "termination_reasons": [
+        "invalid_patch",
+        "success"
+      ],
+      "runner_failure_codes": []
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "run_id": "0b4905a1-0a51-5db8-9b04-5cac38a5ea01",
+      "run_manifest_ref": {
+        "relative_path": "results/p7-dev/p7-dev-d75d36d711f2-a1fdecc1d338/mini-swe-safe-v1/manifest.json",
+        "sha256": "10195c75de28042cd361991333aafb18e1f0b58e3f9232eca1b85f6e1f9a1876",
+        "size_bytes": 1608,
+        "media_type": "application/json"
+      },
+      "total_attempts": 2,
+      "completed_attempts": 2,
+      "failed_attempts": 0,
+      "estimated_cost_usd": "0.064572500",
+      "termination_reasons": [
+        "invalid_patch",
+        "invalid_patch"
+      ],
+      "runner_failure_codes": []
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "run_id": "e0f7989f-f030-531d-b4df-a68c8394539d",
+      "run_manifest_ref": {
+        "relative_path": "results/p7-dev/p7-dev-d75d36d711f2-a1fdecc1d338/no-semantic-rag-v1/manifest.json",
+        "sha256": "f430bb7df635c87fda0d3532804800c319963e182bb33517f74c713a69c7aa0f",
+        "size_bytes": 1618,
+        "media_type": "application/json"
+      },
+      "total_attempts": 2,
+      "completed_attempts": 2,
+      "failed_attempts": 0,
+      "estimated_cost_usd": "0.157283750",
+      "termination_reasons": [
+        "success",
+        "success"
+      ],
+      "runner_failure_codes": []
+    }
+  ],
+  "total_estimated_cost_usd": "0.546178750",
+  "content_sha256": "0852ba2f844e635840dcb26e7baa2555ed0a1764552e50c655994f5634df2b8a"
+}

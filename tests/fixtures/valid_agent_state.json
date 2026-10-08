@@ -1,0 +1,96 @@
+{
+  "task": {
+    "task_id": "fixture-001",
+    "repository_path": "/fixtures/tiny_repo",
+    "repository_url": null,
+    "base_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "issue_title": "Handle an empty configuration file",
+    "issue_body": "The parser raises an unexpected exception when the file is empty.",
+    "setup_commands": [
+      {
+        "argv": ["python", "-m", "pip", "install", "-e", "."],
+        "cwd": null,
+        "timeout_seconds": 120
+      }
+    ],
+    "test_commands": [
+      {
+        "argv": ["python", "-m", "pytest", "-q"],
+        "cwd": null,
+        "timeout_seconds": 300
+      }
+    ],
+    "timeout_seconds": 900
+  },
+  "repository_summary": "A small Python parser package.",
+  "current_plan": [
+    {
+      "step_id": "reproduce",
+      "objective": "Reproduce the reported parser failure.",
+      "status": "in_progress",
+      "evidence_required": ["A failing test observation"],
+      "dependencies": [],
+      "revision_reason": null
+    }
+  ],
+  "active_step_id": "reproduce",
+  "retrieved_context": [
+    {
+      "chunk_id": "chunk.parser.parse",
+      "sparse_rank": 1,
+      "sparse_score": 8.5,
+      "dense_rank": 2,
+      "dense_score": 0.82,
+      "fused_score": 0.0325,
+      "query": "empty configuration parser error",
+      "retrieval_reason": "Matches the parser entry point and failure condition."
+    }
+  ],
+  "working_memory": ["The failing path is likely parser.py."],
+  "observations": [
+    {
+      "call_id": "11111111-1111-4111-8111-111111111111",
+      "started_at": "2026-07-27T08:00:00Z",
+      "duration_ms": 410,
+      "exit_code": 1,
+      "stdout_ref": {
+        "relative_path": "runs/run-001/stdout.txt",
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "size_bytes": 128,
+        "media_type": "text/plain"
+      },
+      "stderr_ref": null,
+      "truncated": false,
+      "sandbox_id": "sandbox-run-001",
+      "policy_decision": "allowed",
+      "error_type": null
+    }
+  ],
+  "patch_state": {
+    "status": "proposed",
+    "diff_ref": {
+      "relative_path": "runs/run-001/candidate.diff",
+      "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "size_bytes": 96,
+      "media_type": "text/x-diff"
+    },
+    "files_changed": ["parser.py"],
+    "revision": 1
+  },
+  "test_state": {
+    "status": "running",
+    "last_observation_call_id": "11111111-1111-4111-8111-111111111111",
+    "commands_run": 1
+  },
+  "budget": {
+    "steps_used": 3,
+    "max_steps": 30,
+    "tokens_used": 1200,
+    "max_tokens": 100000,
+    "cost_used_usd": "0.0025",
+    "max_cost_usd": "1.00",
+    "started_at": "2026-07-27T07:59:00Z",
+    "deadline_at": "2026-07-27T08:14:00Z"
+  },
+  "termination_reason": null
+}

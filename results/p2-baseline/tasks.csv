@@ -1,0 +1,7 @@
+task_id,split,query,gold_files,missing_gold_files,ranked_files,file_recall_at_1,file_recall_at_3,file_recall_at_5,mean_reciprocal_rank,first_relevant_file_rank,indexing_latency_ms,retrieval_latency_ms
+baseline-001,dev,"Handle empty key value configuration
+The parse function in parser.py should return an empty mapping for empty configuration text.","[""pkg/parser.py""]",[],"[""pkg/parser.py"",""pkg/service.py"",""pkg/__init__.py"",""README.md""]",1.0,1.0,1.0,1.0,1,4,0
+baseline-002,dev,"Support asynchronous parser service
+ParserService parse_async should normalize raw input without external I/O.","[""pkg/service.py""]",[],"[""pkg/service.py"",""pkg/parser.py"",""pkg/__init__.py""]",1.0,1.0,1.0,1.0,1,4,0
+baseline-003,holdout,"Expose parse from package
+The package __init__ public API should import parse in __all__.","[""pkg/__init__.py""]",[],"[""pkg/__init__.py"",""pkg/parser.py"",""pkg/service.py""]",1.0,1.0,1.0,1.0,1,4,0

@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "dataset_id": "repopilot-p7-v1",
+  "source_revision": "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e",
+  "decisions": [
+    {
+      "source_instance_id": "astropy__astropy-12907",
+      "repository": "astropy/astropy",
+      "pull_request_url": "https://github.com/astropy/astropy/pull/12907",
+      "base_commit": "d16bfe05a744909de4b27f5875fe0d4ed41ce607",
+      "decision": "excluded",
+      "reasons": ["resource_limit"],
+      "rationale": "The compiled scientific dependency stack makes this candidate disproportionately expensive for the first 8-task holdout."
+    },
+    {
+      "source_instance_id": "django__django-15902",
+      "repository": "django/django",
+      "pull_request_url": "https://github.com/django/django/pull/15902",
+      "base_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+      "decision": "included",
+      "reasons": [],
+      "rationale": "Merged single-file Python repair with a focused regression test and exact base commit."
+    },
+    {
+      "source_instance_id": "matplotlib__matplotlib-23299",
+      "repository": "matplotlib/matplotlib",
+      "pull_request_url": "https://github.com/matplotlib/matplotlib/pull/23299",
+      "base_commit": "3eadeacc06c9f2ddcdac6ae39819faa9fbee9e39",
+      "decision": "excluded",
+      "reasons": ["resource_limit", "setup_unsupported"],
+      "rationale": "The official environment requires a large native and system-package toolchain outside the first-run setup budget."
+    },
+    {
+      "source_instance_id": "mwaskom__seaborn-3190",
+      "repository": "mwaskom/seaborn",
+      "pull_request_url": "https://github.com/mwaskom/seaborn/pull/3190",
+      "base_commit": "4a9e54962a29c12a8b103d75f838e0e795a6974d",
+      "decision": "included",
+      "reasons": [],
+      "rationale": "Merged one-line logic repair with one deterministic boolean-data regression test."
+    },
+    {
+      "source_instance_id": "pallets__flask-4992",
+      "repository": "pallets/flask",
+      "pull_request_url": "https://github.com/pallets/flask/pull/4992",
+      "base_commit": "4c288bc97ea371817199908d0d9b12de9dae327e",
+      "decision": "included",
+      "reasons": [],
+      "rationale": "Merged focused API repair; base failure and gold success were reproduced in the pinned local Docker image."
+    },
+    {
+      "source_instance_id": "psf__requests-2317",
+      "repository": "psf/requests",
+      "pull_request_url": "https://github.com/psf/requests/pull/2317",
+      "base_commit": "091991be0da19de9108dbe5e3752917fea3d7fdc",
+      "decision": "excluded",
+      "reasons": ["uncontrolled_network", "environment_incompatible"],
+      "rationale": "The historical regression suite depends on an HTTP test service and a legacy Python-era environment, violating the first holdout's hermetic setup rule."
+    },
+    {
+      "source_instance_id": "pydata__xarray-4094",
+      "repository": "pydata/xarray",
+      "pull_request_url": "https://github.com/pydata/xarray/pull/4094",
+      "base_commit": "a64cf2d5476e7bbda099b34c40b7be1880dbd39a",
+      "decision": "included",
+      "reasons": [],
+      "rationale": "Merged single-file data-model repair with one direct round-trip regression test."
+    },
+    {
+      "source_instance_id": "pydata__xarray-5131",
+      "repository": "pydata/xarray",
+      "pull_request_url": "https://github.com/pydata/xarray/pull/5131",
+      "base_commit": "e56905889c836c736152b11a7e6117a229715975",
+      "decision": "included",
+      "reasons": [],
+      "rationale": "Merged single-file representation repair with a bounded groupby regression-test family."
+    },
+    {
+      "source_instance_id": "pytest-dev__pytest-11143",
+      "repository": "pytest-dev/pytest",
+      "pull_request_url": "https://github.com/pytest-dev/pytest/pull/11143",
+      "base_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+      "decision": "included",
+      "reasons": [],
+      "rationale": "Merged one-line AST guard with a self-contained assertion-rewrite regression test."
+    },
+    {
+      "source_instance_id": "pytest-dev__pytest-11148",
+      "repository": "pytest-dev/pytest",
+      "pull_request_url": "https://github.com/pytest-dev/pytest/pull/11148",
+      "base_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+      "decision": "included",
+      "reasons": [],
+      "rationale": "Merged import-identity repair with two explicit non-network regression tests."
+    },
+    {
+      "source_instance_id": "sympy__sympy-20590",
+      "repository": "sympy/sympy",
+      "pull_request_url": "https://github.com/sympy/sympy/pull/20590",
+      "base_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+      "decision": "included",
+      "reasons": [],
+      "rationale": "Merged single-file immutability repair with a direct regression test and pure-Python setup."
+    }
+  ],
+  "content_sha256": "1f036221229eef9929eafd61bc660b5478ba732fc86e6c77bd11b859c0c00423"
+}

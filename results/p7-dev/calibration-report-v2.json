@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "report_version": "dev-calibration-report-v1",
+  "calibration_id": "p7-dev-d75d36d711f2",
+  "experiment_id": "repopilot-p7-v2",
+  "matrix_sha256": "d75d36d711f23190062aded9e97a8f5abfaba859416466027b227421ea7407e8",
+  "plan_sha256": "fd2f51380c7262818a50f32ca26c59e9dff6a14ee67fe4dd0b48981c9315425c",
+  "completed_at": "2026-08-08T00:14:09.586819Z",
+  "split": "dev",
+  "task_ids": [
+    "p5-config-parser-blank",
+    "p5-parser-service-async"
+  ],
+  "holdout_accessed": false,
+  "runs": [
+    {
+      "arm_id": "dense-only-v1",
+      "run_id": "0ff7f753-1449-5cc3-8531-487965171261",
+      "run_manifest_ref": {
+        "relative_path": "results/p7-dev/p7-dev-d75d36d711f2/dense-only-v1/manifest.json",
+        "sha256": "46548047a8dd7bee316471afa398cd3c80c9019caaea09bc15410383bae5f52d",
+        "size_bytes": 1428,
+        "media_type": "application/json"
+      },
+      "total_attempts": 2,
+      "completed_attempts": 0,
+      "failed_attempts": 2,
+      "estimated_cost_usd": "0",
+      "termination_reasons": [],
+      "runner_failure_codes": [
+        "artifact_integrity",
+        "artifact_integrity"
+      ]
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "run_id": "ad61fe1f-2470-5dcf-9d60-471b4059d5c1",
+      "run_manifest_ref": {
+        "relative_path": "results/p7-dev/p7-dev-d75d36d711f2/hybrid-rrf-v1/manifest.json",
+        "sha256": "8b37893948f1c6db61eaa9c7bbc96ed09c46699e46d11d48ae52de3633054d75",
+        "size_bytes": 1429,
+        "media_type": "application/json"
+      },
+      "total_attempts": 2,
+      "completed_attempts": 0,
+      "failed_attempts": 2,
+      "estimated_cost_usd": "0",
+      "termination_reasons": [],
+      "runner_failure_codes": [
+        "artifact_integrity",
+        "artifact_integrity"
+      ]
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "run_id": "0b4905a1-0a51-5db8-9b04-5cac38a5ea01",
+      "run_manifest_ref": {
+        "relative_path": "results/p7-dev/p7-dev-d75d36d711f2/mini-swe-safe-v1/manifest.json",
+        "sha256": "9e304069a7eb285b28564a24b268f2f547371bd2c438afb8a9160a19ecc8b9c1",
+        "size_bytes": 1608,
+        "media_type": "application/json"
+      },
+      "total_attempts": 2,
+      "completed_attempts": 0,
+      "failed_attempts": 2,
+      "estimated_cost_usd": "0",
+      "termination_reasons": [],
+      "runner_failure_codes": [
+        "artifact_integrity",
+        "artifact_integrity"
+      ]
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "run_id": "e0f7989f-f030-531d-b4df-a68c8394539d",
+      "run_manifest_ref": {
+        "relative_path": "results/p7-dev/p7-dev-d75d36d711f2/no-semantic-rag-v1/manifest.json",
+        "sha256": "f25284188955bd1609130365a158a1324085b90d76655246a3d8d642abc73138",
+        "size_bytes": 1618,
+        "media_type": "application/json"
+      },
+      "total_attempts": 2,
+      "completed_attempts": 0,
+      "failed_attempts": 2,
+      "estimated_cost_usd": "0",
+      "termination_reasons": [],
+      "runner_failure_codes": [
+        "artifact_integrity",
+        "artifact_integrity"
+      ]
+    }
+  ],
+  "total_estimated_cost_usd": "0",
+  "content_sha256": "0d704fc527ba36f3371263c9d39f89a0e6320affe944490ad6c0c08857379617"
+}

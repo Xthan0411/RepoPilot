@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "run_id": "22222222-2222-4222-8222-222222222222",
+  "request_id": "44444444-4444-4444-8444-444444444444",
+  "requested_at": "2026-07-27T08:01:00Z",
+  "task": {
+    "task_id": "fixture-001",
+    "repository_path": "/fixtures/tiny_repo",
+    "repository_url": null,
+    "base_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "issue_title": "Handle an empty configuration file",
+    "issue_body": "The parser raises an unexpected exception when the file is empty.",
+    "setup_commands": [
+      {
+        "argv": ["python", "-m", "pip", "install", "-e", "."],
+        "cwd": null,
+        "timeout_seconds": 120
+      }
+    ],
+    "test_commands": [
+      {
+        "argv": ["python", "-m", "pytest", "-q"],
+        "cwd": null,
+        "timeout_seconds": 300
+      }
+    ],
+    "timeout_seconds": 900
+  },
+  "allowed_tools": ["search_code", "read_file"],
+  "provider_response": {
+    "request_id": "44444444-4444-4444-8444-444444444444",
+    "action": {
+      "kind": "tool_call",
+      "tool_call": {
+        "call_id": "55555555-5555-4555-8555-555555555555",
+        "tool_name": "read_file",
+        "validated_arguments": {
+          "relative_path": "parser.py",
+          "start_line": 1,
+          "end_line": 80
+        },
+        "requested_at": "2026-07-27T08:01:00Z"
+      },
+      "considered_tools": ["search_code", "read_file"],
+      "selection_reason": "Inspect the implementation identified by retrieval."
+    },
+    "usage": {
+      "input_tokens": 800,
+      "output_tokens": 120,
+      "total_tokens": 920,
+      "estimated_cost_usd": "0.0012",
+      "latency_ms": 350
+    }
+  },
+  "repository_summary": "A small deterministic Python fixture.",
+  "result_filename": "result.json",
+  "trace_filename": "trace.json"
+}

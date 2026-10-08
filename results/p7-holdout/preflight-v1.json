@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "preflight_version": "holdout-preflight-v1",
+  "plan_sha256": "e998481dab733bcb3c6590db35caf75fb2d27e48dc4a007ff9916ef5f0e3f7f7",
+  "checked_at": "2026-08-08T12:11:07.699174Z",
+  "controller_commit": "a4a425e8e3f2def67588d90fa59ca31df2e862b6",
+  "ready_for_paid_holdout": false,
+  "paid_requests_made": 0,
+  "gold_visible_to_agent": false,
+  "runtime_verified_task_count": 1,
+  "required_task_count": 8,
+  "checks": [
+    {
+      "check_id": "authorization",
+      "status": "not_run",
+      "error_code": "budget_authorization_required"
+    },
+    {
+      "check_id": "controller-source",
+      "status": "passed",
+      "error_code": null
+    },
+    {
+      "check_id": "embedding-snapshot",
+      "status": "not_run",
+      "error_code": "embedding_snapshot_unavailable"
+    },
+    {
+      "check_id": "freeze-identity",
+      "status": "passed",
+      "error_code": null
+    },
+    {
+      "check_id": "frozen-runtime",
+      "status": "passed",
+      "error_code": null
+    },
+    {
+      "check_id": "gold-boundary",
+      "status": "passed",
+      "error_code": null
+    },
+    {
+      "check_id": "output-root",
+      "status": "passed",
+      "error_code": null
+    },
+    {
+      "check_id": "provider-credential",
+      "status": "not_run",
+      "error_code": "provider_credential_required"
+    },
+    {
+      "check_id": "runtime-gold-validation",
+      "status": "blocked",
+      "error_code": "task_environment_unverified"
+    },
+    {
+      "check_id": "task-checkouts",
+      "status": "blocked",
+      "error_code": "task_checkout_unavailable"
+    },
+    {
+      "check_id": "task-environments",
+      "status": "blocked",
+      "error_code": "task_environment_unverified"
+    },
+    {
+      "check_id": "task-images",
+      "status": "blocked",
+      "error_code": "sandbox_image_unavailable"
+    },
+    {
+      "check_id": "vector-backend",
+      "status": "not_run",
+      "error_code": "vector_backend_unavailable"
+    }
+  ],
+  "task_observations": [
+    {
+      "task_id": "django__django-15902",
+      "python_version": "3.9",
+      "dataset_preflight_status": "metadata_verified",
+      "runtime_gold_verified": false,
+      "checkout_ready": false,
+      "task_image_ready": false
+    },
+    {
+      "task_id": "mwaskom__seaborn-3190",
+      "python_version": "3.9",
+      "dataset_preflight_status": "metadata_verified",
+      "runtime_gold_verified": false,
+      "checkout_ready": false,
+      "task_image_ready": false
+    },
+    {
+      "task_id": "pallets__flask-4992",
+      "python_version": "3.12.13",
+      "dataset_preflight_status": "baseline_failed_gold_passed",
+      "runtime_gold_verified": true,
+      "checkout_ready": false,
+      "task_image_ready": false
+    },
+    {
+      "task_id": "pydata__xarray-4094",
+      "python_version": "3.10",
+      "dataset_preflight_status": "metadata_verified",
+      "runtime_gold_verified": false,
+      "checkout_ready": false,
+      "task_image_ready": false
+    },
+    {
+      "task_id": "pydata__xarray-5131",
+      "python_version": "3.10",
+      "dataset_preflight_status": "metadata_verified",
+      "runtime_gold_verified": false,
+      "checkout_ready": false,
+      "task_image_ready": false
+    },
+    {
+      "task_id": "pytest-dev__pytest-11143",
+      "python_version": "3.9",
+      "dataset_preflight_status": "metadata_verified",
+      "runtime_gold_verified": false,
+      "checkout_ready": false,
+      "task_image_ready": false
+    },
+    {
+      "task_id": "pytest-dev__pytest-11148",
+      "python_version": "3.9",
+      "dataset_preflight_status": "metadata_verified",
+      "runtime_gold_verified": false,
+      "checkout_ready": false,
+      "task_image_ready": false
+    },
+    {
+      "task_id": "sympy__sympy-20590",
+      "python_version": "3.9",
+      "dataset_preflight_status": "metadata_verified",
+      "runtime_gold_verified": false,
+      "checkout_ready": false,
+      "task_image_ready": false
+    }
+  ],
+  "content_sha256": "6d499a601dcec7c939874ae3187225708b81c8187edabc5086819f6a5d667650"
+}

@@ -1,0 +1,17 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________________________ test_config_from_file_toml __________________________
+
+    def test_config_from_file_toml():
+        tomllib = pytest.importorskip("tomllib", reason="tomllib added in 3.11")
+        app = flask.Flask(__name__)
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+>       app.config.from_file(
+            os.path.join(current_dir, "static", "config.toml"), tomllib.load, text=False
+        )
+E       TypeError: Config.from_file() got an unexpected keyword argument 'text'
+
+tests/test_config.py:43: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_config.py::test_config_from_file_toml - TypeError: Config.f...
+1 failed in 0.04s

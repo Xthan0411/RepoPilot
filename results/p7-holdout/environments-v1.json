@@ -1,0 +1,378 @@
+{
+  "schema_version": 1,
+  "environment_version": "holdout-environments-v1",
+  "experiment_id": "repopilot-p7-v2",
+  "matrix_sha256": "d75d36d711f23190062aded9e97a8f5abfaba859416466027b227421ea7407e8",
+  "dataset_manifest_sha256": "89496bc2200149601333dadb9a6c7ac6b7d660b4bc7acf29c23597d33b660f60",
+  "execution_harness": "swe-bench",
+  "execution_harness_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+  "controller_commit": "f07fb6dc44131d966431d51c631f5eae353c60c6",
+  "created_at": "2026-08-08T17:33:28.763665Z",
+  "compatibility_preflight_raw_sha256": "9504aed7904436f807d890077f927dc3a4c0a6cfa890d383811535c2c8889c1c",
+  "compatibility_preflight_content_sha256": "6bb7ba706bf091896fd9e7415b686d3b6148dabcecb88dab0d6153d82c138916",
+  "registry_manifest_raw_sha256": "edc0b94b7ec8247e00e2f36c80d5f930e1dc7141602da9e6514f55338841fef9",
+  "registry_manifest_content_sha256": "5f52d0aac381330342daf1dc52bcf09961d18282f9ee391fe005a73627e27b8d",
+  "timeout_contract_version": "holdout-command-timeout-contract-v1",
+  "sandbox_command_timeout_seconds": 300,
+  "source_command_contract_sha256": "d4c64895e63376b984c105b2e778e2cb3f2ca90255c178447b1b172839b18e12",
+  "runtime_command_contract_sha256": "feea5cb1e8c5fbaff8c1dcdb65c58d2a67d127b4e7d8dee9a9f5608a5d008b7b",
+  "bindings": [
+    {
+      "task_id": "django__django-15902",
+      "base_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+      "python_version": "3.9",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/django__django-15902",
+      "checkout_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+      "sandbox_image_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/django-django-15902@sha256:71d7c25f3c0672cd8d37d1d70469dc7825bec6c5f0b661b811b0cd68de74fe6e",
+      "platform": "linux/amd64",
+      "setup_network": "none",
+      "agent_network": "none",
+      "timeout_contract_version": "holdout-command-timeout-contract-v1",
+      "task_timeout_seconds": 1800,
+      "command_timeout_cap_seconds": 300,
+      "setup_command_timeouts": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        }
+      ],
+      "test_command_timeouts": [
+        {
+          "phase": "test",
+          "command_index": 0,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        }
+      ],
+      "timeout_projection_sha256": "d235fad14dda902a8e18ec04169917bae7700919bda091257c0ffb3a1569050f",
+      "setup_commands_passed_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "gold_visible_to_agent": false
+    },
+    {
+      "task_id": "mwaskom__seaborn-3190",
+      "base_commit": "4a9e54962a29c12a8b103d75f838e0e795a6974d",
+      "python_version": "3.9",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/mwaskom__seaborn-3190",
+      "checkout_commit": "4a9e54962a29c12a8b103d75f838e0e795a6974d",
+      "sandbox_image_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/mwaskom-seaborn-3190@sha256:f28526fca415d665adaf6eec0986cb76ed4c0b7b3e6e60a488d8b24e1687b254",
+      "platform": "linux/amd64",
+      "setup_network": "none",
+      "agent_network": "none",
+      "timeout_contract_version": "holdout-command-timeout-contract-v1",
+      "task_timeout_seconds": 1800,
+      "command_timeout_cap_seconds": 300,
+      "setup_command_timeouts": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 900,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 900,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        }
+      ],
+      "test_command_timeouts": [
+        {
+          "phase": "test",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": false
+        }
+      ],
+      "timeout_projection_sha256": "c276bd4ddc7a0e069d15ad3d1fc87c88691ef94db060560ab28826425716c35f",
+      "setup_commands_passed_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "gold_visible_to_agent": false
+    },
+    {
+      "task_id": "pallets__flask-4992",
+      "base_commit": "4c288bc97ea371817199908d0d9b12de9dae327e",
+      "python_version": "3.12.13",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/pallets__flask-4992",
+      "checkout_commit": "4c288bc97ea371817199908d0d9b12de9dae327e",
+      "sandbox_image_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/pallets-flask-4992@sha256:16020d8e3c4bb078968ddcb210e5dab01caeb7c916ae177a53e92d624a762f45",
+      "platform": "linux/amd64",
+      "setup_network": "none",
+      "agent_network": "none",
+      "timeout_contract_version": "holdout-command-timeout-contract-v1",
+      "task_timeout_seconds": 900,
+      "command_timeout_cap_seconds": 300,
+      "setup_command_timeouts": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        }
+      ],
+      "test_command_timeouts": [
+        {
+          "phase": "test",
+          "command_index": 0,
+          "declared_timeout_seconds": 120,
+          "effective_timeout_seconds": 120,
+          "capped_by_sandbox_policy": false
+        }
+      ],
+      "timeout_projection_sha256": "389c491541e86d8c4b5940c140e53457adf1c6fd12243159fcb9b2e58dd14e91",
+      "setup_commands_passed_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "gold_visible_to_agent": false
+    },
+    {
+      "task_id": "pydata__xarray-4094",
+      "base_commit": "a64cf2d5476e7bbda099b34c40b7be1880dbd39a",
+      "python_version": "3.10",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/pydata__xarray-4094",
+      "checkout_commit": "a64cf2d5476e7bbda099b34c40b7be1880dbd39a",
+      "sandbox_image_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/pydata-xarray-4094@sha256:c185972a8f30dd574c2e7b513bc196c27e3b1525da1a5925aa8751bf13496641",
+      "platform": "linux/amd64",
+      "setup_network": "none",
+      "agent_network": "none",
+      "timeout_contract_version": "holdout-command-timeout-contract-v1",
+      "task_timeout_seconds": 1800,
+      "command_timeout_cap_seconds": 300,
+      "setup_command_timeouts": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 900,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 900,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        }
+      ],
+      "test_command_timeouts": [
+        {
+          "phase": "test",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": false
+        }
+      ],
+      "timeout_projection_sha256": "10ea0521ccc03b395bef5b4bdc8b692ee251d53397956f6003fc6ca1c35229b0",
+      "setup_commands_passed_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "gold_visible_to_agent": false
+    },
+    {
+      "task_id": "pydata__xarray-5131",
+      "base_commit": "e56905889c836c736152b11a7e6117a229715975",
+      "python_version": "3.10",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/pydata__xarray-5131",
+      "checkout_commit": "e56905889c836c736152b11a7e6117a229715975",
+      "sandbox_image_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/pydata-xarray-5131@sha256:abc19761ed4dc42819bdc998d2c9bfde89cf711a94b3636d36439ec281f4ec01",
+      "platform": "linux/amd64",
+      "setup_network": "none",
+      "agent_network": "none",
+      "timeout_contract_version": "holdout-command-timeout-contract-v1",
+      "task_timeout_seconds": 1800,
+      "command_timeout_cap_seconds": 300,
+      "setup_command_timeouts": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 900,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 900,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        }
+      ],
+      "test_command_timeouts": [
+        {
+          "phase": "test",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": false
+        }
+      ],
+      "timeout_projection_sha256": "bf38d36647086d877cba20d1a6204cc222fb90e0237e1303e3f4c258a349d298",
+      "setup_commands_passed_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "gold_visible_to_agent": false
+    },
+    {
+      "task_id": "pytest-dev__pytest-11143",
+      "base_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+      "python_version": "3.9",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/pytest-dev__pytest-11143",
+      "checkout_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+      "sandbox_image_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/pytest-dev-pytest-11143@sha256:fd2e2f864267d1c77c0c1200c2c103b63695aba47b4254d03ab749ca5bdfc0d7",
+      "platform": "linux/amd64",
+      "setup_network": "none",
+      "agent_network": "none",
+      "timeout_contract_version": "holdout-command-timeout-contract-v1",
+      "task_timeout_seconds": 1200,
+      "command_timeout_cap_seconds": 300,
+      "setup_command_timeouts": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        }
+      ],
+      "test_command_timeouts": [
+        {
+          "phase": "test",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": false
+        }
+      ],
+      "timeout_projection_sha256": "544a51942e8df13cc5e789998d267cab995edb1b0fd6b3dfa10522f8db7fa95b",
+      "setup_commands_passed_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "gold_visible_to_agent": false
+    },
+    {
+      "task_id": "pytest-dev__pytest-11148",
+      "base_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+      "python_version": "3.9",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/pytest-dev__pytest-11148",
+      "checkout_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+      "sandbox_image_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/pytest-dev-pytest-11148@sha256:594512ec56fc54e75eea39fe252e49040069ee3716744f0d3678bef9b83ed496",
+      "platform": "linux/amd64",
+      "setup_network": "none",
+      "agent_network": "none",
+      "timeout_contract_version": "holdout-command-timeout-contract-v1",
+      "task_timeout_seconds": 1200,
+      "command_timeout_cap_seconds": 300,
+      "setup_command_timeouts": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        }
+      ],
+      "test_command_timeouts": [
+        {
+          "phase": "test",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": false
+        }
+      ],
+      "timeout_projection_sha256": "9c560a5c79e38f97770f8a8eeb8df7a1027e52c170530c7c800d4cbe2bf54945",
+      "setup_commands_passed_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "gold_visible_to_agent": false
+    },
+    {
+      "task_id": "sympy__sympy-20590",
+      "base_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+      "python_version": "3.9",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/sympy__sympy-20590",
+      "checkout_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+      "sandbox_image_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/sympy-sympy-20590@sha256:0bc1232d1c89c179c63124a219070af8406f6e25a4932a017c7a0b0cc270fe37",
+      "platform": "linux/amd64",
+      "setup_network": "none",
+      "agent_network": "none",
+      "timeout_contract_version": "holdout-command-timeout-contract-v1",
+      "task_timeout_seconds": 1200,
+      "command_timeout_cap_seconds": 300,
+      "setup_command_timeouts": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": true
+        }
+      ],
+      "test_command_timeouts": [
+        {
+          "phase": "test",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "capped_by_sandbox_policy": false
+        }
+      ],
+      "timeout_projection_sha256": "004301d7c0eb60320de1f7cf52ceb4b6b342aa812ae726c3d6182970c8991160",
+      "setup_commands_passed_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "gold_visible_to_agent": false
+    }
+  ],
+  "paid_requests_made": 0,
+  "gold_visible_to_agent": false,
+  "formal_environment_ready": true,
+  "formal_blockers": [],
+  "content_sha256": "5b6135dba064954ac163db3dd3a2d3e543a356856193390692666a638995154d"
+}

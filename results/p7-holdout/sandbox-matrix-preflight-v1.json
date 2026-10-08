@@ -1,0 +1,1053 @@
+{
+  "schema_version": 1,
+  "preflight_version": "p7-sandbox-matrix-preflight-v1",
+  "controller_commit": "5f2076fdfc6bfb9963e4524a9727434d7f5d2707",
+  "collected_at": "2026-08-08T16:05:08.154531Z",
+  "upstream_qualification_sha256": "87485a4698f4fcda080c97ac1e1efb49f4024aae0d1455f022dc03a41ad4d416",
+  "harness_revision": "726c5461e2ef52d83cf1ea2107870a8bb3328d57",
+  "host_platform": "linux/amd64",
+  "task_evidence": [
+    {
+      "task_id": "django__django-15902",
+      "base_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+      "declared_python_version": "3.9",
+      "observed_python_version": "3.9.20",
+      "python_matches_declaration": true,
+      "upstream_image_reference": "swebench/sweb.eval.x86_64.django_1776_django-15902@sha256:caaa0c07529900219d037e08ca6349252c1d2e3c88dd3aea1b0c775e6ec9d66b",
+      "adapter_base_image_reference": "swebench/sweb.eval.x86_64.django_1776_django-15902@sha256:caaa0c07529900219d037e08ca6349252c1d2e3c88dd3aea1b0c775e6ec9d66b",
+      "adapter_build_network": "none",
+      "adapter_bootstrap_packages": [],
+      "adapter_build_tools": [],
+      "adapter_scm_pretend_version": null,
+      "adapted_local_image_id": "sha256:71d7c25f3c0672cd8d37d1d70469dc7825bec6c5f0b661b811b0cd68de74fe6e",
+      "adapted_policy_reference": "repopilot.local/p7/django-django-15902@sha256:71d7c25f3c0672cd8d37d1d70469dc7825bec6c5f0b661b811b0cd68de74fe6e",
+      "platform": "linux/amd64",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/django__django-15902",
+      "checkout_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+      "checkout_clean": true,
+      "sandbox_preparation": {
+        "container_id": "f6dd137da4a1afb0e1f181d92a6a1ffdfacedb232712574fdbbd2e2cb5c27ecd",
+        "container_name": "repopilot-sbx-p7-django-django-15902",
+        "policy_request_sha256": "4c1f1ce9860599a61d7eb9463960105b6af4fb7917adbbe3c4a5b4460631aac9",
+        "inspection": {
+          "container_id": "f6dd137da4a1afb0e1f181d92a6a1ffdfacedb232712574fdbbd2e2cb5c27ecd",
+          "image_id": "sha256:71d7c25f3c0672cd8d37d1d70469dc7825bec6c5f0b661b811b0cd68de74fe6e",
+          "running": true,
+          "user": "65532:65532",
+          "network_mode": "none",
+          "network_names": [
+            "none"
+          ],
+          "read_only_rootfs": true,
+          "privileged": false,
+          "cap_drop": [
+            "ALL"
+          ],
+          "security_options": [
+            "no-new-privileges"
+          ],
+          "nano_cpus": 1000000000,
+          "memory_bytes": 1073741824,
+          "pids_limit": 256,
+          "tmpfs": {
+            "/workspace": "rw,nosuid,nodev,size=256m,uid=65532,gid=65532,mode=0750"
+          },
+          "mounts": [],
+          "environment_names": [
+            "CI",
+            "HOME",
+            "PATH",
+            "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+            "PYTHONDONTWRITEBYTECODE",
+            "PYTHONUNBUFFERED",
+            "PYTHONUSERBASE",
+            "TMPDIR",
+            "TZ"
+          ],
+          "labels": {
+            "com.repopilot.managed": "true",
+            "com.repopilot.policy_request_sha256": "4c1f1ce9860599a61d7eb9463960105b6af4fb7917adbbe3c4a5b4460631aac9",
+            "com.repopilot.repository_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+            "com.repopilot.sandbox_id": "sbx-p7-django-django-15902",
+            "com.repopilot.task_id_sha256": "5e7589a5666dbbd9156664fe2fa9f5f9191bdc78d40fe59996457e93f0927706",
+            "org.opencontainers.image.ref.name": "ubuntu",
+            "org.opencontainers.image.version": "22.04"
+          },
+          "workdir": "/workspace"
+        },
+        "workspace_copy": {
+          "file_count": 6641,
+          "directory_count": 3165,
+          "byte_count": 41631121,
+          "skipped_symlink_count": 4,
+          "skipped_denied_count": 1
+        }
+      },
+      "setup_commands": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "baseline_tests": [
+        {
+          "phase": "baseline",
+          "command_index": 0,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 1
+        }
+      ],
+      "gold_tests": [
+        {
+          "phase": "gold",
+          "command_index": 0,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "setup_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "test_patch_persisted_outside_temporary_evaluator": false,
+      "gold_persisted_outside_temporary_evaluator": false,
+      "gold_visible_to_agent": false
+    },
+    {
+      "task_id": "mwaskom__seaborn-3190",
+      "base_commit": "4a9e54962a29c12a8b103d75f838e0e795a6974d",
+      "declared_python_version": "3.9",
+      "observed_python_version": "3.9.20",
+      "python_matches_declaration": true,
+      "upstream_image_reference": "swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3190@sha256:437f1c9c98b65edc3ba3c2cb3348d7dcfc4fc7b17d5a2d8f0c6a80ce03499815",
+      "adapter_base_image_reference": "swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3190@sha256:437f1c9c98b65edc3ba3c2cb3348d7dcfc4fc7b17d5a2d8f0c6a80ce03499815",
+      "adapter_build_network": "none",
+      "adapter_bootstrap_packages": [],
+      "adapter_build_tools": [],
+      "adapter_scm_pretend_version": null,
+      "adapted_local_image_id": "sha256:f28526fca415d665adaf6eec0986cb76ed4c0b7b3e6e60a488d8b24e1687b254",
+      "adapted_policy_reference": "repopilot.local/p7/mwaskom-seaborn-3190@sha256:f28526fca415d665adaf6eec0986cb76ed4c0b7b3e6e60a488d8b24e1687b254",
+      "platform": "linux/amd64",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/mwaskom__seaborn-3190",
+      "checkout_commit": "4a9e54962a29c12a8b103d75f838e0e795a6974d",
+      "checkout_clean": true,
+      "sandbox_preparation": {
+        "container_id": "d2f507976bfc858a270b904427ecfc45aaafbdc3123aca9325d3432edc86e1b7",
+        "container_name": "repopilot-sbx-p7-mwaskom-seaborn-3190",
+        "policy_request_sha256": "e069e5b9ac26bd0608d64da3bab72a0b9356cba33fef088f716e2f686127cebe",
+        "inspection": {
+          "container_id": "d2f507976bfc858a270b904427ecfc45aaafbdc3123aca9325d3432edc86e1b7",
+          "image_id": "sha256:f28526fca415d665adaf6eec0986cb76ed4c0b7b3e6e60a488d8b24e1687b254",
+          "running": true,
+          "user": "65532:65532",
+          "network_mode": "none",
+          "network_names": [
+            "none"
+          ],
+          "read_only_rootfs": true,
+          "privileged": false,
+          "cap_drop": [
+            "ALL"
+          ],
+          "security_options": [
+            "no-new-privileges"
+          ],
+          "nano_cpus": 1000000000,
+          "memory_bytes": 1073741824,
+          "pids_limit": 256,
+          "tmpfs": {
+            "/workspace": "rw,nosuid,nodev,size=256m,uid=65532,gid=65532,mode=0750"
+          },
+          "mounts": [],
+          "environment_names": [
+            "CI",
+            "HOME",
+            "PATH",
+            "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+            "PYTHONDONTWRITEBYTECODE",
+            "PYTHONUNBUFFERED",
+            "PYTHONUSERBASE",
+            "TMPDIR",
+            "TZ"
+          ],
+          "labels": {
+            "com.repopilot.managed": "true",
+            "com.repopilot.policy_request_sha256": "e069e5b9ac26bd0608d64da3bab72a0b9356cba33fef088f716e2f686127cebe",
+            "com.repopilot.repository_commit": "4a9e54962a29c12a8b103d75f838e0e795a6974d",
+            "com.repopilot.sandbox_id": "sbx-p7-mwaskom-seaborn-3190",
+            "com.repopilot.task_id_sha256": "48bfad25ca6333fda3b3c170729b5c7ae2b493f17cade407fb98d9a0fdea40c5",
+            "org.opencontainers.image.ref.name": "ubuntu",
+            "org.opencontainers.image.version": "22.04"
+          },
+          "workdir": "/workspace"
+        },
+        "workspace_copy": {
+          "file_count": 324,
+          "directory_count": 26,
+          "byte_count": 5424156,
+          "skipped_symlink_count": 0,
+          "skipped_denied_count": 1
+        }
+      },
+      "setup_commands": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 900,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 900,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "baseline_tests": [
+        {
+          "phase": "baseline",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 1
+        }
+      ],
+      "gold_tests": [
+        {
+          "phase": "gold",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "setup_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "test_patch_persisted_outside_temporary_evaluator": false,
+      "gold_persisted_outside_temporary_evaluator": false,
+      "gold_visible_to_agent": false
+    },
+    {
+      "task_id": "pallets__flask-4992",
+      "base_commit": "4c288bc97ea371817199908d0d9b12de9dae327e",
+      "declared_python_version": "3.12.13",
+      "observed_python_version": "3.12.13",
+      "python_matches_declaration": true,
+      "upstream_image_reference": "swebench/sweb.eval.x86_64.pallets_1776_flask-4992@sha256:89f8f7e5f6b32f3fc17a7376dbce9641b6263352568a27ebf92d2e398aa55677",
+      "adapter_base_image_reference": "python@sha256:6d43704baacd1bfbe7c295d7f13079d5d8104ed33568873133f8fc69980419df",
+      "adapter_build_network": "trusted_dependency_bootstrap",
+      "adapter_bootstrap_packages": [
+        "setuptools==70.0.0",
+        "click==8.1.3",
+        "itsdangerous==2.1.2",
+        "Jinja2==3.1.2",
+        "MarkupSafe==2.1.1",
+        "Werkzeug==2.3.7",
+        "pytest==8.4.2"
+      ],
+      "adapter_build_tools": [
+        "wheel==0.45.1"
+      ],
+      "adapter_scm_pretend_version": null,
+      "adapted_local_image_id": "sha256:16020d8e3c4bb078968ddcb210e5dab01caeb7c916ae177a53e92d624a762f45",
+      "adapted_policy_reference": "repopilot.local/p7/pallets-flask-4992@sha256:16020d8e3c4bb078968ddcb210e5dab01caeb7c916ae177a53e92d624a762f45",
+      "platform": "linux/amd64",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/pallets__flask-4992",
+      "checkout_commit": "4c288bc97ea371817199908d0d9b12de9dae327e",
+      "checkout_clean": true,
+      "sandbox_preparation": {
+        "container_id": "de04abb20355728dedc2784c01e8dcd34faa957f0858e22b0745273224b4b63c",
+        "container_name": "repopilot-sbx-p7-pallets-flask-4992",
+        "policy_request_sha256": "bb8f497bcbc49022ec311afda986ad945e18c1119126d0c5f2464e0c93f29e14",
+        "inspection": {
+          "container_id": "de04abb20355728dedc2784c01e8dcd34faa957f0858e22b0745273224b4b63c",
+          "image_id": "sha256:16020d8e3c4bb078968ddcb210e5dab01caeb7c916ae177a53e92d624a762f45",
+          "running": true,
+          "user": "65532:65532",
+          "network_mode": "none",
+          "network_names": [
+            "none"
+          ],
+          "read_only_rootfs": true,
+          "privileged": false,
+          "cap_drop": [
+            "ALL"
+          ],
+          "security_options": [
+            "no-new-privileges"
+          ],
+          "nano_cpus": 1000000000,
+          "memory_bytes": 1073741824,
+          "pids_limit": 256,
+          "tmpfs": {
+            "/workspace": "rw,nosuid,nodev,size=256m,uid=65532,gid=65532,mode=0750"
+          },
+          "mounts": [],
+          "environment_names": [
+            "CI",
+            "GPG_KEY",
+            "HOME",
+            "LANG",
+            "PATH",
+            "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+            "PYTHONDONTWRITEBYTECODE",
+            "PYTHONUNBUFFERED",
+            "PYTHONUSERBASE",
+            "PYTHON_SHA256",
+            "PYTHON_VERSION",
+            "TMPDIR"
+          ],
+          "labels": {
+            "com.repopilot.managed": "true",
+            "com.repopilot.policy_request_sha256": "bb8f497bcbc49022ec311afda986ad945e18c1119126d0c5f2464e0c93f29e14",
+            "com.repopilot.repository_commit": "4c288bc97ea371817199908d0d9b12de9dae327e",
+            "com.repopilot.sandbox_id": "sbx-p7-pallets-flask-4992",
+            "com.repopilot.task_id_sha256": "72dbf26bdf197d8844ea281d5cb855ed4fccd067d0f7851992c189a6930efee3"
+          },
+          "workdir": "/workspace"
+        },
+        "workspace_copy": {
+          "file_count": 250,
+          "directory_count": 51,
+          "byte_count": 1578133,
+          "skipped_symlink_count": 0,
+          "skipped_denied_count": 2
+        }
+      },
+      "setup_commands": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "baseline_tests": [
+        {
+          "phase": "baseline",
+          "command_index": 0,
+          "declared_timeout_seconds": 120,
+          "effective_timeout_seconds": 120,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 1
+        }
+      ],
+      "gold_tests": [
+        {
+          "phase": "gold",
+          "command_index": 0,
+          "declared_timeout_seconds": 120,
+          "effective_timeout_seconds": 120,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "setup_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "test_patch_persisted_outside_temporary_evaluator": false,
+      "gold_persisted_outside_temporary_evaluator": false,
+      "gold_visible_to_agent": false
+    },
+    {
+      "task_id": "pydata__xarray-4094",
+      "base_commit": "a64cf2d5476e7bbda099b34c40b7be1880dbd39a",
+      "declared_python_version": "3.10",
+      "observed_python_version": "3.10.15",
+      "python_matches_declaration": true,
+      "upstream_image_reference": "swebench/sweb.eval.x86_64.pydata_1776_xarray-4094@sha256:45e6b9897c749159b749a3737a7e79e5458baa7c8387844bc70ef0cbf46035c1",
+      "adapter_base_image_reference": "swebench/sweb.eval.x86_64.pydata_1776_xarray-4094@sha256:45e6b9897c749159b749a3737a7e79e5458baa7c8387844bc70ef0cbf46035c1",
+      "adapter_build_network": "trusted_dependency_bootstrap",
+      "adapter_bootstrap_packages": [],
+      "adapter_build_tools": [
+        "setuptools-scm==7.1.0"
+      ],
+      "adapter_scm_pretend_version": "0.15.2.dev110+ga64cf2d54",
+      "adapted_local_image_id": "sha256:c185972a8f30dd574c2e7b513bc196c27e3b1525da1a5925aa8751bf13496641",
+      "adapted_policy_reference": "repopilot.local/p7/pydata-xarray-4094@sha256:c185972a8f30dd574c2e7b513bc196c27e3b1525da1a5925aa8751bf13496641",
+      "platform": "linux/amd64",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/pydata__xarray-4094",
+      "checkout_commit": "a64cf2d5476e7bbda099b34c40b7be1880dbd39a",
+      "checkout_clean": true,
+      "sandbox_preparation": {
+        "container_id": "0802de6448c024c81bbd22ccc337c27b32fbff069eb8d164aea75baed0d59e5e",
+        "container_name": "repopilot-sbx-p7-pydata-xarray-4094",
+        "policy_request_sha256": "0a1ddf7945f128bfe3e379715ae7266e3c1f475eb33483fbe14d03b72c3a04cb",
+        "inspection": {
+          "container_id": "0802de6448c024c81bbd22ccc337c27b32fbff069eb8d164aea75baed0d59e5e",
+          "image_id": "sha256:c185972a8f30dd574c2e7b513bc196c27e3b1525da1a5925aa8751bf13496641",
+          "running": true,
+          "user": "65532:65532",
+          "network_mode": "none",
+          "network_names": [
+            "none"
+          ],
+          "read_only_rootfs": true,
+          "privileged": false,
+          "cap_drop": [
+            "ALL"
+          ],
+          "security_options": [
+            "no-new-privileges"
+          ],
+          "nano_cpus": 1000000000,
+          "memory_bytes": 1073741824,
+          "pids_limit": 256,
+          "tmpfs": {
+            "/workspace": "rw,nosuid,nodev,size=256m,uid=65532,gid=65532,mode=0750"
+          },
+          "mounts": [],
+          "environment_names": [
+            "CI",
+            "HOME",
+            "PATH",
+            "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+            "PYTHONDONTWRITEBYTECODE",
+            "PYTHONUNBUFFERED",
+            "PYTHONUSERBASE",
+            "SETUPTOOLS_SCM_PRETEND_VERSION_FOR_XARRAY",
+            "TMPDIR",
+            "TZ"
+          ],
+          "labels": {
+            "com.repopilot.managed": "true",
+            "com.repopilot.policy_request_sha256": "0a1ddf7945f128bfe3e379715ae7266e3c1f475eb33483fbe14d03b72c3a04cb",
+            "com.repopilot.repository_commit": "a64cf2d5476e7bbda099b34c40b7be1880dbd39a",
+            "com.repopilot.sandbox_id": "sbx-p7-pydata-xarray-4094",
+            "com.repopilot.task_id_sha256": "f14b80f569fbf03f1f3a33e322c03f1f3d2ffb6ff01e5526331c9347621c07bd",
+            "org.opencontainers.image.ref.name": "ubuntu",
+            "org.opencontainers.image.version": "22.04"
+          },
+          "workdir": "/workspace"
+        },
+        "workspace_copy": {
+          "file_count": 258,
+          "directory_count": 28,
+          "byte_count": 5075550,
+          "skipped_symlink_count": 0,
+          "skipped_denied_count": 1
+        }
+      },
+      "setup_commands": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 900,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 900,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "baseline_tests": [
+        {
+          "phase": "baseline",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 1
+        }
+      ],
+      "gold_tests": [
+        {
+          "phase": "gold",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "setup_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "test_patch_persisted_outside_temporary_evaluator": false,
+      "gold_persisted_outside_temporary_evaluator": false,
+      "gold_visible_to_agent": false
+    },
+    {
+      "task_id": "pydata__xarray-5131",
+      "base_commit": "e56905889c836c736152b11a7e6117a229715975",
+      "declared_python_version": "3.10",
+      "observed_python_version": "3.10.15",
+      "python_matches_declaration": true,
+      "upstream_image_reference": "swebench/sweb.eval.x86_64.pydata_1776_xarray-5131@sha256:5ba27adbd35bcb803b7e8a5c47bf2098be31402da44e50dd892dcb19e1faeabe",
+      "adapter_base_image_reference": "swebench/sweb.eval.x86_64.pydata_1776_xarray-5131@sha256:5ba27adbd35bcb803b7e8a5c47bf2098be31402da44e50dd892dcb19e1faeabe",
+      "adapter_build_network": "trusted_dependency_bootstrap",
+      "adapter_bootstrap_packages": [],
+      "adapter_build_tools": [
+        "setuptools-scm==7.1.0",
+        "setuptools-scm-git-archive==1.4.1"
+      ],
+      "adapter_scm_pretend_version": null,
+      "adapted_local_image_id": "sha256:abc19761ed4dc42819bdc998d2c9bfde89cf711a94b3636d36439ec281f4ec01",
+      "adapted_policy_reference": "repopilot.local/p7/pydata-xarray-5131@sha256:abc19761ed4dc42819bdc998d2c9bfde89cf711a94b3636d36439ec281f4ec01",
+      "platform": "linux/amd64",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/pydata__xarray-5131",
+      "checkout_commit": "e56905889c836c736152b11a7e6117a229715975",
+      "checkout_clean": true,
+      "sandbox_preparation": {
+        "container_id": "bec2f63b4850df7cc497ed2298005e9701ddfe43bd9fe9951bcb9c1216db061b",
+        "container_name": "repopilot-sbx-p7-pydata-xarray-5131",
+        "policy_request_sha256": "3c700f56f1d686792b4f22d6d95b271d865027673d6d183a83d53022ae443702",
+        "inspection": {
+          "container_id": "bec2f63b4850df7cc497ed2298005e9701ddfe43bd9fe9951bcb9c1216db061b",
+          "image_id": "sha256:abc19761ed4dc42819bdc998d2c9bfde89cf711a94b3636d36439ec281f4ec01",
+          "running": true,
+          "user": "65532:65532",
+          "network_mode": "none",
+          "network_names": [
+            "none"
+          ],
+          "read_only_rootfs": true,
+          "privileged": false,
+          "cap_drop": [
+            "ALL"
+          ],
+          "security_options": [
+            "no-new-privileges"
+          ],
+          "nano_cpus": 1000000000,
+          "memory_bytes": 1073741824,
+          "pids_limit": 256,
+          "tmpfs": {
+            "/workspace": "rw,nosuid,nodev,size=256m,uid=65532,gid=65532,mode=0750"
+          },
+          "mounts": [],
+          "environment_names": [
+            "CI",
+            "HOME",
+            "PATH",
+            "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+            "PYTHONDONTWRITEBYTECODE",
+            "PYTHONUNBUFFERED",
+            "PYTHONUSERBASE",
+            "TMPDIR",
+            "TZ"
+          ],
+          "labels": {
+            "com.repopilot.managed": "true",
+            "com.repopilot.policy_request_sha256": "3c700f56f1d686792b4f22d6d95b271d865027673d6d183a83d53022ae443702",
+            "com.repopilot.repository_commit": "e56905889c836c736152b11a7e6117a229715975",
+            "com.repopilot.sandbox_id": "sbx-p7-pydata-xarray-5131",
+            "com.repopilot.task_id_sha256": "1d228ebd1cc3bb65b8ff34f7a7e413f71323c35bdd65880765bf737bbdd2c4e6",
+            "org.opencontainers.image.ref.name": "ubuntu",
+            "org.opencontainers.image.version": "22.04"
+          },
+          "workdir": "/workspace"
+        },
+        "workspace_copy": {
+          "file_count": 284,
+          "directory_count": 33,
+          "byte_count": 6438687,
+          "skipped_symlink_count": 0,
+          "skipped_denied_count": 1
+        }
+      },
+      "setup_commands": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 900,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 900,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "baseline_tests": [
+        {
+          "phase": "baseline",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 1
+        }
+      ],
+      "gold_tests": [
+        {
+          "phase": "gold",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "setup_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "test_patch_persisted_outside_temporary_evaluator": false,
+      "gold_persisted_outside_temporary_evaluator": false,
+      "gold_visible_to_agent": false
+    },
+    {
+      "task_id": "pytest-dev__pytest-11143",
+      "base_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+      "declared_python_version": "3.9",
+      "observed_python_version": "3.9.20",
+      "python_matches_declaration": true,
+      "upstream_image_reference": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-11143@sha256:5e68de3d48b5c970ac24e7a01f662580e4a022da110b4a485ae7b25938f79e95",
+      "adapter_base_image_reference": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-11143@sha256:5e68de3d48b5c970ac24e7a01f662580e4a022da110b4a485ae7b25938f79e95",
+      "adapter_build_network": "trusted_dependency_bootstrap",
+      "adapter_bootstrap_packages": [],
+      "adapter_build_tools": [
+        "setuptools-scm==7.1.0"
+      ],
+      "adapter_scm_pretend_version": "8.0.0.dev53+g6995257cf",
+      "adapted_local_image_id": "sha256:fd2e2f864267d1c77c0c1200c2c103b63695aba47b4254d03ab749ca5bdfc0d7",
+      "adapted_policy_reference": "repopilot.local/p7/pytest-dev-pytest-11143@sha256:fd2e2f864267d1c77c0c1200c2c103b63695aba47b4254d03ab749ca5bdfc0d7",
+      "platform": "linux/amd64",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/pytest-dev__pytest-11143",
+      "checkout_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+      "checkout_clean": true,
+      "sandbox_preparation": {
+        "container_id": "5060362aa7b7d1429fa79210472d179c5b7c9cf64ad58139cbe3fc563033a54a",
+        "container_name": "repopilot-sbx-p7-pytest-dev-pytest-11143",
+        "policy_request_sha256": "219bc10191a63a24490b4e5ec5266148310a97140d146ee015c8acfc46b3bc72",
+        "inspection": {
+          "container_id": "5060362aa7b7d1429fa79210472d179c5b7c9cf64ad58139cbe3fc563033a54a",
+          "image_id": "sha256:fd2e2f864267d1c77c0c1200c2c103b63695aba47b4254d03ab749ca5bdfc0d7",
+          "running": true,
+          "user": "65532:65532",
+          "network_mode": "none",
+          "network_names": [
+            "none"
+          ],
+          "read_only_rootfs": true,
+          "privileged": false,
+          "cap_drop": [
+            "ALL"
+          ],
+          "security_options": [
+            "no-new-privileges"
+          ],
+          "nano_cpus": 1000000000,
+          "memory_bytes": 1073741824,
+          "pids_limit": 256,
+          "tmpfs": {
+            "/workspace": "rw,nosuid,nodev,size=256m,uid=65532,gid=65532,mode=0750"
+          },
+          "mounts": [],
+          "environment_names": [
+            "CI",
+            "HOME",
+            "PATH",
+            "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+            "PYTHONDONTWRITEBYTECODE",
+            "PYTHONUNBUFFERED",
+            "PYTHONUSERBASE",
+            "SETUPTOOLS_SCM_PRETEND_VERSION_FOR_PYTEST",
+            "TMPDIR",
+            "TZ"
+          ],
+          "labels": {
+            "com.repopilot.managed": "true",
+            "com.repopilot.policy_request_sha256": "219bc10191a63a24490b4e5ec5266148310a97140d146ee015c8acfc46b3bc72",
+            "com.repopilot.repository_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+            "com.repopilot.sandbox_id": "sbx-p7-pytest-dev-pytest-11143",
+            "com.repopilot.task_id_sha256": "330d2820d2ba8be954b9373ef5c81a97c950b9b8d6c833b0a9145d9c80e55923",
+            "org.opencontainers.image.ref.name": "ubuntu",
+            "org.opencontainers.image.version": "22.04"
+          },
+          "workdir": "/workspace"
+        },
+        "workspace_copy": {
+          "file_count": 578,
+          "directory_count": 74,
+          "byte_count": 5067943,
+          "skipped_symlink_count": 0,
+          "skipped_denied_count": 1
+        }
+      },
+      "setup_commands": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "baseline_tests": [
+        {
+          "phase": "baseline",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 1
+        }
+      ],
+      "gold_tests": [
+        {
+          "phase": "gold",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "setup_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "test_patch_persisted_outside_temporary_evaluator": false,
+      "gold_persisted_outside_temporary_evaluator": false,
+      "gold_visible_to_agent": false
+    },
+    {
+      "task_id": "pytest-dev__pytest-11148",
+      "base_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+      "declared_python_version": "3.9",
+      "observed_python_version": "3.9.20",
+      "python_matches_declaration": true,
+      "upstream_image_reference": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-11148@sha256:1ba6a4b7c5b26831c55c79a73095d2d1a0e08594f795c518d293880c5a8e11de",
+      "adapter_base_image_reference": "swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-11148@sha256:1ba6a4b7c5b26831c55c79a73095d2d1a0e08594f795c518d293880c5a8e11de",
+      "adapter_build_network": "trusted_dependency_bootstrap",
+      "adapter_bootstrap_packages": [],
+      "adapter_build_tools": [
+        "setuptools-scm==7.1.0"
+      ],
+      "adapter_scm_pretend_version": "8.0.0.dev46+g2f7415cfb",
+      "adapted_local_image_id": "sha256:594512ec56fc54e75eea39fe252e49040069ee3716744f0d3678bef9b83ed496",
+      "adapted_policy_reference": "repopilot.local/p7/pytest-dev-pytest-11148@sha256:594512ec56fc54e75eea39fe252e49040069ee3716744f0d3678bef9b83ed496",
+      "platform": "linux/amd64",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/pytest-dev__pytest-11148",
+      "checkout_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+      "checkout_clean": true,
+      "sandbox_preparation": {
+        "container_id": "3ffee8b779a1754fee7d8abbe06b1bc41a47f3b602584ee03c872a459adbaee3",
+        "container_name": "repopilot-sbx-p7-pytest-dev-pytest-11148",
+        "policy_request_sha256": "9d155792a528373ae10fcbc2e90bbbacfb367959022212ddce6652aad4723ea7",
+        "inspection": {
+          "container_id": "3ffee8b779a1754fee7d8abbe06b1bc41a47f3b602584ee03c872a459adbaee3",
+          "image_id": "sha256:594512ec56fc54e75eea39fe252e49040069ee3716744f0d3678bef9b83ed496",
+          "running": true,
+          "user": "65532:65532",
+          "network_mode": "none",
+          "network_names": [
+            "none"
+          ],
+          "read_only_rootfs": true,
+          "privileged": false,
+          "cap_drop": [
+            "ALL"
+          ],
+          "security_options": [
+            "no-new-privileges"
+          ],
+          "nano_cpus": 1000000000,
+          "memory_bytes": 1073741824,
+          "pids_limit": 256,
+          "tmpfs": {
+            "/workspace": "rw,nosuid,nodev,size=256m,uid=65532,gid=65532,mode=0750"
+          },
+          "mounts": [],
+          "environment_names": [
+            "CI",
+            "HOME",
+            "PATH",
+            "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+            "PYTHONDONTWRITEBYTECODE",
+            "PYTHONUNBUFFERED",
+            "PYTHONUSERBASE",
+            "SETUPTOOLS_SCM_PRETEND_VERSION_FOR_PYTEST",
+            "TMPDIR",
+            "TZ"
+          ],
+          "labels": {
+            "com.repopilot.managed": "true",
+            "com.repopilot.policy_request_sha256": "9d155792a528373ae10fcbc2e90bbbacfb367959022212ddce6652aad4723ea7",
+            "com.repopilot.repository_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+            "com.repopilot.sandbox_id": "sbx-p7-pytest-dev-pytest-11148",
+            "com.repopilot.task_id_sha256": "aaae20e06205e56e92c50dc5afa766071753ceb478129c3ac35f62c760a4eaab",
+            "org.opencontainers.image.ref.name": "ubuntu",
+            "org.opencontainers.image.version": "22.04"
+          },
+          "workdir": "/workspace"
+        },
+        "workspace_copy": {
+          "file_count": 576,
+          "directory_count": 74,
+          "byte_count": 5062923,
+          "skipped_symlink_count": 0,
+          "skipped_denied_count": 1
+        }
+      },
+      "setup_commands": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "baseline_tests": [
+        {
+          "phase": "baseline",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 1
+        }
+      ],
+      "gold_tests": [
+        {
+          "phase": "gold",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "setup_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "test_patch_persisted_outside_temporary_evaluator": false,
+      "gold_persisted_outside_temporary_evaluator": false,
+      "gold_visible_to_agent": false
+    },
+    {
+      "task_id": "sympy__sympy-20590",
+      "base_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+      "declared_python_version": "3.9",
+      "observed_python_version": "3.9.20",
+      "python_matches_declaration": true,
+      "upstream_image_reference": "swebench/sweb.eval.x86_64.sympy_1776_sympy-20590@sha256:530a7210e4570c9c62b676e316e6d429515749709e1090c8b30c74bdf410c743",
+      "adapter_base_image_reference": "swebench/sweb.eval.x86_64.sympy_1776_sympy-20590@sha256:530a7210e4570c9c62b676e316e6d429515749709e1090c8b30c74bdf410c743",
+      "adapter_build_network": "trusted_dependency_bootstrap",
+      "adapter_bootstrap_packages": [],
+      "adapter_build_tools": [
+        "iniconfig==2.0.0",
+        "packaging==23.1",
+        "pluggy==1.3.0",
+        "exceptiongroup==1.1.3",
+        "tomli==2.0.1",
+        "pytest==7.4.0"
+      ],
+      "adapter_scm_pretend_version": null,
+      "adapted_local_image_id": "sha256:0bc1232d1c89c179c63124a219070af8406f6e25a4932a017c7a0b0cc270fe37",
+      "adapted_policy_reference": "repopilot.local/p7/sympy-sympy-20590@sha256:0bc1232d1c89c179c63124a219070af8406f6e25a4932a017c7a0b0cc270fe37",
+      "platform": "linux/amd64",
+      "checkout_relative_path": "artifacts/p7-holdout/checkouts/sympy__sympy-20590",
+      "checkout_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+      "checkout_clean": true,
+      "sandbox_preparation": {
+        "container_id": "5ab37b2a14920fe95b120cd5ab75c31bef4633d38ac0856981f6e56a870eff85",
+        "container_name": "repopilot-sbx-p7-sympy-sympy-20590",
+        "policy_request_sha256": "4e01d340d1e6f4aeef1065d0fa0459f9d9690717b79a1e2cfbb06b26078a4713",
+        "inspection": {
+          "container_id": "5ab37b2a14920fe95b120cd5ab75c31bef4633d38ac0856981f6e56a870eff85",
+          "image_id": "sha256:0bc1232d1c89c179c63124a219070af8406f6e25a4932a017c7a0b0cc270fe37",
+          "running": true,
+          "user": "65532:65532",
+          "network_mode": "none",
+          "network_names": [
+            "none"
+          ],
+          "read_only_rootfs": true,
+          "privileged": false,
+          "cap_drop": [
+            "ALL"
+          ],
+          "security_options": [
+            "no-new-privileges"
+          ],
+          "nano_cpus": 1000000000,
+          "memory_bytes": 1073741824,
+          "pids_limit": 256,
+          "tmpfs": {
+            "/workspace": "rw,nosuid,nodev,size=256m,uid=65532,gid=65532,mode=0750"
+          },
+          "mounts": [],
+          "environment_names": [
+            "CI",
+            "HOME",
+            "PATH",
+            "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+            "PYTHONDONTWRITEBYTECODE",
+            "PYTHONUNBUFFERED",
+            "PYTHONUSERBASE",
+            "TMPDIR",
+            "TZ"
+          ],
+          "labels": {
+            "com.repopilot.managed": "true",
+            "com.repopilot.policy_request_sha256": "4e01d340d1e6f4aeef1065d0fa0459f9d9690717b79a1e2cfbb06b26078a4713",
+            "com.repopilot.repository_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+            "com.repopilot.sandbox_id": "sbx-p7-sympy-sympy-20590",
+            "com.repopilot.task_id_sha256": "2b1caeb1ae057b6961323220b99eb8222ab33276faa996a7f08eee4a39b86d11",
+            "org.opencontainers.image.ref.name": "ubuntu",
+            "org.opencontainers.image.version": "22.04"
+          },
+          "workdir": "/workspace"
+        },
+        "workspace_copy": {
+          "file_count": 1828,
+          "directory_count": 214,
+          "byte_count": 32985514,
+          "skipped_symlink_count": 0,
+          "skipped_denied_count": 1
+        }
+      },
+      "setup_commands": [
+        {
+          "phase": "setup",
+          "command_index": 0,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        },
+        {
+          "phase": "setup",
+          "command_index": 1,
+          "declared_timeout_seconds": 600,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "baseline_tests": [
+        {
+          "phase": "baseline",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 1
+        }
+      ],
+      "gold_tests": [
+        {
+          "phase": "gold",
+          "command_index": 0,
+          "declared_timeout_seconds": 300,
+          "effective_timeout_seconds": 300,
+          "network_requested": false,
+          "policy_decision": "allowed",
+          "exit_code": 0
+        }
+      ],
+      "setup_offline": true,
+      "baseline_failed": true,
+      "gold_passed": true,
+      "test_patch_persisted_outside_temporary_evaluator": false,
+      "gold_persisted_outside_temporary_evaluator": false,
+      "gold_visible_to_agent": false
+    }
+  ],
+  "adapter_verified_task_count": 8,
+  "required_task_count": 8,
+  "python_mismatch_task_ids": [],
+  "paid_requests_made": 0,
+  "gold_visible_to_agent": false,
+  "compatibility_preflight_passed": true,
+  "formal_environment_ready": false,
+  "formal_blockers": [
+    "registry_digest_required",
+    "task_command_timeout_contract_mismatch"
+  ],
+  "content_sha256": "6bb7ba706bf091896fd9e7415b686d3b6148dabcecb88dab0d6153d82c138916"
+}

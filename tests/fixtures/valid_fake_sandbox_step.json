@@ -1,0 +1,26 @@
+{
+  "request": {
+    "operation": "read_file",
+    "call_id": "66666666-6666-4666-8666-666666666666",
+    "relative_path": "parser.py",
+    "start_line": 1,
+    "end_line": 80
+  },
+  "observation": {
+    "call_id": "66666666-6666-4666-8666-666666666666",
+    "started_at": "2026-07-27T08:01:01Z",
+    "duration_ms": 3,
+    "exit_code": 0,
+    "stdout_ref": {
+      "relative_path": "runs/run-001/read-parser.txt",
+      "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "size_bytes": 512,
+      "media_type": "text/plain"
+    },
+    "stderr_ref": null,
+    "truncated": false,
+    "sandbox_id": "sandbox-run-001",
+    "policy_decision": "allowed",
+    "error_type": null
+  }
+}

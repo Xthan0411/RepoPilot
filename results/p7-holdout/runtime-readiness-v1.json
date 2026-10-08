@@ -1,0 +1,253 @@
+{
+  "schema_version": 1,
+  "readiness_version": "holdout-runtime-readiness-v1",
+  "experiment_id": "repopilot-p7-v2",
+  "controller_commit": "9ce31bfe0f3466e46dd2ddcc6967646aa3084904",
+  "checked_at": "2026-08-08T18:23:03.207351Z",
+  "host_platform": "linux/amd64",
+  "plan_raw_sha256": "c7cfe45e1509ef46b0405048fe279bb1faf18d6c4cac5f1b7807c8308439ef0d",
+  "plan_content_sha256": "e998481dab733bcb3c6590db35caf75fb2d27e48dc4a007ff9916ef5f0e3f7f7",
+  "authorization_raw_sha256": "37df6c2210f71c3046cfc9c79101b4911b00e4143cc9a47999276fd7009aec58",
+  "authorization_content_sha256": "561f47755a255c22b1a3c6a604071b2981f68df49b05dc12e65e8b57f0aa3402",
+  "environment_raw_sha256": "b7c6f04283433859e462edb7105ad5411700703fa3557b1281fafc3ccb99890d",
+  "environment_content_sha256": "5b6135dba064954ac163db3dd3a2d3e543a356856193390692666a638995154d",
+  "frozen_runtime": {
+    "validation": "frozen_source_plus_audited_compatibility_patch",
+    "frozen_source_commit": "a1fdecc1d33857cb5655d2b129e129f240dbbcfb",
+    "environment_controller_commit": "f07fb6dc44131d966431d51c631f5eae353c60c6",
+    "changed_paths": [
+      "src/repopilot/sandbox/docker.py"
+    ],
+    "base_blob_git_sha1": "ac0f4c4050350555644fb81e354a658d0d1de73f",
+    "result_blob_git_sha1": "67c326a0ec8408c5dcd3661d099ec730e8986721",
+    "patch_sha256": "eab26db5938e04385aa770b203bf736ae142171d6979b3395ca19c363fa0faf1",
+    "compatibility_scope": "sandbox_workspace_archive_metadata_only",
+    "changes_model_prompt_retrieval_task_or_scoring": false
+  },
+  "allowed_secret_environment": [
+    "DATABASE_URL",
+    "OPENAI_API_KEY"
+  ],
+  "provider": {
+    "validation": "non_blank_presence_only",
+    "available": true,
+    "api_requests_made": 0,
+    "secret_persisted": false
+  },
+  "embedding": {
+    "provider": "jina_local",
+    "model": "jinaai/jina-embeddings-v2-base-code",
+    "revision": "516f4baf13dec4ddddda8631e019b5737c8bc250",
+    "code_revision": "3baf9e3ac750e76e8edd3019170176884695fb94",
+    "identity_sha256": "13cdbcea7a69afcb256c6a55a920984a800c80e03bc88bd4890be4da8d2fbdbf",
+    "normalized": true,
+    "maximum_length": 2048,
+    "declared_dimension": 768,
+    "probe_content_sha256": "611508dd77d83428b7522372c8828b4916839a9b3eac325c3175b6acc0770575",
+    "observed_vector_count": 1,
+    "observed_dimension": 768,
+    "final_probe_network": "offline",
+    "cache_preparation_network_used": true
+  },
+  "vector_backend": {
+    "backend": "pgvector",
+    "schema_name": "repopilot",
+    "table_name": "vector_embeddings",
+    "extension_version": "0.8.5",
+    "dimension": 768,
+    "database_url_persisted": false
+  },
+  "images": [
+    {
+      "task_id": "django__django-15902",
+      "registry_digest_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/django-django-15902@sha256:71d7c25f3c0672cd8d37d1d70469dc7825bec6c5f0b661b811b0cd68de74fe6e",
+      "local_image_id": "sha256:71d7c25f3c0672cd8d37d1d70469dc7825bec6c5f0b661b811b0cd68de74fe6e"
+    },
+    {
+      "task_id": "mwaskom__seaborn-3190",
+      "registry_digest_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/mwaskom-seaborn-3190@sha256:f28526fca415d665adaf6eec0986cb76ed4c0b7b3e6e60a488d8b24e1687b254",
+      "local_image_id": "sha256:f28526fca415d665adaf6eec0986cb76ed4c0b7b3e6e60a488d8b24e1687b254"
+    },
+    {
+      "task_id": "pallets__flask-4992",
+      "registry_digest_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/pallets-flask-4992@sha256:16020d8e3c4bb078968ddcb210e5dab01caeb7c916ae177a53e92d624a762f45",
+      "local_image_id": "sha256:16020d8e3c4bb078968ddcb210e5dab01caeb7c916ae177a53e92d624a762f45"
+    },
+    {
+      "task_id": "pydata__xarray-4094",
+      "registry_digest_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/pydata-xarray-4094@sha256:c185972a8f30dd574c2e7b513bc196c27e3b1525da1a5925aa8751bf13496641",
+      "local_image_id": "sha256:c185972a8f30dd574c2e7b513bc196c27e3b1525da1a5925aa8751bf13496641"
+    },
+    {
+      "task_id": "pydata__xarray-5131",
+      "registry_digest_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/pydata-xarray-5131@sha256:abc19761ed4dc42819bdc998d2c9bfde89cf711a94b3636d36439ec281f4ec01",
+      "local_image_id": "sha256:abc19761ed4dc42819bdc998d2c9bfde89cf711a94b3636d36439ec281f4ec01"
+    },
+    {
+      "task_id": "pytest-dev__pytest-11143",
+      "registry_digest_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/pytest-dev-pytest-11143@sha256:fd2e2f864267d1c77c0c1200c2c103b63695aba47b4254d03ab749ca5bdfc0d7",
+      "local_image_id": "sha256:fd2e2f864267d1c77c0c1200c2c103b63695aba47b4254d03ab749ca5bdfc0d7"
+    },
+    {
+      "task_id": "pytest-dev__pytest-11148",
+      "registry_digest_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/pytest-dev-pytest-11148@sha256:594512ec56fc54e75eea39fe252e49040069ee3716744f0d3678bef9b83ed496",
+      "local_image_id": "sha256:594512ec56fc54e75eea39fe252e49040069ee3716744f0d3678bef9b83ed496"
+    },
+    {
+      "task_id": "sympy__sympy-20590",
+      "registry_digest_reference": "us-west1-docker.pkg.dev/repopilot-504912/repopilot-p7-s6/sympy-sympy-20590@sha256:0bc1232d1c89c179c63124a219070af8406f6e25a4932a017c7a0b0cc270fe37",
+      "local_image_id": "sha256:0bc1232d1c89c179c63124a219070af8406f6e25a4932a017c7a0b0cc270fe37"
+    }
+  ],
+  "preflight": {
+    "schema_version": 1,
+    "preflight_version": "holdout-preflight-v1",
+    "plan_sha256": "e998481dab733bcb3c6590db35caf75fb2d27e48dc4a007ff9916ef5f0e3f7f7",
+    "checked_at": "2026-08-08T18:23:03.207351Z",
+    "controller_commit": "9ce31bfe0f3466e46dd2ddcc6967646aa3084904",
+    "ready_for_paid_holdout": true,
+    "paid_requests_made": 0,
+    "gold_visible_to_agent": false,
+    "runtime_verified_task_count": 8,
+    "required_task_count": 8,
+    "checks": [
+      {
+        "check_id": "authorization",
+        "status": "passed",
+        "error_code": null
+      },
+      {
+        "check_id": "controller-source",
+        "status": "passed",
+        "error_code": null
+      },
+      {
+        "check_id": "embedding-snapshot",
+        "status": "passed",
+        "error_code": null
+      },
+      {
+        "check_id": "freeze-identity",
+        "status": "passed",
+        "error_code": null
+      },
+      {
+        "check_id": "frozen-runtime",
+        "status": "passed",
+        "error_code": null
+      },
+      {
+        "check_id": "gold-boundary",
+        "status": "passed",
+        "error_code": null
+      },
+      {
+        "check_id": "output-root",
+        "status": "passed",
+        "error_code": null
+      },
+      {
+        "check_id": "provider-credential",
+        "status": "passed",
+        "error_code": null
+      },
+      {
+        "check_id": "runtime-gold-validation",
+        "status": "passed",
+        "error_code": null
+      },
+      {
+        "check_id": "task-checkouts",
+        "status": "passed",
+        "error_code": null
+      },
+      {
+        "check_id": "task-environments",
+        "status": "passed",
+        "error_code": null
+      },
+      {
+        "check_id": "task-images",
+        "status": "passed",
+        "error_code": null
+      },
+      {
+        "check_id": "vector-backend",
+        "status": "passed",
+        "error_code": null
+      }
+    ],
+    "task_observations": [
+      {
+        "task_id": "django__django-15902",
+        "python_version": "3.9",
+        "dataset_preflight_status": "metadata_verified",
+        "runtime_gold_verified": true,
+        "checkout_ready": true,
+        "task_image_ready": true
+      },
+      {
+        "task_id": "mwaskom__seaborn-3190",
+        "python_version": "3.9",
+        "dataset_preflight_status": "metadata_verified",
+        "runtime_gold_verified": true,
+        "checkout_ready": true,
+        "task_image_ready": true
+      },
+      {
+        "task_id": "pallets__flask-4992",
+        "python_version": "3.12.13",
+        "dataset_preflight_status": "baseline_failed_gold_passed",
+        "runtime_gold_verified": true,
+        "checkout_ready": true,
+        "task_image_ready": true
+      },
+      {
+        "task_id": "pydata__xarray-4094",
+        "python_version": "3.10",
+        "dataset_preflight_status": "metadata_verified",
+        "runtime_gold_verified": true,
+        "checkout_ready": true,
+        "task_image_ready": true
+      },
+      {
+        "task_id": "pydata__xarray-5131",
+        "python_version": "3.10",
+        "dataset_preflight_status": "metadata_verified",
+        "runtime_gold_verified": true,
+        "checkout_ready": true,
+        "task_image_ready": true
+      },
+      {
+        "task_id": "pytest-dev__pytest-11143",
+        "python_version": "3.9",
+        "dataset_preflight_status": "metadata_verified",
+        "runtime_gold_verified": true,
+        "checkout_ready": true,
+        "task_image_ready": true
+      },
+      {
+        "task_id": "pytest-dev__pytest-11148",
+        "python_version": "3.9",
+        "dataset_preflight_status": "metadata_verified",
+        "runtime_gold_verified": true,
+        "checkout_ready": true,
+        "task_image_ready": true
+      },
+      {
+        "task_id": "sympy__sympy-20590",
+        "python_version": "3.9",
+        "dataset_preflight_status": "metadata_verified",
+        "runtime_gold_verified": true,
+        "checkout_ready": true,
+        "task_image_ready": true
+      }
+    ],
+    "content_sha256": "b4e9b771cf136da581aaaf9c91c990c83a3da75b561995deef663663f512d2b7"
+  },
+  "paid_requests_made": 0,
+  "gold_visible_to_agent": false,
+  "ready_for_paid_holdout": true,
+  "formal_blockers": [],
+  "content_sha256": "326de84fa40ca9dece4107beb15d7b5dc5dc068ea8d7635e12bbaf300c99e761"
+}

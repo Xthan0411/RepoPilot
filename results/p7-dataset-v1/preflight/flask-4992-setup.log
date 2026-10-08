@@ -1,0 +1,18 @@
+normalized_transcript=true
+checked_at=2026-08-07T18:00:52Z
+source_instance_id=pallets__flask-4992
+base_commit=4c288bc97ea371817199908d0d9b12de9dae327e
+test_patch_sha256=851c94393511592a1e3b65ea1d909b73b342ef55388819c6bd9632edb71ad304
+gold_patch_sha256=db912cc1331807c9b0715766eb45a5fac8c4036a99dd54c9ce998b675d0d8697
+sandbox_image=python@sha256:6d43704baacd1bfbe7c295d7f13079d5d8104ed33568873133f8fc69980419df
+python_version=3.12.13
+architecture=linux/arm64
+rootfs=read-only
+workspace=tmpfs
+cpu_limit=1
+memory_limit_mb=1024
+pids_limit=256
+network=bridge-during-trusted-setup-only
+installed=setuptools==70.0.0 click==8.1.3 itsdangerous==2.1.2 Jinja2==3.1.2 MarkupSafe==2.1.1 Werkzeug==2.3.7 pytest==8.4.2
+editable_install=Flask==2.3.0.dev0
+setup_exit_code=0

@@ -1,0 +1,21 @@
+schema_version: 1
+adapter_version: baseline-adapter-v1
+baseline_id: mini-swe-safe-v1
+kind: mini_swe_safe
+context_mode: none
+retrieval_mode: null
+query_rewrite_enabled: false
+memory_enabled: false
+arbitrary_shell_enabled: false
+evaluator_patch_access: forbidden
+evaluator_gold_file_access: forbidden
+test_patch_access: evaluator_only
+tool_names:
+  - apply_patch
+  - inspect_diff
+  - inspect_symbol
+  - list_files
+  - read_file
+  - run_tests
+  - search_code
+success_criterion: rule-based-verifier-v1

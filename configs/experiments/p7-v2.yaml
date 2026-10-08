@@ -1,0 +1,186 @@
+schema_version: 1
+matrix_version: experiment-matrix-v2
+experiment_id: repopilot-p7-v2
+dataset:
+  dataset_id: repopilot-p7-v1
+  manifest_path: data/manifests/p7-v1/manifest.json
+  manifest_file_sha256: 073732c2deb706c49c26ef4712f70186b0a6f6175a25837768ae156ee171fe29
+  manifest_content_sha256: 89496bc2200149601333dadb9a6c7ac6b7d660b4bc7acf29c23597d33b660f60
+  task_sets:
+    - split: dev
+      task_ids:
+        - p5-config-parser-blank
+        - p5-parser-service-async
+      task_set_sha256: 2331061b9e0e88098465d059ac5fa695cce4780122485a8c7def5c5c5f10fba7
+    - split: holdout
+      task_ids:
+        - django__django-15902
+        - mwaskom__seaborn-3190
+        - pallets__flask-4992
+        - pydata__xarray-4094
+        - pydata__xarray-5131
+        - pytest-dev__pytest-11143
+        - pytest-dev__pytest-11148
+        - sympy__sympy-20590
+      task_set_sha256: ee6c8b363c3d69d5d531defcd0ceab54945d82712dfd4a19b745e446b97540da
+dependency_lock_path: uv.lock
+dependency_lock_sha256: 73ae9e712946a1fd0f79ba27e9e975c57597690679c364f0afa71fade655997a
+shared_settings:
+  values:
+    bm25_b: 0.75
+    bm25_default_top_k: 10
+    bm25_k1: 1.5
+    chunk_max_lines: 200
+    chunk_overlap_lines: 20
+    database_connect_timeout_seconds: 5
+    database_statement_timeout_ms: 5000
+    dense_default_top_k: 10
+    embedding_batch_size: 32
+    embedding_cache_dir: artifacts/embedding-cache
+    embedding_code_revision: "3baf9e3ac750e76e8edd3019170176884695fb94"
+    embedding_max_length: 2048
+    embedding_max_retries: 2
+    embedding_model: jinaai/jina-embeddings-v2-base-code
+    embedding_normalize: true
+    embedding_provider: jina_local
+    embedding_retry_backoff_ms: 100
+    embedding_revision: "516f4baf13dec4ddddda8631e019b5737c8bc250"
+    embedding_trust_remote_code: true
+    hybrid_candidate_top_k: 100
+    hybrid_rrf_k: 60
+    langsmith_tracing: false
+    log_level: info
+    max_cost_usd: "1.00"
+    max_replans: 1
+    max_steps: 30
+    max_tokens: 100000
+    model: gpt-5.6-terra
+    model_provider: openai
+    openai_cache_write_cost_per_million_usd: "3.125"
+    openai_cached_input_cost_per_million_usd: "0.25"
+    openai_input_cost_per_million_usd: "2.50"
+    openai_max_output_tokens: 4096
+    openai_max_retries: 2
+    openai_output_cost_per_million_usd: "15.00"
+    openai_prompt_max_chars: 50000
+    openai_reasoning_effort: medium
+    openai_request_timeout_seconds: 120
+    openai_retry_backoff_ms: 500
+    patch_max_bytes: 262144
+    patch_max_changed_lines: 2000
+    patch_max_files: 20
+    patch_max_hunks: 100
+    profile: eval
+    query_rewrite_enabled: false
+    query_rewrite_max_context_chunks: 5
+    query_rewrite_min_hits: 3
+    repository_max_file_bytes: 1000000
+    repository_max_list_entries: 2000
+    repository_max_read_bytes: 65536
+    repository_max_read_lines: 400
+    retrieval_default_top_k: 10
+    sandbox_command_timeout_seconds: 300
+    sandbox_cpu_limit: 1.0
+    sandbox_max_artifact_bytes: 20000000
+    sandbox_max_output_bytes: 1000000
+    sandbox_memory_limit_mb: 1024
+    sandbox_network: none
+    sandbox_pids_limit: 256
+    sandbox_tmpfs_limit_mb: 256
+    search_max_matches: 100
+    search_max_query_length: 256
+    temperature: 0.0
+    timeout_seconds: 900
+    tool_max_output_bytes: 65536
+    vector_dimension: 768
+    vector_schema: repopilot
+    vector_table: vector_embeddings
+  content_sha256: 92c5639547a9cb9ad6c34ab5518f7ddeb2ff3f47b5a37d14c5d85e804ebb167f
+prompt_versions:
+  - repopilot-agent-v1
+temperature_transport: frozen_setting_not_sent_to_reasoning_provider
+random_seed: 20260807
+dev_repetitions: 1
+holdout_repetitions: 1
+repetition_policy: budget_constrained_single_run_no_variance_claim
+sandbox_image_reference: python@sha256:6d43704baacd1bfbe7c295d7f13079d5d8104ed33568873133f8fc69980419df
+success_criterion: rule-based-verifier-v1
+allowed_secret_environment:
+  - DATABASE_URL
+  - OPENAI_API_KEY
+memory_snapshots:
+  - snapshot_id: p7-dev-empty-v2
+    namespace:
+      experiment_id: repopilot-p7-v2
+      snapshot_id: p7-dev-empty-v2
+      split: dev
+      access_mode: read_only
+    manifest_ref:
+      relative_path: data/memory/p7-v2/p7-dev-empty-v2/dev/namespace.json
+      sha256: 4e2afeffc211349247ba5f94639d78b177c987718259917f37d18be129da0881
+      size_bytes: 305
+      media_type: application/json
+    repository_record_count: 0
+    episodic_record_count: 0
+  - snapshot_id: p7-holdout-empty-v2
+    namespace:
+      experiment_id: repopilot-p7-v2
+      snapshot_id: p7-holdout-empty-v2
+      split: holdout
+      access_mode: read_only
+    manifest_ref:
+      relative_path: data/memory/p7-v2/p7-holdout-empty-v2/holdout/namespace.json
+      sha256: 73604caf02f41126e35998b1e1c48439b566f52832a871c3c16124e5f0e74f1e
+      size_bytes: 313
+      media_type: application/json
+    repository_record_count: 0
+    episodic_record_count: 0
+arms:
+  - arm_id: dense-only-v1
+    kind: dense_only
+    enabled_by_default: true
+    context_mode: configured
+    retrieval_mode: dense
+    query_rewrite_enabled: false
+    memory_enabled: false
+  - arm_id: hybrid-memory-v1
+    kind: hybrid_memory
+    enabled_by_default: false
+    context_mode: configured
+    retrieval_mode: hybrid
+    query_rewrite_enabled: false
+    memory_enabled: true
+    dev_memory_snapshot_id: p7-dev-empty-v2
+    holdout_memory_snapshot_id: p7-holdout-empty-v2
+  - arm_id: hybrid-rrf-v1
+    kind: hybrid_rrf
+    enabled_by_default: true
+    context_mode: configured
+    retrieval_mode: hybrid
+    query_rewrite_enabled: false
+    memory_enabled: false
+  - arm_id: mini-swe-safe-v1
+    kind: mini_swe_safe
+    enabled_by_default: true
+    context_mode: none
+    retrieval_mode: null
+    query_rewrite_enabled: false
+    memory_enabled: false
+    baseline_config_ref:
+      relative_path: configs/baselines/mini-swe-safe-v1.yaml
+      sha256: 573df77fa0fff3f77da0e9aebe0ac252b62b760a24c38b2928c3d5fa631780b2
+      size_bytes: 498
+      media_type: application/yaml
+  - arm_id: no-semantic-rag-v1
+    kind: no_semantic_rag
+    enabled_by_default: true
+    context_mode: bm25
+    retrieval_mode: bm25
+    query_rewrite_enabled: false
+    memory_enabled: false
+    baseline_config_ref:
+      relative_path: configs/baselines/no-semantic-rag-v1.yaml
+      sha256: 02378e2d45738b841a172733b5094f96e11628a511171b2555af605adecdb040
+      size_bytes: 502
+      media_type: application/yaml
+content_sha256: d75d36d711f23190062aded9e97a8f5abfaba859416466027b227421ea7407e8

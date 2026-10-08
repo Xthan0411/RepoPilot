@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "dataset_id": "repopilot-p7-v1",
+  "generated_at": "2026-08-07T18:16:00Z",
+  "entries": [
+    {
+      "case_id": "django__django-15902",
+      "kind": "github_issue",
+      "status": "metadata_verified",
+      "checked_at": "2026-08-07T18:10:00Z",
+      "python_version": "3.9"
+    },
+    {
+      "case_id": "mwaskom__seaborn-3190",
+      "kind": "github_issue",
+      "status": "metadata_verified",
+      "checked_at": "2026-08-07T18:10:00Z",
+      "python_version": "3.9"
+    },
+    {
+      "case_id": "p5-config-parser-blank",
+      "kind": "fixture",
+      "status": "metadata_verified",
+      "checked_at": "2026-08-07T18:10:00Z",
+      "python_version": "3.12.13"
+    },
+    {
+      "case_id": "p5-parser-service-async",
+      "kind": "fixture",
+      "status": "metadata_verified",
+      "checked_at": "2026-08-07T18:10:00Z",
+      "python_version": "3.12.13"
+    },
+    {
+      "case_id": "pallets__flask-4992",
+      "kind": "github_issue",
+      "status": "baseline_failed_gold_passed",
+      "checked_at": "2026-08-07T18:00:52Z",
+      "python_version": "3.12.13",
+      "sandbox_image_reference": "python@sha256:6d43704baacd1bfbe7c295d7f13079d5d8104ed33568873133f8fc69980419df",
+      "setup_log_ref": {
+        "relative_path": "results/p7-dataset-v1/preflight/flask-4992-setup.log",
+        "sha256": "c24a28fd6deaca063199ae168fda72d54b3fb65709a76cd6c06340d62676f78f",
+        "size_bytes": 757,
+        "media_type": "text/plain"
+      },
+      "baseline_log_ref": {
+        "relative_path": "results/p7-dataset-v1/preflight/flask-4992-baseline.log",
+        "sha256": "156299711bf9e69fc910174b932c1eba723b824083e06d548941854f510d5d61",
+        "size_bytes": 888,
+        "media_type": "text/plain"
+      },
+      "gold_log_ref": {
+        "relative_path": "results/p7-dataset-v1/preflight/flask-4992-gold.log",
+        "sha256": "4bcefcc9f6c645923b9993ccf73ad92e6b400ca25458ea14e095857fc2131342",
+        "size_bytes": 98,
+        "media_type": "text/plain"
+      },
+      "baseline_exit_code": 1,
+      "gold_exit_code": 0,
+      "observed_failure_markers": [
+        "Config.from_file() got an unexpected keyword argument 'text'",
+        "tests/test_config.py::test_config_from_file_toml"
+      ]
+    },
+    {
+      "case_id": "pydata__xarray-4094",
+      "kind": "github_issue",
+      "status": "metadata_verified",
+      "checked_at": "2026-08-07T18:10:00Z",
+      "python_version": "3.10"
+    },
+    {
+      "case_id": "pydata__xarray-5131",
+      "kind": "github_issue",
+      "status": "metadata_verified",
+      "checked_at": "2026-08-07T18:10:00Z",
+      "python_version": "3.10"
+    },
+    {
+      "case_id": "pytest-dev__pytest-11143",
+      "kind": "github_issue",
+      "status": "metadata_verified",
+      "checked_at": "2026-08-07T18:10:00Z",
+      "python_version": "3.9"
+    },
+    {
+      "case_id": "pytest-dev__pytest-11148",
+      "kind": "github_issue",
+      "status": "metadata_verified",
+      "checked_at": "2026-08-07T18:10:00Z",
+      "python_version": "3.9"
+    },
+    {
+      "case_id": "sympy__sympy-20590",
+      "kind": "github_issue",
+      "status": "metadata_verified",
+      "checked_at": "2026-08-07T18:10:00Z",
+      "python_version": "3.9"
+    }
+  ],
+  "content_sha256": "0b6407b419547a8a0efdf3fc3695030a4326dcca35afab8dccce7b27dfaa7b0b"
+}

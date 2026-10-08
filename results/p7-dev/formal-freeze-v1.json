@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "freeze_version": "formal-freeze-v1",
+  "experiment_id": "repopilot-p7-v2",
+  "matrix_version": "experiment-matrix-v2",
+  "matrix_sha256": "d75d36d711f23190062aded9e97a8f5abfaba859416466027b227421ea7407e8",
+  "dependency_lock_sha256": "73ae9e712946a1fd0f79ba27e9e975c57597690679c364f0afa71fade655997a",
+  "dataset_manifest_sha256": "89496bc2200149601333dadb9a6c7ac6b7d660b4bc7acf29c23597d33b660f60",
+  "source_commit": "a1fdecc1d33857cb5655d2b129e129f240dbbcfb",
+  "source_clean": true,
+  "prompt_versions": [
+    "repopilot-agent-v1"
+  ],
+  "model": "gpt-5.6-terra",
+  "embedding_model": "jinaai/jina-embeddings-v2-base-code",
+  "embedding_revision": "516f4baf13dec4ddddda8631e019b5737c8bc250",
+  "embedding_code_revision": "3baf9e3ac750e76e8edd3019170176884695fb94",
+  "sandbox_image_reference": "python@sha256:6d43704baacd1bfbe7c295d7f13079d5d8104ed33568873133f8fc69980419df",
+  "arm_configuration_sha256": {
+    "dense-only-v1": "3a9987f5e4890091ffbac0ebea34815e0494900e6830057d1d5a436f0db41f20",
+    "hybrid-rrf-v1": "74653e59d08d211286d158010bc5242329c32e046eeee5559d818e659544f7ae",
+    "mini-swe-safe-v1": "ea0f80d0905e730dacb6d8d3b23e1eab0656456e267b7d3a331ac5d835d10555",
+    "no-semantic-rag-v1": "d386b041fb0f16108007c6c71bb58921b7c823fedc8dfcb95e94dd5b74bcbdf5"
+  },
+  "calibration_report_ref": {
+    "relative_path": "results/p7-dev/calibration-report-v5.json",
+    "sha256": "ac0f43bd224167dd34b1a0a2d41f90c93151345e7bcf0c6127e729a0c5950ea7",
+    "size_bytes": 3249,
+    "media_type": "application/json"
+  },
+  "holdout_accessed": false,
+  "frozen_at": "2026-08-08T00:44:22.353150Z",
+  "content_sha256": "9dbac71aca6063cc864567b1c69e7b0bfe5f866d3035fb91f86a5d621aabe7b5"
+}

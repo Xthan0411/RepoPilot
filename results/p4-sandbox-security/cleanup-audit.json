@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "run_mode": "p4_sandbox_security_gate",
+  "evidence_kind": "real_local_docker",
+  "recorded_on": "2026-08-06",
+  "platform_note": "Docker Desktop arm64; local digest-pinned fixtures",
+  "images": {
+    "lifecycle": "alpine@sha256:d9e853e87e55526f6b2917df91a2115c36dd7c696a35be12163d44e6e2a4b6bc",
+    "execution": "python@sha256:6d43704baacd1bfbe7c295d7f13079d5d8104ed33568873133f8fc69980419df"
+  },
+  "resource_attack_limits": {
+    "network": "none",
+    "cpu": 0.25,
+    "memory_mb": 128,
+    "pids": 16,
+    "tmpfs_mb": 16,
+    "command_timeout_seconds": 5,
+    "cpu_attack_timeout_seconds": 1,
+    "agent_preview_bytes_per_stream": 1024,
+    "combined_artifact_bytes": 8192
+  },
+  "attacks": [
+    {
+      "name": "core_command_path_network_host_secret",
+      "result": "passed",
+      "evidence": "configured argv remained shell-free; host and secret canaries absent; DNS/TCP offline; runtime symlinks denied",
+      "container_absent_after_cleanup": true
+    },
+    {
+      "name": "cpu_busy_loop",
+      "result": "passed",
+      "control": "0.25 CPU quota plus one-second wall-clock deadline",
+      "termination": "tool_timeout",
+      "cleanup": "automatic_container_destroy",
+      "artifact_available_after_cleanup": true
+    },
+    {
+      "name": "pid_fork_pressure",
+      "result": "passed",
+      "control": "pids_limit=16",
+      "termination": "EAGAIN at the cgroup limit; children killed and reaped",
+      "same_container_health_check_after_attack": true,
+      "container_absent_after_cleanup": true,
+      "artifact_available_after_cleanup": true
+    },
+    {
+      "name": "memory_allocation_pressure",
+      "result": "passed",
+      "control": "memory=128 MB",
+      "accepted_bounded_outcome": "Python MemoryError or Linux OOM exit 137; full 512 MB allocation is a test failure",
+      "container_absent_after_cleanup": true,
+      "artifact_available_after_cleanup": true
+    },
+    {
+      "name": "stdout_stderr_flood",
+      "result": "passed",
+      "control": "combined artifact ceiling=8192 bytes",
+      "termination": "tool_execution_error",
+      "retained_bytes": 8192,
+      "cleanup": "automatic_container_destroy",
+      "artifact_available_after_cleanup": true
+    }
+  ],
+  "artifact_contract": {
+    "stream_artifacts_survive_container_destroy": true,
+    "integrity_checked_with_sha256_and_size": true,
+    "trace_storage": "host-side P1 trace store; not container-owned",
+    "diff_artifact": "not applicable until P5 apply_patch and inspect_diff"
+  },
+  "gates": {
+    "integration": {
+      "passed": 8,
+      "deselected": 811
+    },
+    "security": {
+      "passed": 30,
+      "deselected": 789
+    },
+    "full_test_suite": {
+      "passed": 819,
+      "skipped": 0
+    },
+    "ruff": "passed",
+    "format_files": 116,
+    "mypy_files": 102,
+    "lock_packages": 103,
+    "managed_container_residue": 0
+  },
+  "claim_boundary": "This is local containment and mechanism evidence, not a production-security or VM-isolation claim."
+}

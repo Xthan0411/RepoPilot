@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "namespace": {
+    "experiment_id": "repopilot-p7-v2",
+    "snapshot_id": "p7-holdout-empty-v2",
+    "split": "holdout",
+    "access_mode": "read_only"
+  },
+  "created_at": "2026-08-07T22:00:00Z",
+  "content_sha256": "2d1747bb5e250b2fd70d6ce80e7ce18109450d6e3f844d34cd5bd419bc3702bc"
+}

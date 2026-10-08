@@ -1,0 +1,702 @@
+{
+  "schema_version": 1,
+  "run_mode": "p3_retrieval_comparison",
+  "evidence_kind": "deterministic_fake_smoke",
+  "benchmark_id": "p2.synthetic-smoke",
+  "repository_id": "fixture.baseline",
+  "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "retrieval_depth": 100,
+  "source_count": 5,
+  "chunk_count": 10,
+  "rewrite_task_count": 1,
+  "modes": [
+    {
+      "mode": "bm25",
+      "split_counts": [
+        {
+          "split": "dev",
+          "task_count": 2
+        },
+        {
+          "split": "holdout",
+          "task_count": 1
+        }
+      ],
+      "task_results": [
+        {
+          "task_id": "baseline-001",
+          "split": "dev",
+          "original_query": "Handle empty key value configuration\nThe parse function in parser.py should return an empty mapping for empty configuration text.",
+          "effective_query": "parse empty configuration mapping implementation\ntest parse empty configuration mapping",
+          "rewritten": true,
+          "gold_files": [
+            "pkg/parser.py"
+          ],
+          "missing_gold_files": [],
+          "retrieved_chunk_count": 7,
+          "ranked_files": [
+            {
+              "relative_path": "pkg/parser.py",
+              "rank": 1,
+              "best_chunk_id": "chunk_00cd89cbc8dfbc3979e90fbd2ee345814e5e4c1f841de7e041e1f34126cabc4f",
+              "sparse_score": 5.805409549827627,
+              "dense_score": null,
+              "fused_score": null
+            },
+            {
+              "relative_path": "pkg/service.py",
+              "rank": 2,
+              "best_chunk_id": "chunk_6ecde46cf5458d22f1526be3e091469c622470913bb06b08091401730afc1184",
+              "sparse_score": 1.934793430015196,
+              "dense_score": null,
+              "fused_score": null
+            },
+            {
+              "relative_path": "README.md",
+              "rank": 3,
+              "best_chunk_id": "chunk_1f890ae00ce60f8ccdf1b1ce0029814e5033d3a570cef95886c7030309e4d0d9",
+              "sparse_score": 1.892252111716955,
+              "dense_score": null,
+              "fused_score": null
+            },
+            {
+              "relative_path": "pkg/__init__.py",
+              "rank": 4,
+              "best_chunk_id": "chunk_5c8c5f169f124c34a0fb4e6432514deef102101bd33ae4a498387d1cbcf4f2e2",
+              "sparse_score": 1.6429084050967153,
+              "dense_score": null,
+              "fused_score": null
+            }
+          ],
+          "provider_call_count": 0,
+          "retry_count": 0,
+          "failure_code": null,
+          "metrics": {
+            "file_recall_at_1": 1.0,
+            "file_recall_at_3": 1.0,
+            "file_recall_at_5": 1.0,
+            "mean_reciprocal_rank": 1.0,
+            "first_relevant_file_rank": 1,
+            "indexing_latency_ms": 0,
+            "retrieval_latency_ms": 0
+          }
+        },
+        {
+          "task_id": "baseline-002",
+          "split": "dev",
+          "original_query": "Support asynchronous parser service\nParserService parse_async should normalize raw input without external I/O.",
+          "effective_query": "Support asynchronous parser service\nParserService parse_async should normalize raw input without external I/O.",
+          "rewritten": false,
+          "gold_files": [
+            "pkg/service.py"
+          ],
+          "missing_gold_files": [],
+          "retrieved_chunk_count": 8,
+          "ranked_files": [
+            {
+              "relative_path": "pkg/service.py",
+              "rank": 1,
+              "best_chunk_id": "chunk_1bd36570ed5e83ecedb1de9b963b836b910543a38ffdd50c9bd6886e82a58961",
+              "sparse_score": 15.321951192058771,
+              "dense_score": null,
+              "fused_score": null
+            },
+            {
+              "relative_path": "pkg/parser.py",
+              "rank": 2,
+              "best_chunk_id": "chunk_893ddb9e72250ef05c98e281ed5d6470e010270faeedd4cf1722c72820e796b2",
+              "sparse_score": 2.9321534402169345,
+              "dense_score": null,
+              "fused_score": null
+            },
+            {
+              "relative_path": "pkg/__init__.py",
+              "rank": 3,
+              "best_chunk_id": "chunk_5c8c5f169f124c34a0fb4e6432514deef102101bd33ae4a498387d1cbcf4f2e2",
+              "sparse_score": 1.691019249406962,
+              "dense_score": null,
+              "fused_score": null
+            }
+          ],
+          "provider_call_count": 0,
+          "retry_count": 0,
+          "failure_code": null,
+          "metrics": {
+            "file_recall_at_1": 1.0,
+            "file_recall_at_3": 1.0,
+            "file_recall_at_5": 1.0,
+            "mean_reciprocal_rank": 1.0,
+            "first_relevant_file_rank": 1,
+            "indexing_latency_ms": 0,
+            "retrieval_latency_ms": 0
+          }
+        },
+        {
+          "task_id": "baseline-003",
+          "split": "holdout",
+          "original_query": "Expose parse from package\nThe package __init__ public API should import parse in __all__.",
+          "effective_query": "Expose parse from package\nThe package __init__ public API should import parse in __all__.",
+          "rewritten": false,
+          "gold_files": [
+            "pkg/__init__.py"
+          ],
+          "missing_gold_files": [],
+          "retrieved_chunk_count": 6,
+          "ranked_files": [
+            {
+              "relative_path": "pkg/__init__.py",
+              "rank": 1,
+              "best_chunk_id": "chunk_5c8c5f169f124c34a0fb4e6432514deef102101bd33ae4a498387d1cbcf4f2e2",
+              "sparse_score": 21.43610726194146,
+              "dense_score": null,
+              "fused_score": null
+            },
+            {
+              "relative_path": "pkg/parser.py",
+              "rank": 2,
+              "best_chunk_id": "chunk_893ddb9e72250ef05c98e281ed5d6470e010270faeedd4cf1722c72820e796b2",
+              "sparse_score": 3.3893277791303458,
+              "dense_score": null,
+              "fused_score": null
+            },
+            {
+              "relative_path": "pkg/service.py",
+              "rank": 3,
+              "best_chunk_id": "chunk_6ecde46cf5458d22f1526be3e091469c622470913bb06b08091401730afc1184",
+              "sparse_score": 1.934793430015196,
+              "dense_score": null,
+              "fused_score": null
+            }
+          ],
+          "provider_call_count": 0,
+          "retry_count": 0,
+          "failure_code": null,
+          "metrics": {
+            "file_recall_at_1": 1.0,
+            "file_recall_at_3": 1.0,
+            "file_recall_at_5": 1.0,
+            "mean_reciprocal_rank": 1.0,
+            "first_relevant_file_rank": 1,
+            "indexing_latency_ms": 0,
+            "retrieval_latency_ms": 0
+          }
+        }
+      ],
+      "summary": {
+        "task_count": 3,
+        "tasks_with_relevant_file": 3,
+        "mean_file_recall_at_1": 1.0,
+        "mean_file_recall_at_3": 1.0,
+        "mean_file_recall_at_5": 1.0,
+        "mean_reciprocal_rank": 1.0,
+        "indexing_latency_ms": 0,
+        "total_retrieval_latency_ms": 0,
+        "mean_retrieval_latency_ms": 0.0,
+        "successful_task_count": 3,
+        "failed_task_count": 0,
+        "provider_call_count": 0,
+        "retry_count": 0
+      }
+    },
+    {
+      "mode": "dense",
+      "split_counts": [
+        {
+          "split": "dev",
+          "task_count": 2
+        },
+        {
+          "split": "holdout",
+          "task_count": 1
+        }
+      ],
+      "task_results": [
+        {
+          "task_id": "baseline-001",
+          "split": "dev",
+          "original_query": "Handle empty key value configuration\nThe parse function in parser.py should return an empty mapping for empty configuration text.",
+          "effective_query": "parse empty configuration mapping implementation\ntest parse empty configuration mapping",
+          "rewritten": true,
+          "gold_files": [
+            "pkg/parser.py"
+          ],
+          "missing_gold_files": [],
+          "retrieved_chunk_count": 10,
+          "ranked_files": [
+            {
+              "relative_path": "README.md",
+              "rank": 1,
+              "best_chunk_id": "chunk_1f890ae00ce60f8ccdf1b1ce0029814e5033d3a570cef95886c7030309e4d0d9",
+              "sparse_score": null,
+              "dense_score": 0.7957388224813398,
+              "fused_score": null
+            },
+            {
+              "relative_path": "pkg/service.py",
+              "rank": 2,
+              "best_chunk_id": "chunk_1bd36570ed5e83ecedb1de9b963b836b910543a38ffdd50c9bd6886e82a58961",
+              "sparse_score": null,
+              "dense_score": 0.40391015225008986,
+              "fused_score": null
+            },
+            {
+              "relative_path": "pkg/parser.py",
+              "rank": 3,
+              "best_chunk_id": "chunk_893ddb9e72250ef05c98e281ed5d6470e010270faeedd4cf1722c72820e796b2",
+              "sparse_score": null,
+              "dense_score": 0.1956054052593765,
+              "fused_score": null
+            },
+            {
+              "relative_path": "pkg/__init__.py",
+              "rank": 4,
+              "best_chunk_id": "chunk_5c8c5f169f124c34a0fb4e6432514deef102101bd33ae4a498387d1cbcf4f2e2",
+              "sparse_score": null,
+              "dense_score": 0.0892271059225622,
+              "fused_score": null
+            },
+            {
+              "relative_path": "docs/说明.md",
+              "rank": 5,
+              "best_chunk_id": "chunk_e671931877239df508b317ff323432169005df486c6e4679edc6d0f5f2af0fbe",
+              "sparse_score": null,
+              "dense_score": 0.02647612935669436,
+              "fused_score": null
+            }
+          ],
+          "provider_call_count": 1,
+          "retry_count": 0,
+          "failure_code": null,
+          "metrics": {
+            "file_recall_at_1": 0.0,
+            "file_recall_at_3": 1.0,
+            "file_recall_at_5": 1.0,
+            "mean_reciprocal_rank": 0.3333333333333333,
+            "first_relevant_file_rank": 3,
+            "indexing_latency_ms": 0,
+            "retrieval_latency_ms": 0
+          }
+        },
+        {
+          "task_id": "baseline-002",
+          "split": "dev",
+          "original_query": "Support asynchronous parser service\nParserService parse_async should normalize raw input without external I/O.",
+          "effective_query": "Support asynchronous parser service\nParserService parse_async should normalize raw input without external I/O.",
+          "rewritten": false,
+          "gold_files": [
+            "pkg/service.py"
+          ],
+          "missing_gold_files": [],
+          "retrieved_chunk_count": 10,
+          "ranked_files": [
+            {
+              "relative_path": "pkg/parser.py",
+              "rank": 1,
+              "best_chunk_id": "chunk_00cd89cbc8dfbc3979e90fbd2ee345814e5e4c1f841de7e041e1f34126cabc4f",
+              "sparse_score": null,
+              "dense_score": 0.3004809640149955,
+              "fused_score": null
+            },
+            {
+              "relative_path": "README.md",
+              "rank": 2,
+              "best_chunk_id": "chunk_1f890ae00ce60f8ccdf1b1ce0029814e5033d3a570cef95886c7030309e4d0d9",
+              "sparse_score": null,
+              "dense_score": 0.21833380101222297,
+              "fused_score": null
+            },
+            {
+              "relative_path": "pkg/__init__.py",
+              "rank": 3,
+              "best_chunk_id": "chunk_5c8c5f169f124c34a0fb4e6432514deef102101bd33ae4a498387d1cbcf4f2e2",
+              "sparse_score": null,
+              "dense_score": 0.006617931019084535,
+              "fused_score": null
+            },
+            {
+              "relative_path": "pkg/service.py",
+              "rank": 4,
+              "best_chunk_id": "chunk_6ecde46cf5458d22f1526be3e091469c622470913bb06b08091401730afc1184",
+              "sparse_score": null,
+              "dense_score": -0.14819721408222739,
+              "fused_score": null
+            },
+            {
+              "relative_path": "docs/说明.md",
+              "rank": 5,
+              "best_chunk_id": "chunk_e671931877239df508b317ff323432169005df486c6e4679edc6d0f5f2af0fbe",
+              "sparse_score": null,
+              "dense_score": -0.1847467881807873,
+              "fused_score": null
+            }
+          ],
+          "provider_call_count": 1,
+          "retry_count": 0,
+          "failure_code": null,
+          "metrics": {
+            "file_recall_at_1": 0.0,
+            "file_recall_at_3": 0.0,
+            "file_recall_at_5": 1.0,
+            "mean_reciprocal_rank": 0.25,
+            "first_relevant_file_rank": 4,
+            "indexing_latency_ms": 0,
+            "retrieval_latency_ms": 0
+          }
+        },
+        {
+          "task_id": "baseline-003",
+          "split": "holdout",
+          "original_query": "Expose parse from package\nThe package __init__ public API should import parse in __all__.",
+          "effective_query": "Expose parse from package\nThe package __init__ public API should import parse in __all__.",
+          "rewritten": false,
+          "gold_files": [
+            "pkg/__init__.py"
+          ],
+          "missing_gold_files": [],
+          "retrieved_chunk_count": 10,
+          "ranked_files": [
+            {
+              "relative_path": "pkg/service.py",
+              "rank": 1,
+              "best_chunk_id": "chunk_1bd36570ed5e83ecedb1de9b963b836b910543a38ffdd50c9bd6886e82a58961",
+              "sparse_score": null,
+              "dense_score": 0.4767494682188467,
+              "fused_score": null
+            },
+            {
+              "relative_path": "pkg/__init__.py",
+              "rank": 2,
+              "best_chunk_id": "chunk_5c8c5f169f124c34a0fb4e6432514deef102101bd33ae4a498387d1cbcf4f2e2",
+              "sparse_score": null,
+              "dense_score": 0.3335396382564749,
+              "fused_score": null
+            },
+            {
+              "relative_path": "pkg/parser.py",
+              "rank": 3,
+              "best_chunk_id": "chunk_893ddb9e72250ef05c98e281ed5d6470e010270faeedd4cf1722c72820e796b2",
+              "sparse_score": null,
+              "dense_score": 0.32825290511226807,
+              "fused_score": null
+            },
+            {
+              "relative_path": "docs/说明.md",
+              "rank": 4,
+              "best_chunk_id": "chunk_e671931877239df508b317ff323432169005df486c6e4679edc6d0f5f2af0fbe",
+              "sparse_score": null,
+              "dense_score": -0.07327951909056009,
+              "fused_score": null
+            },
+            {
+              "relative_path": "README.md",
+              "rank": 5,
+              "best_chunk_id": "chunk_1f890ae00ce60f8ccdf1b1ce0029814e5033d3a570cef95886c7030309e4d0d9",
+              "sparse_score": null,
+              "dense_score": -0.14199428340598272,
+              "fused_score": null
+            }
+          ],
+          "provider_call_count": 1,
+          "retry_count": 0,
+          "failure_code": null,
+          "metrics": {
+            "file_recall_at_1": 0.0,
+            "file_recall_at_3": 1.0,
+            "file_recall_at_5": 1.0,
+            "mean_reciprocal_rank": 0.5,
+            "first_relevant_file_rank": 2,
+            "indexing_latency_ms": 0,
+            "retrieval_latency_ms": 0
+          }
+        }
+      ],
+      "summary": {
+        "task_count": 3,
+        "tasks_with_relevant_file": 3,
+        "mean_file_recall_at_1": 0.0,
+        "mean_file_recall_at_3": 0.6666666666666666,
+        "mean_file_recall_at_5": 1.0,
+        "mean_reciprocal_rank": 0.3611111111111111,
+        "indexing_latency_ms": 0,
+        "total_retrieval_latency_ms": 0,
+        "mean_retrieval_latency_ms": 0.0,
+        "successful_task_count": 3,
+        "failed_task_count": 0,
+        "provider_call_count": 3,
+        "retry_count": 0
+      }
+    },
+    {
+      "mode": "hybrid",
+      "split_counts": [
+        {
+          "split": "dev",
+          "task_count": 2
+        },
+        {
+          "split": "holdout",
+          "task_count": 1
+        }
+      ],
+      "task_results": [
+        {
+          "task_id": "baseline-001",
+          "split": "dev",
+          "original_query": "Handle empty key value configuration\nThe parse function in parser.py should return an empty mapping for empty configuration text.",
+          "effective_query": "parse empty configuration mapping implementation\ntest parse empty configuration mapping",
+          "rewritten": true,
+          "gold_files": [
+            "pkg/parser.py"
+          ],
+          "missing_gold_files": [],
+          "retrieved_chunk_count": 10,
+          "ranked_files": [
+            {
+              "relative_path": "README.md",
+              "rank": 1,
+              "best_chunk_id": "chunk_1f890ae00ce60f8ccdf1b1ce0029814e5033d3a570cef95886c7030309e4d0d9",
+              "sparse_score": 1.892252111716955,
+              "dense_score": 0.7957388224813398,
+              "fused_score": 0.032018442622950824
+            },
+            {
+              "relative_path": "pkg/parser.py",
+              "rank": 2,
+              "best_chunk_id": "chunk_893ddb9e72250ef05c98e281ed5d6470e010270faeedd4cf1722c72820e796b2",
+              "sparse_score": 1.745089293706389,
+              "dense_score": 0.1956054052593765,
+              "fused_score": 0.03125763125763126
+            },
+            {
+              "relative_path": "pkg/service.py",
+              "rank": 3,
+              "best_chunk_id": "chunk_6ecde46cf5458d22f1526be3e091469c622470913bb06b08091401730afc1184",
+              "sparse_score": 1.934793430015196,
+              "dense_score": -0.19301896166566532,
+              "fused_score": 0.030621785881252923
+            },
+            {
+              "relative_path": "pkg/__init__.py",
+              "rank": 4,
+              "best_chunk_id": "chunk_5c8c5f169f124c34a0fb4e6432514deef102101bd33ae4a498387d1cbcf4f2e2",
+              "sparse_score": 1.6429084050967153,
+              "dense_score": 0.0892271059225622,
+              "fused_score": 0.030536130536130537
+            },
+            {
+              "relative_path": "docs/说明.md",
+              "rank": 5,
+              "best_chunk_id": "chunk_e671931877239df508b317ff323432169005df486c6e4679edc6d0f5f2af0fbe",
+              "sparse_score": null,
+              "dense_score": 0.02647612935669436,
+              "fused_score": 0.015151515151515152
+            }
+          ],
+          "provider_call_count": 1,
+          "retry_count": 0,
+          "failure_code": null,
+          "metrics": {
+            "file_recall_at_1": 0.0,
+            "file_recall_at_3": 1.0,
+            "file_recall_at_5": 1.0,
+            "mean_reciprocal_rank": 0.5,
+            "first_relevant_file_rank": 2,
+            "indexing_latency_ms": 0,
+            "retrieval_latency_ms": 0
+          }
+        },
+        {
+          "task_id": "baseline-002",
+          "split": "dev",
+          "original_query": "Support asynchronous parser service\nParserService parse_async should normalize raw input without external I/O.",
+          "effective_query": "Support asynchronous parser service\nParserService parse_async should normalize raw input without external I/O.",
+          "rewritten": false,
+          "gold_files": [
+            "pkg/service.py"
+          ],
+          "missing_gold_files": [],
+          "retrieved_chunk_count": 10,
+          "ranked_files": [
+            {
+              "relative_path": "pkg/service.py",
+              "rank": 1,
+              "best_chunk_id": "chunk_6ecde46cf5458d22f1526be3e091469c622470913bb06b08091401730afc1184",
+              "sparse_score": 11.949119924422602,
+              "dense_score": -0.14819721408222739,
+              "fused_score": 0.031754032258064516
+            },
+            {
+              "relative_path": "pkg/parser.py",
+              "rank": 2,
+              "best_chunk_id": "chunk_00cd89cbc8dfbc3979e90fbd2ee345814e5e4c1f841de7e041e1f34126cabc4f",
+              "sparse_score": 2.158399004256033,
+              "dense_score": 0.3004809640149955,
+              "fused_score": 0.03131881575727918
+            },
+            {
+              "relative_path": "pkg/__init__.py",
+              "rank": 3,
+              "best_chunk_id": "chunk_5c8c5f169f124c34a0fb4e6432514deef102101bd33ae4a498387d1cbcf4f2e2",
+              "sparse_score": 1.691019249406962,
+              "dense_score": 0.006617931019084535,
+              "fused_score": 0.03057889822595705
+            },
+            {
+              "relative_path": "README.md",
+              "rank": 4,
+              "best_chunk_id": "chunk_1f890ae00ce60f8ccdf1b1ce0029814e5033d3a570cef95886c7030309e4d0d9",
+              "sparse_score": null,
+              "dense_score": 0.21833380101222297,
+              "fused_score": 0.016129032258064516
+            },
+            {
+              "relative_path": "docs/说明.md",
+              "rank": 5,
+              "best_chunk_id": "chunk_e671931877239df508b317ff323432169005df486c6e4679edc6d0f5f2af0fbe",
+              "sparse_score": null,
+              "dense_score": -0.1847467881807873,
+              "fused_score": 0.015384615384615385
+            }
+          ],
+          "provider_call_count": 1,
+          "retry_count": 0,
+          "failure_code": null,
+          "metrics": {
+            "file_recall_at_1": 1.0,
+            "file_recall_at_3": 1.0,
+            "file_recall_at_5": 1.0,
+            "mean_reciprocal_rank": 1.0,
+            "first_relevant_file_rank": 1,
+            "indexing_latency_ms": 0,
+            "retrieval_latency_ms": 0
+          }
+        },
+        {
+          "task_id": "baseline-003",
+          "split": "holdout",
+          "original_query": "Expose parse from package\nThe package __init__ public API should import parse in __all__.",
+          "effective_query": "Expose parse from package\nThe package __init__ public API should import parse in __all__.",
+          "rewritten": false,
+          "gold_files": [
+            "pkg/__init__.py"
+          ],
+          "missing_gold_files": [],
+          "retrieved_chunk_count": 10,
+          "ranked_files": [
+            {
+              "relative_path": "pkg/__init__.py",
+              "rank": 1,
+              "best_chunk_id": "chunk_5c8c5f169f124c34a0fb4e6432514deef102101bd33ae4a498387d1cbcf4f2e2",
+              "sparse_score": 21.43610726194146,
+              "dense_score": 0.3335396382564749,
+              "fused_score": 0.03252247488101534
+            },
+            {
+              "relative_path": "pkg/parser.py",
+              "rank": 2,
+              "best_chunk_id": "chunk_893ddb9e72250ef05c98e281ed5d6470e010270faeedd4cf1722c72820e796b2",
+              "sparse_score": 3.3893277791303458,
+              "dense_score": 0.32825290511226807,
+              "fused_score": 0.03200204813108039
+            },
+            {
+              "relative_path": "pkg/service.py",
+              "rank": 3,
+              "best_chunk_id": "chunk_6ecde46cf5458d22f1526be3e091469c622470913bb06b08091401730afc1184",
+              "sparse_score": 1.934793430015196,
+              "dense_score": 0.19512695635466468,
+              "fused_score": 0.03149801587301587
+            },
+            {
+              "relative_path": "docs/说明.md",
+              "rank": 4,
+              "best_chunk_id": "chunk_e671931877239df508b317ff323432169005df486c6e4679edc6d0f5f2af0fbe",
+              "sparse_score": null,
+              "dense_score": -0.07327951909056009,
+              "fused_score": 0.015151515151515152
+            },
+            {
+              "relative_path": "README.md",
+              "rank": 5,
+              "best_chunk_id": "chunk_1f890ae00ce60f8ccdf1b1ce0029814e5033d3a570cef95886c7030309e4d0d9",
+              "sparse_score": null,
+              "dense_score": -0.14199428340598272,
+              "fused_score": 0.014705882352941176
+            }
+          ],
+          "provider_call_count": 1,
+          "retry_count": 0,
+          "failure_code": null,
+          "metrics": {
+            "file_recall_at_1": 1.0,
+            "file_recall_at_3": 1.0,
+            "file_recall_at_5": 1.0,
+            "mean_reciprocal_rank": 1.0,
+            "first_relevant_file_rank": 1,
+            "indexing_latency_ms": 0,
+            "retrieval_latency_ms": 0
+          }
+        }
+      ],
+      "summary": {
+        "task_count": 3,
+        "tasks_with_relevant_file": 3,
+        "mean_file_recall_at_1": 0.6666666666666666,
+        "mean_file_recall_at_3": 1.0,
+        "mean_file_recall_at_5": 1.0,
+        "mean_reciprocal_rank": 0.8333333333333334,
+        "indexing_latency_ms": 0,
+        "total_retrieval_latency_ms": 0,
+        "mean_retrieval_latency_ms": 0.0,
+        "successful_task_count": 3,
+        "failed_task_count": 0,
+        "provider_call_count": 3,
+        "retry_count": 0
+      }
+    }
+  ],
+  "cases": [
+    {
+      "task_id": "baseline-001",
+      "baseline_mode": "bm25",
+      "baseline_first_relevant_rank": 1,
+      "hybrid_first_relevant_rank": 2,
+      "outcome": "regressed"
+    },
+    {
+      "task_id": "baseline-001",
+      "baseline_mode": "dense",
+      "baseline_first_relevant_rank": 3,
+      "hybrid_first_relevant_rank": 2,
+      "outcome": "improved"
+    },
+    {
+      "task_id": "baseline-002",
+      "baseline_mode": "bm25",
+      "baseline_first_relevant_rank": 1,
+      "hybrid_first_relevant_rank": 1,
+      "outcome": "unchanged"
+    },
+    {
+      "task_id": "baseline-002",
+      "baseline_mode": "dense",
+      "baseline_first_relevant_rank": 4,
+      "hybrid_first_relevant_rank": 1,
+      "outcome": "improved"
+    },
+    {
+      "task_id": "baseline-003",
+      "baseline_mode": "bm25",
+      "baseline_first_relevant_rank": 1,
+      "hybrid_first_relevant_rank": 1,
+      "outcome": "unchanged"
+    },
+    {
+      "task_id": "baseline-003",
+      "baseline_mode": "dense",
+      "baseline_first_relevant_rank": 2,
+      "hybrid_first_relevant_rank": 1,
+      "outcome": "improved"
+    }
+  ]
+}

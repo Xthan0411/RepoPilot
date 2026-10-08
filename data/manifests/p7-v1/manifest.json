@@ -1,0 +1,464 @@
+{
+  "schema_version": 1,
+  "loader_version": "dataset-loader-v1",
+  "dataset_id": "repopilot-p7-v1",
+  "created_at": "2026-08-07T18:15:00Z",
+  "source": {
+    "source_id": "swe-bench-lite",
+    "dataset_name": "SWE-bench Lite",
+    "dataset_url": "https://huggingface.co/datasets/SWE-bench/SWE-bench_Lite",
+    "dataset_revision": "69611d31007e1c6731db8bd5b5c3f2d33f5bab6e",
+    "dataset_card_sha256": "01d69da06269ac911e8d716a868838d53c9bf0a16b9b2fee9097cb5c84bff3d3",
+    "project_url": "https://github.com/SWE-bench/SWE-bench",
+    "project_license": "MIT",
+    "project_license_url": "https://github.com/SWE-bench/SWE-bench/blob/main/LICENSE",
+    "citation": "Jimenez et al., SWE-bench: Can Language Models Resolve Real-World GitHub Issues?, ICLR 2024."
+  },
+  "source_rows_ref": {
+    "relative_path": "data/manifests/p7-v1/source-rows.json",
+    "sha256": "66235d8dc551ae5aa7049705f6ff726a04310b4090e0624292260199f0dfa41b",
+    "size_bytes": 146362,
+    "media_type": "application/json"
+  },
+  "fixture_manifest_ref": {
+    "relative_path": "tests/fixtures/p5_repair_tasks/manifest.json",
+    "sha256": "61ae595e431f2053f9c242cbe0317225c13188d7fe96e0b361e853245a998a25",
+    "size_bytes": 3540,
+    "media_type": "application/json"
+  },
+  "fixture_task_ids": [
+    "p5-config-parser-blank",
+    "p5-parser-service-async"
+  ],
+  "external_cases": [
+    {
+      "case_id": "django__django-15902",
+      "source_instance_id": "django__django-15902",
+      "source_row_sha256": "c7455dee7869ac77c7b07f31c3f7f1c6f86b92eb1b5fe90a6e07bf3cc2e198c6",
+      "repository": "django/django",
+      "repository_url": "https://github.com/django/django.git",
+      "pull_request_url": "https://github.com/django/django/pull/15902",
+      "issue_urls": [
+        "https://github.com/django/django/issues/33876"
+      ],
+      "base_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+      "environment_setup_commit": "0fbdb9784da915fce5dcc1fe82bac9b4785749e5",
+      "upstream_version": "4.2",
+      "python_version": "3.9",
+      "issue_title": "Avoid the default template deprecation warning for ManagementForm",
+      "setup_commands": [
+        {
+          "argv": ["python", "-m", "pip", "install", "-r", "tests/requirements/py3.txt"],
+          "timeout_seconds": 600
+        },
+        {
+          "argv": ["python", "-m", "pip", "install", "-e", "."],
+          "timeout_seconds": 600
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python",
+            "tests/runtests.py",
+            "--verbosity",
+            "2",
+            "--settings=test_sqlite",
+            "--parallel",
+            "1",
+            "forms_tests.tests.test_formsets"
+          ],
+          "timeout_seconds": 600
+        }
+      ],
+      "timeout_seconds": 1800,
+      "split": "holdout",
+      "gold_files": ["django/forms/formsets.py"],
+      "fail_to_pass": ["Management forms are already rendered with the new div template."],
+      "repository_license": {
+        "spdx_identifier": "BSD-3-Clause",
+        "license_path": "LICENSE",
+        "license_blob_sha": "5f4f225dd282aa7e4361ec3c2750bbbaaed8ab1f",
+        "license_url": "https://github.com/django/django/blob/44c24bf02835323d5418512ebe8e76166739ebf8/LICENSE",
+        "copyright_notice": "Copyright (c) Django Software Foundation and individual contributors."
+      },
+      "preflight_status": "metadata_verified"
+    },
+    {
+      "case_id": "mwaskom__seaborn-3190",
+      "source_instance_id": "mwaskom__seaborn-3190",
+      "source_row_sha256": "d98d0cd8ff14f526edf39b9fdfc8e0c2894722e54247462de209e7a697a3e34d",
+      "repository": "mwaskom/seaborn",
+      "repository_url": "https://github.com/mwaskom/seaborn.git",
+      "pull_request_url": "https://github.com/mwaskom/seaborn/pull/3190",
+      "issue_urls": [
+        "https://github.com/mwaskom/seaborn/issues/3106"
+      ],
+      "base_commit": "4a9e54962a29c12a8b103d75f838e0e795a6974d",
+      "environment_setup_commit": "d25872b0fc99dbf7e666a91f59bd4ed125186aa1",
+      "upstream_version": "0.12",
+      "python_version": "3.9",
+      "issue_title": "Color mapping fails with boolean data",
+      "setup_commands": [
+        {
+          "argv": [
+            "python", "-m", "pip", "install",
+            "matplotlib==3.7.2", "numpy==1.25.2", "pandas==2.0.0",
+            "pytest", "scipy==1.11.2", "setuptools"
+          ],
+          "timeout_seconds": 900
+        },
+        {
+          "argv": ["python", "-m", "pip", "install", "-e", ".[dev]"],
+          "timeout_seconds": 900
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python", "-m", "pytest", "-q",
+            "tests/_core/test_scales.py::TestContinuous::test_interval_with_bools"
+          ],
+          "timeout_seconds": 300
+        }
+      ],
+      "timeout_seconds": 1800,
+      "split": "holdout",
+      "gold_files": ["seaborn/_core/scales.py"],
+      "fail_to_pass": ["tests/_core/test_scales.py::TestContinuous::test_interval_with_bools"],
+      "repository_license": {
+        "spdx_identifier": "BSD-3-Clause",
+        "license_path": "LICENSE.md",
+        "license_blob_sha": "b5ebba626349f543886619b6007dee5430b3f345",
+        "license_url": "https://github.com/mwaskom/seaborn/blob/4a9e54962a29c12a8b103d75f838e0e795a6974d/LICENSE.md",
+        "copyright_notice": "Copyright (c) 2012-2021, Michael L. Waskom."
+      },
+      "preflight_status": "metadata_verified"
+    },
+    {
+      "case_id": "pallets__flask-4992",
+      "source_instance_id": "pallets__flask-4992",
+      "source_row_sha256": "f35d65b2bb940a7c5c47b74018f531a34d9c3ea9cca6037ddc1caa9aa60af96c",
+      "repository": "pallets/flask",
+      "repository_url": "https://github.com/pallets/flask.git",
+      "pull_request_url": "https://github.com/pallets/flask/pull/4992",
+      "issue_urls": [
+        "https://github.com/pallets/flask/issues/4989"
+      ],
+      "base_commit": "4c288bc97ea371817199908d0d9b12de9dae327e",
+      "environment_setup_commit": "182ce3dd15dfa3537391c3efaf9c3ff407d134d4",
+      "upstream_version": "2.3",
+      "python_version": "3.12.13",
+      "issue_title": "Add a binary file mode option to Config.from_file",
+      "setup_commands": [
+        {
+          "argv": [
+            "python", "-m", "pip", "install",
+            "setuptools==70.0.0", "click==8.1.3", "itsdangerous==2.1.2",
+            "Jinja2==3.1.2", "MarkupSafe==2.1.1", "Werkzeug==2.3.7",
+            "pytest==8.4.2"
+          ],
+          "timeout_seconds": 600
+        },
+        {
+          "argv": ["python", "-m", "pip", "install", "-e", "."],
+          "timeout_seconds": 600
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python", "-m", "pytest", "-q",
+            "tests/test_config.py::test_config_from_file_toml"
+          ],
+          "timeout_seconds": 120
+        }
+      ],
+      "timeout_seconds": 900,
+      "split": "holdout",
+      "gold_files": ["src/flask/config.py"],
+      "fail_to_pass": ["tests/test_config.py::test_config_from_file_toml"],
+      "repository_license": {
+        "spdx_identifier": "BSD-3-Clause",
+        "license_path": "LICENSE.rst",
+        "license_blob_sha": "9d227a0cc43c3268d15722b763bd94ad298645a1",
+        "license_url": "https://github.com/pallets/flask/blob/4c288bc97ea371817199908d0d9b12de9dae327e/LICENSE.rst",
+        "copyright_notice": "Copyright 2010 Pallets."
+      },
+      "preflight_status": "baseline_failed_gold_passed"
+    },
+    {
+      "case_id": "pydata__xarray-4094",
+      "source_instance_id": "pydata__xarray-4094",
+      "source_row_sha256": "ceb2e4d7f034a4b80cc8ebac2a384dbe61df768a88ad863a97d2b62608d99fbe",
+      "repository": "pydata/xarray",
+      "repository_url": "https://github.com/pydata/xarray.git",
+      "pull_request_url": "https://github.com/pydata/xarray/pull/4094",
+      "issue_urls": [
+        "https://github.com/pydata/xarray/issues/4049"
+      ],
+      "base_commit": "a64cf2d5476e7bbda099b34c40b7be1880dbd39a",
+      "environment_setup_commit": "1c198a191127c601d091213c4b3292a8bb3054e1",
+      "upstream_version": "0.12",
+      "python_version": "3.10",
+      "issue_title": "Fix to_unstacked_dataset for single-dimension variables",
+      "setup_commands": [
+        {
+          "argv": [
+            "python", "-m", "pip", "install",
+            "numpy==1.23.0", "pandas==1.5.3", "pytest==7.4.0",
+            "scipy==1.11.1", "setuptools==68.0.0"
+          ],
+          "timeout_seconds": 900
+        },
+        {
+          "argv": ["python", "-m", "pip", "install", "-e", "."],
+          "timeout_seconds": 900
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python", "-m", "pytest", "-q",
+            "xarray/tests/test_dataset.py::TestDataset::test_to_stacked_array_to_unstacked_dataset"
+          ],
+          "timeout_seconds": 300
+        }
+      ],
+      "timeout_seconds": 1800,
+      "split": "holdout",
+      "gold_files": ["xarray/core/dataarray.py"],
+      "fail_to_pass": ["xarray/tests/test_dataset.py::TestDataset::test_to_stacked_array_to_unstacked_dataset"],
+      "repository_license": {
+        "spdx_identifier": "Apache-2.0",
+        "license_path": "LICENSE",
+        "license_blob_sha": "37ec93a14fdcd0d6e525d97c0cfa6b314eaa98d8",
+        "license_url": "https://github.com/pydata/xarray/blob/a64cf2d5476e7bbda099b34c40b7be1880dbd39a/LICENSE",
+        "copyright_notice": "Licensed to the xarray developers under the Apache License, Version 2.0."
+      },
+      "preflight_status": "metadata_verified"
+    },
+    {
+      "case_id": "pydata__xarray-5131",
+      "source_instance_id": "pydata__xarray-5131",
+      "source_row_sha256": "1637beb93ca42dc3577f53c978f9b8b762e34a84dcb0edcf82913bdd3853b9c1",
+      "repository": "pydata/xarray",
+      "repository_url": "https://github.com/pydata/xarray.git",
+      "pull_request_url": "https://github.com/pydata/xarray/pull/5131",
+      "issue_urls": [
+        "https://github.com/pydata/xarray/issues/5130"
+      ],
+      "base_commit": "e56905889c836c736152b11a7e6117a229715975",
+      "environment_setup_commit": "1c198a191127c601d091213c4b3292a8bb3054e1",
+      "upstream_version": "0.12",
+      "python_version": "3.10",
+      "issue_title": "Remove trailing whitespace from DatasetGroupBy repr",
+      "setup_commands": [
+        {
+          "argv": [
+            "python", "-m", "pip", "install",
+            "numpy==1.23.0", "pandas==1.5.3", "pytest==7.4.0",
+            "scipy==1.11.1", "setuptools==68.0.0"
+          ],
+          "timeout_seconds": 900
+        },
+        {
+          "argv": ["python", "-m", "pip", "install", "-e", "."],
+          "timeout_seconds": 900
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python", "-m", "pytest", "-q",
+            "xarray/tests/test_groupby.py"
+          ],
+          "timeout_seconds": 300
+        }
+      ],
+      "timeout_seconds": 1800,
+      "split": "holdout",
+      "gold_files": ["xarray/core/groupby.py"],
+      "fail_to_pass": [
+        "xarray/tests/test_groupby.py::test_groupby_repr[obj0-month]",
+        "xarray/tests/test_groupby.py::test_groupby_repr[obj0-x]",
+        "xarray/tests/test_groupby.py::test_groupby_repr[obj0-y]",
+        "xarray/tests/test_groupby.py::test_groupby_repr[obj0-z]",
+        "xarray/tests/test_groupby.py::test_groupby_repr[obj1-month]",
+        "xarray/tests/test_groupby.py::test_groupby_repr[obj1-x]",
+        "xarray/tests/test_groupby.py::test_groupby_repr[obj1-y]",
+        "xarray/tests/test_groupby.py::test_groupby_repr[obj1-z]",
+        "xarray/tests/test_groupby.py::test_groupby_repr_datetime[obj0]",
+        "xarray/tests/test_groupby.py::test_groupby_repr_datetime[obj1]"
+      ],
+      "repository_license": {
+        "spdx_identifier": "Apache-2.0",
+        "license_path": "LICENSE",
+        "license_blob_sha": "37ec93a14fdcd0d6e525d97c0cfa6b314eaa98d8",
+        "license_url": "https://github.com/pydata/xarray/blob/e56905889c836c736152b11a7e6117a229715975/LICENSE",
+        "copyright_notice": "Licensed to the xarray developers under the Apache License, Version 2.0."
+      },
+      "preflight_status": "metadata_verified"
+    },
+    {
+      "case_id": "pytest-dev__pytest-11143",
+      "source_instance_id": "pytest-dev__pytest-11143",
+      "source_row_sha256": "56fa05eb6b7f4a67a062f7c5071444287c6cd69f82b32271f446aa930533ac62",
+      "repository": "pytest-dev/pytest",
+      "repository_url": "https://github.com/pytest-dev/pytest.git",
+      "pull_request_url": "https://github.com/pytest-dev/pytest/pull/11143",
+      "issue_urls": [
+        "https://github.com/pytest-dev/pytest/issues/11140"
+      ],
+      "base_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+      "environment_setup_commit": "10056865d2a4784934ce043908a0e78d0578f677",
+      "upstream_version": "8.0",
+      "python_version": "3.9",
+      "issue_title": "Assertion rewrite mistakes an integer expression for a docstring",
+      "setup_commands": [
+        {
+          "argv": [
+            "python", "-m", "pip", "install",
+            "iniconfig==2.0.0", "packaging==23.1", "pluggy==1.3.0",
+            "exceptiongroup==1.1.3", "tomli==2.0.1"
+          ],
+          "timeout_seconds": 600
+        },
+        {
+          "argv": ["python", "-m", "pip", "install", "-e", "."],
+          "timeout_seconds": 600
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python", "-m", "pytest", "-q",
+            "testing/test_assertrewrite.py::TestIssue11140::test_constant_not_picked_as_module_docstring"
+          ],
+          "timeout_seconds": 300
+        }
+      ],
+      "timeout_seconds": 1200,
+      "split": "holdout",
+      "gold_files": ["src/_pytest/assertion/rewrite.py"],
+      "fail_to_pass": ["testing/test_assertrewrite.py::TestIssue11140::test_constant_not_picked_as_module_docstring"],
+      "repository_license": {
+        "spdx_identifier": "MIT",
+        "license_path": "LICENSE",
+        "license_blob_sha": "c3f1657fce94589bd1ec7cead810639047f3d359",
+        "license_url": "https://github.com/pytest-dev/pytest/blob/6995257cf470d2143ad1683824962de4071c0eb7/LICENSE",
+        "copyright_notice": "Copyright (c) 2004 Holger Krekel and others."
+      },
+      "preflight_status": "metadata_verified"
+    },
+    {
+      "case_id": "pytest-dev__pytest-11148",
+      "source_instance_id": "pytest-dev__pytest-11148",
+      "source_row_sha256": "eaa85210eac2b02a998567f47fbf6b6ed45a17cfdd3b46d7f1a655a37eb06d89",
+      "repository": "pytest-dev/pytest",
+      "repository_url": "https://github.com/pytest-dev/pytest.git",
+      "pull_request_url": "https://github.com/pytest-dev/pytest/pull/11148",
+      "issue_urls": [
+        "https://github.com/pytest-dev/pytest/issues/10341",
+        "https://github.com/pytest-dev/pytest/issues/10811"
+      ],
+      "base_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+      "environment_setup_commit": "10056865d2a4784934ce043908a0e78d0578f677",
+      "upstream_version": "8.0",
+      "python_version": "3.9",
+      "issue_title": "Avoid duplicated imports with importlib mode and doctest modules",
+      "setup_commands": [
+        {
+          "argv": [
+            "python", "-m", "pip", "install",
+            "iniconfig==2.0.0", "packaging==23.1", "pluggy==1.3.0",
+            "exceptiongroup==1.1.3", "tomli==2.0.1"
+          ],
+          "timeout_seconds": 600
+        },
+        {
+          "argv": ["python", "-m", "pip", "install", "-e", "."],
+          "timeout_seconds": 600
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python", "-m", "pytest", "-q",
+            "testing/acceptance_test.py::test_doctest_and_normal_imports_with_importlib",
+            "testing/test_pathlib.py::TestImportPath::test_remembers_previous_imports"
+          ],
+          "timeout_seconds": 300
+        }
+      ],
+      "timeout_seconds": 1200,
+      "split": "holdout",
+      "gold_files": ["src/_pytest/pathlib.py"],
+      "fail_to_pass": [
+        "testing/acceptance_test.py::test_doctest_and_normal_imports_with_importlib",
+        "testing/test_pathlib.py::TestImportPath::test_remembers_previous_imports"
+      ],
+      "repository_license": {
+        "spdx_identifier": "MIT",
+        "license_path": "LICENSE",
+        "license_blob_sha": "c3f1657fce94589bd1ec7cead810639047f3d359",
+        "license_url": "https://github.com/pytest-dev/pytest/blob/2f7415cfbc4b6ca62f9013f1abd27136f46b9653/LICENSE",
+        "copyright_notice": "Copyright (c) 2004 Holger Krekel and others."
+      },
+      "preflight_status": "metadata_verified"
+    },
+    {
+      "case_id": "sympy__sympy-20590",
+      "source_instance_id": "sympy__sympy-20590",
+      "source_row_sha256": "43c7acceedd3576adf8709a64a989de0fc3e7afe689dcf49d4f0148d7f522652",
+      "repository": "sympy/sympy",
+      "repository_url": "https://github.com/sympy/sympy.git",
+      "pull_request_url": "https://github.com/sympy/sympy/pull/20590",
+      "issue_urls": [
+        "https://github.com/sympy/sympy/issues/20567"
+      ],
+      "base_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+      "environment_setup_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+      "upstream_version": "1.7",
+      "python_version": "3.9",
+      "issue_title": "Restore slot-based immutability for Symbol instances",
+      "setup_commands": [
+        {
+          "argv": [
+            "python", "-m", "pip", "install",
+            "mpmath==1.3.0", "flake8-comprehensions"
+          ],
+          "timeout_seconds": 600
+        },
+        {
+          "argv": ["python", "-m", "pip", "install", "-e", "."],
+          "timeout_seconds": 600
+        }
+      ],
+      "test_commands": [
+        {
+          "argv": [
+            "python", "-m", "pytest", "-q",
+            "sympy/core/tests/test_basic.py::test_immutable"
+          ],
+          "timeout_seconds": 300
+        }
+      ],
+      "timeout_seconds": 1200,
+      "split": "holdout",
+      "gold_files": ["sympy/core/_print_helpers.py"],
+      "fail_to_pass": ["test_immutable"],
+      "repository_license": {
+        "spdx_identifier": "BSD-3-Clause",
+        "license_path": "LICENSE",
+        "license_blob_sha": "551e9de593d78baebe0776341be275854e66db47",
+        "license_url": "https://github.com/sympy/sympy/blob/cffd4e0f86fefd4802349a9f9b19ed70934ea354/LICENSE",
+        "copyright_notice": "Copyright (c) 2006-2020 SymPy Development Team."
+      },
+      "preflight_status": "metadata_verified"
+    }
+  ],
+  "dev_task_count": 2,
+  "holdout_task_count": 8,
+  "content_sha256": "89496bc2200149601333dadb9a6c7ac6b7d660b4bc7acf29c23597d33b660f60"
+}
