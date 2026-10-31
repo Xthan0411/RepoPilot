@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from functools import partial
 from pathlib import Path
 from typing import Any, cast
 
@@ -15,6 +16,7 @@ from repopilot.enums import CliExitCode, RepairWorkflowErrorCode
 from repopilot.evals import BM25BaselineReport
 from repopilot.repair_workflow import RepairWorkflowError
 from repopilot.replay import TraceReplayResult
+from repopilot.retrieval import RepositoryIngestScanPolicy, ingest_repository
 from repopilot.schemas import FinalResult
 from repopilot.trace import AgentTrace
 
@@ -353,10 +355,22 @@ def test_cli_eval_bm25_maps_input_output_and_retrieval_errors(
     assert output_error.exit_code == CliExitCode.IO_ERROR
     assert "unable to write BM25 baseline artifacts" in output_error.stderr
 
-    monkeypatch.setenv("REPOPILOT_REPOSITORY_MAX_LIST_ENTRIES", "1")
+    monkeypatch.setattr(
+        "repopilot.evals.baseline.ingest_repository",
+        partial(ingest_repository, scan_policy=RepositoryIngestScanPolicy(max_list_entries=1)),
+    )
     retrieval_error = invoke_eval_bm25(P2_MANIFEST_PATH, tmp_path / "retrieval")
     assert retrieval_error.exit_code == CliExitCode.ADAPTER_ERROR
     assert "indexing or retrieval failed" in retrieval_error.stderr
+
+
+def test_cli_bm25_inventory_is_independent_of_agent_tool_listing_limit(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("REPOPILOT_REPOSITORY_MAX_LIST_ENTRIES", "1")
+    result = invoke_eval_bm25(P2_MANIFEST_PATH, tmp_path / "retrieval")
+    assert result.exit_code == CliExitCode.SUCCESS
+    assert BM25BaselineReport.model_validate_json(result.stdout).summary.task_count == 3
 
 
 @pytest.mark.parametrize(

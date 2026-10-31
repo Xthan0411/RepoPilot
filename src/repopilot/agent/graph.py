@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import cast
+from typing import Literal, cast
 
 from langchain_core.runnables import RunnableConfig, RunnableLambda
 from langgraph.checkpoint.base import BaseCheckpointSaver
@@ -74,12 +74,35 @@ STATE_ERROR_MESSAGES = {
 }
 
 
+GraphFailureCause = Literal[
+    "graph_recursion_limit",
+    "validation_error",
+    "invalid_value",
+    "local_io_error",
+    "unexpected_exception",
+]
+_GRAPH_FAILURE_CAUSES = frozenset(
+    {
+        "graph_recursion_limit",
+        "validation_error",
+        "invalid_value",
+        "local_io_error",
+        "unexpected_exception",
+    }
+)
+
+
 class AgentStateGraphError(RuntimeError):
     """Safe typed failure for state validation or checkpoint operations."""
 
-    def __init__(self, code: AgentStateErrorCode) -> None:
+    def __init__(
+        self, code: AgentStateErrorCode, *, cause_type: GraphFailureCause | None = None
+    ) -> None:
+        if cause_type is not None and cause_type not in _GRAPH_FAILURE_CAUSES:
+            raise ValueError("unapproved graph failure cause")
         super().__init__(STATE_ERROR_MESSAGES[code])
         self.code = code
+        self.cause_type = cause_type
         self.error_type = (
             ErrorType.INTERNAL_ERROR
             if code is AgentStateErrorCode.CHECKPOINT_ERROR

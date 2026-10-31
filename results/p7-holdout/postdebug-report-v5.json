@@ -1,0 +1,854 @@
+{
+  "report_version": "post-debug-rerun-report-v5",
+  "evaluation_label": "post_debug_seen_task_rerun",
+  "fresh_blind_holdout": false,
+  "expensive_preflight_waived": true,
+  "plan_sha256": "7bda422b5740f206e08d9ce5cb4cfb5c9d9bc48aeab9db4f9074bdcf561430a6",
+  "authorization_sha256": "70deeaa4f3a53e2bb2fb1d08e07e544cae97fdab95ba8c4c1f0e944bf6698da5",
+  "source_commit": "3522dd1d2c091fa64d22b1da603379139d5073bd",
+  "controller_commit": "db9f3c7c26dc10bc951437f1f5fcac3a1d65993d",
+  "slot_count": 32,
+  "completed_slots": 32,
+  "technical_failure_slots": 0,
+  "task_success_count": 18,
+  "known_cost_usd": "6.369348750",
+  "reserved_unknown_cost_usd": "0",
+  "carried_cost_usd": "16.256243125",
+  "total_accounted_cost_usd": "22.625591875",
+  "budget_usd": "32.00",
+  "outcomes": [
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "django__django-15902",
+      "run_id": "6390ff45-08ea-5b78-a518-b38b2fd702f2",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/django__django-15902",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/django__django-15902/manifest.json",
+        "sha256": "ab35ab2a024612fd68f0df379186c9b9ea193220a7ff489e9e1703b15a4f8da8",
+        "size_bytes": 1484,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 72750,
+        "output_tokens": 1362,
+        "total_tokens": 74112,
+        "estimated_cost_usd": "0.247011250",
+        "latency_ms": 27545
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "mwaskom__seaborn-3190",
+      "run_id": "cc82025e-6529-53a5-bc9f-19bfda3733ce",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/mwaskom__seaborn-3190",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/mwaskom__seaborn-3190/manifest.json",
+        "sha256": "7104f59d4ea4507efb86a752b206727da3ba4aee23118d43cba5fb3a4d064eac",
+        "size_bytes": 1486,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 71765,
+        "output_tokens": 1149,
+        "total_tokens": 72914,
+        "estimated_cost_usd": "0.240814375",
+        "latency_ms": 18662
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pallets__flask-4992",
+      "run_id": "3367f977-5bb2-5169-af50-6d0a70ce8e7e",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/pallets__flask-4992",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/pallets__flask-4992/manifest.json",
+        "sha256": "665a6edc8095c426b732c043d4d0bf23e03929f52dd03b8cbfc47f7ef29c0c6b",
+        "size_bytes": 1482,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "failed",
+      "termination_reason": "tests_failed",
+      "task_success": false,
+      "usage": {
+        "input_tokens": 38959,
+        "output_tokens": 1195,
+        "total_tokens": 40154,
+        "estimated_cost_usd": "0.139214375",
+        "latency_ms": 15397
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pydata__xarray-4094",
+      "run_id": "174b0cb5-da18-5c79-9fce-9ba60fdf351b",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/pydata__xarray-4094",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/pydata__xarray-4094/manifest.json",
+        "sha256": "bd4469801bbd218d8c0ccc5b349fd19a67f2302e2054ce461683b6a975e5620b",
+        "size_bytes": 1482,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "failed",
+      "termination_reason": "tests_failed",
+      "task_success": false,
+      "usage": {
+        "input_tokens": 78644,
+        "output_tokens": 2221,
+        "total_tokens": 80865,
+        "estimated_cost_usd": "0.278315000",
+        "latency_ms": 30642
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pydata__xarray-5131",
+      "run_id": "43bca546-c27d-593c-8663-d1c420d3723b",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/pydata__xarray-5131",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/pydata__xarray-5131/manifest.json",
+        "sha256": "a836ef995742fdf935a515be4b81337e3e74e1a0010b82de06a36f2ac7a7a931",
+        "size_bytes": 1482,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 42139,
+        "output_tokens": 452,
+        "total_tokens": 42591,
+        "estimated_cost_usd": "0.138006875",
+        "latency_ms": 8328
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pytest-dev__pytest-11143",
+      "run_id": "79a3be3c-20b0-5077-ba08-92110816d840",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/pytest-dev__pytest-11143",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/pytest-dev__pytest-11143/manifest.json",
+        "sha256": "570d80b029b479c864e1024d13faccd7b1b8209d86a5f4c8a5d7397666ae8648",
+        "size_bytes": 1492,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 48285,
+        "output_tokens": 523,
+        "total_tokens": 48808,
+        "estimated_cost_usd": "0.158278125",
+        "latency_ms": 10706
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pytest-dev__pytest-11148",
+      "run_id": "82ba11a9-5a55-53ed-920d-5612f4d30657",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/pytest-dev__pytest-11148",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/pytest-dev__pytest-11148/manifest.json",
+        "sha256": "bb719cf94cb9e75ac4b033f86e6d28a743a773629e37704b06022ad1c66a76f5",
+        "size_bytes": 1492,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "stopped",
+      "termination_reason": "token_limit",
+      "task_success": false,
+      "usage": {
+        "input_tokens": 99631,
+        "output_tokens": 1099,
+        "total_tokens": 100730,
+        "estimated_cost_usd": "0.326993125",
+        "latency_ms": 20909
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "sympy__sympy-20590",
+      "run_id": "eb90304a-7c69-5f12-b64e-3a39bf0f0313",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/sympy__sympy-20590",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/dense-only-v1/sympy__sympy-20590/manifest.json",
+        "sha256": "0ed3ea877bbacdf4dc93c1beb9780a7a357f19ed4958671a2d6142963c948ba4",
+        "size_bytes": 1480,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "stopped",
+      "termination_reason": "token_limit",
+      "task_success": false,
+      "usage": {
+        "input_tokens": 109308,
+        "output_tokens": 979,
+        "total_tokens": 110287,
+        "estimated_cost_usd": "0.355281250",
+        "latency_ms": 23489
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "django__django-15902",
+      "run_id": "89a8b62a-6ad9-5e36-8abc-f296edf613fc",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/django__django-15902",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/django__django-15902/manifest.json",
+        "sha256": "1937bde415eeb4b838b727aac740650f6620cfa2183cdc875bf6c0d8ae4827c1",
+        "size_bytes": 1485,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 72305,
+        "output_tokens": 771,
+        "total_tokens": 73076,
+        "estimated_cost_usd": "0.236755625",
+        "latency_ms": 15361
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "mwaskom__seaborn-3190",
+      "run_id": "bde36d78-1f53-56fa-99ad-297069936192",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/mwaskom__seaborn-3190",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/mwaskom__seaborn-3190/manifest.json",
+        "sha256": "28ab0f8d08c1c439adddd945508443514b5c194e01b1b6c5a86b8ed3ded9d86a",
+        "size_bytes": 1487,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 41287,
+        "output_tokens": 771,
+        "total_tokens": 42058,
+        "estimated_cost_usd": "0.140129375",
+        "latency_ms": 12400
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pallets__flask-4992",
+      "run_id": "0008e43e-0404-5536-b743-d12919369811",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/pallets__flask-4992",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/pallets__flask-4992/manifest.json",
+        "sha256": "b7f713ca0d152dd16c15d6db90f4a35e6b74516fb47a3ed6a48298ae97711551",
+        "size_bytes": 1483,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "failed",
+      "termination_reason": "tests_failed",
+      "task_success": false,
+      "usage": {
+        "input_tokens": 44335,
+        "output_tokens": 2485,
+        "total_tokens": 46820,
+        "estimated_cost_usd": "0.175288125",
+        "latency_ms": 29109
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pydata__xarray-4094",
+      "run_id": "6be7c33c-64b5-5525-a37d-785243a7d031",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/pydata__xarray-4094",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/pydata__xarray-4094/manifest.json",
+        "sha256": "6b0518936a9c8666283040097e15dc3c199ed100dbcda2d317f9165443b3c4d1",
+        "size_bytes": 1483,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 68234,
+        "output_tokens": 2401,
+        "total_tokens": 70635,
+        "estimated_cost_usd": "0.248560000",
+        "latency_ms": 32081
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pydata__xarray-5131",
+      "run_id": "f0cf25e9-2380-5bbc-9b66-0304e09c1599",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/pydata__xarray-5131",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/pydata__xarray-5131/manifest.json",
+        "sha256": "d61e0a941ec4d503a307e26ffcde222b442bbc4a054bc8af2c88b521ab4090d9",
+        "size_bytes": 1483,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 40881,
+        "output_tokens": 445,
+        "total_tokens": 41326,
+        "estimated_cost_usd": "0.133970625",
+        "latency_ms": 8623
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pytest-dev__pytest-11143",
+      "run_id": "7fd6322e-7334-5c3e-944c-9659dc37ad62",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/pytest-dev__pytest-11143",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/pytest-dev__pytest-11143/manifest.json",
+        "sha256": "ef12c160b210c7df55d41d359b9dd829187758640234eb7805418084a94b4d42",
+        "size_bytes": 1493,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 46227,
+        "output_tokens": 582,
+        "total_tokens": 46809,
+        "estimated_cost_usd": "0.152731875",
+        "latency_ms": 10927
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pytest-dev__pytest-11148",
+      "run_id": "72b8f832-431d-576e-ab1f-d3bcf72615c7",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/pytest-dev__pytest-11148",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/pytest-dev__pytest-11148/manifest.json",
+        "sha256": "ab51b1e277fb599da4064212967b8b7a8c2935aa83cf78ea8940ab2ffeaa6fb4",
+        "size_bytes": 1493,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "stopped",
+      "termination_reason": "token_limit",
+      "task_success": false,
+      "usage": {
+        "input_tokens": 102795,
+        "output_tokens": 2467,
+        "total_tokens": 105262,
+        "estimated_cost_usd": "0.357324375",
+        "latency_ms": 33200
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "sympy__sympy-20590",
+      "run_id": "c7d965b2-5e64-503f-bdef-fea4bfc3c6fe",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/sympy__sympy-20590",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/hybrid-rrf-v1/sympy__sympy-20590/manifest.json",
+        "sha256": "7af841bd95f216f8de510249919333eee9c558a8f867b1f1047e7aea84831706",
+        "size_bytes": 1481,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "stopped",
+      "termination_reason": "repeated_action",
+      "task_success": false,
+      "usage": {
+        "input_tokens": 93303,
+        "output_tokens": 833,
+        "total_tokens": 94136,
+        "estimated_cost_usd": "0.303151875",
+        "latency_ms": 19483
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "django__django-15902",
+      "run_id": "831b6d5d-53cf-5665-9470-732d989e3c79",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/django__django-15902",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/django__django-15902/manifest.json",
+        "sha256": "9aceec0810be70a236a7707c7cb9fb08558a27e9fcaebad16a9fde15e444edc0",
+        "size_bytes": 1664,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "stopped",
+      "termination_reason": "repeated_action",
+      "task_success": false,
+      "usage": {
+        "input_tokens": 55793,
+        "output_tokens": 708,
+        "total_tokens": 56501,
+        "estimated_cost_usd": "0.184134375",
+        "latency_ms": 15836
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "mwaskom__seaborn-3190",
+      "run_id": "196ad2a6-f420-58e5-b1ff-d873ba343d59",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/mwaskom__seaborn-3190",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/mwaskom__seaborn-3190/manifest.json",
+        "sha256": "9537cb0834f5f7334285c7822a5006be60ef12c5cb3ca71538c7a21c49ac99be",
+        "size_bytes": 1666,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 37837,
+        "output_tokens": 1810,
+        "total_tokens": 39647,
+        "estimated_cost_usd": "0.144780625",
+        "latency_ms": 24885
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pallets__flask-4992",
+      "run_id": "12f8a3e7-105b-57ad-bf2f-1561ae284cc6",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/pallets__flask-4992",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/pallets__flask-4992/manifest.json",
+        "sha256": "de8e89160746f0fe0355220a7b39a54382694014fc797943a8f05533924ba2d6",
+        "size_bytes": 1662,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "failed",
+      "termination_reason": "tests_failed",
+      "task_success": false,
+      "usage": {
+        "input_tokens": 16160,
+        "output_tokens": 487,
+        "total_tokens": 16647,
+        "estimated_cost_usd": "0.057423750",
+        "latency_ms": 6980
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pydata__xarray-4094",
+      "run_id": "03ce3e41-8ae8-5e72-9ac7-6ef2e9f6977d",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/pydata__xarray-4094",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/pydata__xarray-4094/manifest.json",
+        "sha256": "88404064cea9d26834f70d0b90e8a05857454db8828e7cb53563eaa8dd495f1d",
+        "size_bytes": 1662,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 28948,
+        "output_tokens": 785,
+        "total_tokens": 29733,
+        "estimated_cost_usd": "0.101703750",
+        "latency_ms": 12712
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pydata__xarray-5131",
+      "run_id": "20e4253d-9c7c-545b-a39e-4e75ce95eaed",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/pydata__xarray-5131",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/pydata__xarray-5131/manifest.json",
+        "sha256": "b8837a86730997f22eafe81338a76f0a7bedea5cbd0a6ce40507643fda9a79e6",
+        "size_bytes": 1662,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 31685,
+        "output_tokens": 582,
+        "total_tokens": 32267,
+        "estimated_cost_usd": "0.107211875",
+        "latency_ms": 10392
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pytest-dev__pytest-11143",
+      "run_id": "dfdf4963-7e44-5de5-9180-9abe440b1ac4",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/pytest-dev__pytest-11143",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/pytest-dev__pytest-11143/manifest.json",
+        "sha256": "8a30bf8a6f68a30b16df86a1d43f21b453937845f50ead6928b2d9b62da49fbe",
+        "size_bytes": 1672,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 37380,
+        "output_tokens": 458,
+        "total_tokens": 37838,
+        "estimated_cost_usd": "0.123148750",
+        "latency_ms": 10322
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pytest-dev__pytest-11148",
+      "run_id": "a470d97b-cabc-5c38-8bae-21fb75c8b4b6",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/pytest-dev__pytest-11148",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/pytest-dev__pytest-11148/manifest.json",
+        "sha256": "4e1eff6ddd8fe64427823ad51e9fb4656ae54fe52421dfc551851a678550ff1e",
+        "size_bytes": 1672,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "stopped",
+      "termination_reason": "token_limit",
+      "task_success": false,
+      "usage": {
+        "input_tokens": 105503,
+        "output_tokens": 2420,
+        "total_tokens": 107923,
+        "estimated_cost_usd": "0.364776875",
+        "latency_ms": 37417
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "sympy__sympy-20590",
+      "run_id": "aee54757-5d30-5e7a-a930-b81f116b1346",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/sympy__sympy-20590",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/mini-swe-safe-v1/sympy__sympy-20590/manifest.json",
+        "sha256": "c4cd20e5079a21431107efce2bafc505868b8dd5cf2d89a15f1b0523abf99e57",
+        "size_bytes": 1660,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "failed",
+      "termination_reason": "tests_failed",
+      "task_success": false,
+      "usage": {
+        "input_tokens": 42366,
+        "output_tokens": 725,
+        "total_tokens": 43091,
+        "estimated_cost_usd": "0.142582500",
+        "latency_ms": 13827
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "django__django-15902",
+      "run_id": "44f1edb1-820d-56c4-9c6e-252c7750de2f",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/django__django-15902",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/django__django-15902/manifest.json",
+        "sha256": "9a32081a94564ef8c34c259fcfedf6c413c88d3f9433b820e7fa632ebd3513ed",
+        "size_bytes": 1674,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 46592,
+        "output_tokens": 985,
+        "total_tokens": 47577,
+        "estimated_cost_usd": "0.159841250",
+        "latency_ms": 15363
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "mwaskom__seaborn-3190",
+      "run_id": "a28ac933-3cd1-51bc-9a9a-64bfa07dda66",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/mwaskom__seaborn-3190",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/mwaskom__seaborn-3190/manifest.json",
+        "sha256": "9dc0eafef16ed80116e419b1cfad990e7bf713b7fda8145473e2686853084300",
+        "size_bytes": 1676,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 57923,
+        "output_tokens": 1107,
+        "total_tokens": 59030,
+        "estimated_cost_usd": "0.197004375",
+        "latency_ms": 16348
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pallets__flask-4992",
+      "run_id": "7509754b-3f03-5c1a-b5e9-eaee8f56d6f7",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/pallets__flask-4992",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/pallets__flask-4992/manifest.json",
+        "sha256": "ac4513dd52668422d9f01c33ef88450e818fa97577a5a4eadd316739762a0d4a",
+        "size_bytes": 1672,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "failed",
+      "termination_reason": "tests_failed",
+      "task_success": false,
+      "usage": {
+        "input_tokens": 35585,
+        "output_tokens": 921,
+        "total_tokens": 36506,
+        "estimated_cost_usd": "0.124560625",
+        "latency_ms": 12807
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pydata__xarray-4094",
+      "run_id": "e86e0f3a-e88d-5591-8828-d6c16a5eed96",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/pydata__xarray-4094",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/pydata__xarray-4094/manifest.json",
+        "sha256": "180ca156afc725c5a1b1410d1baa1557f898ca0ae4470476b1f3ac8199a053cc",
+        "size_bytes": 1672,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "failed",
+      "termination_reason": "tests_failed",
+      "task_success": false,
+      "usage": {
+        "input_tokens": 52197,
+        "output_tokens": 1811,
+        "total_tokens": 54008,
+        "estimated_cost_usd": "0.189746875",
+        "latency_ms": 27074
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pydata__xarray-5131",
+      "run_id": "82125982-f439-580c-b10c-d40d6f8e34fb",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/pydata__xarray-5131",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/pydata__xarray-5131/manifest.json",
+        "sha256": "2f33533e97fb7e00cf259e6611c2a1f49e71b3c25b2bf43aab662dc461d27050",
+        "size_bytes": 1672,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 41420,
+        "output_tokens": 482,
+        "total_tokens": 41902,
+        "estimated_cost_usd": "0.136210000",
+        "latency_ms": 9056
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pytest-dev__pytest-11143",
+      "run_id": "b414bdd5-6f02-57ff-a092-8af63c9e67ea",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/pytest-dev__pytest-11143",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/pytest-dev__pytest-11143/manifest.json",
+        "sha256": "36b5f8bb57c9120a2e70bc97d5eb074ba6e2047237f49b96025dfb869e9ea6f2",
+        "size_bytes": 1682,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 48083,
+        "output_tokens": 505,
+        "total_tokens": 48588,
+        "estimated_cost_usd": "0.157376875",
+        "latency_ms": 9649
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pytest-dev__pytest-11148",
+      "run_id": "731c67be-a203-5836-aefe-8b32a9902f94",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/pytest-dev__pytest-11148",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/pytest-dev__pytest-11148/manifest.json",
+        "sha256": "4198eafa63f3f7d3d3c917aed4c4944ecd9c88be59b7d7a5174fd27b90bb220e",
+        "size_bytes": 1682,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "success",
+      "termination_reason": "success",
+      "task_success": true,
+      "usage": {
+        "input_tokens": 60054,
+        "output_tokens": 790,
+        "total_tokens": 60844,
+        "estimated_cost_usd": "0.198908750",
+        "latency_ms": 13551
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "sympy__sympy-20590",
+      "run_id": "c5b3ba8d-4fed-5733-b923-d7f994cc6c56",
+      "output_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/sympy__sympy-20590",
+      "manifest_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v5-00779c01190b4e38/no-semantic-rag-v1/sympy__sympy-20590/manifest.json",
+        "sha256": "8904c32df10d94b7d2ae231a4566dac2412349cf92e5f683668136cada55ed6b",
+        "size_bytes": 1670,
+        "media_type": "application/json"
+      },
+      "attempt_status": "completed",
+      "execution_count": 1,
+      "run_status": "stopped",
+      "termination_reason": "token_limit",
+      "task_success": false,
+      "usage": {
+        "input_tokens": 106884,
+        "output_tokens": 1006,
+        "total_tokens": 107890,
+        "estimated_cost_usd": "0.348111250",
+        "latency_ms": 21704
+      },
+      "technical_failure_code": null,
+      "reserved_unknown_cost_usd": "0"
+    }
+  ],
+  "content_sha256": "1ecc41b4267da0ae6f56cbb6567de419442db5692d62f5025e7aa955581368ba"
+}

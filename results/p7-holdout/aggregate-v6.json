@@ -1,0 +1,5266 @@
+{
+  "report_version": "evaluation-aggregate-v1",
+  "experiment_id": "repopilot-p7-postdebug-v6",
+  "evaluation_label": "post_debug_seen_task_rerun",
+  "fresh_blind_holdout": false,
+  "source_commit": "ff8f7c0144b56749c6d1515ff9c7f83da53680e6",
+  "controller_commit": "9c93215eda599e6f02a0a4aea1779e17cf73a0de",
+  "distinct_task_count": 8,
+  "planned_slots": 40,
+  "missing_slots": [],
+  "complete": true,
+  "provider_requests_made_by_report": 0,
+  "verified_artifact_references": 519,
+  "sources": {
+    "plan": {
+      "relative_path": "results/p7-holdout/postdebug-plan-v6.json",
+      "sha256": "239da82277b3f0560d7e04c58523493f80f674e8783f35ce175967cd96b09aeb",
+      "size_bytes": 357520,
+      "media_type": "application/json"
+    },
+    "authorization": {
+      "relative_path": "results/p7-holdout/postdebug-authorization-v6.json",
+      "sha256": "892a93656d4199c08a4ad77b3ddeb5de1a5f419351efcb2d85fb5d91461a6091",
+      "size_bytes": 704,
+      "media_type": "application/json"
+    },
+    "report": {
+      "relative_path": "results/p7-holdout/postdebug-report-v6.json",
+      "sha256": "4348a7427633ff17ca50fe7e2e2a6e0eaf861e44ddb35761bddcdc14738388a7",
+      "size_bytes": 42107,
+      "media_type": "application/json"
+    },
+    "dataset": {
+      "relative_path": "data/manifests/p7-v1/manifest.json",
+      "sha256": "073732c2deb706c49c26ef4712f70186b0a6f6175a25837768ae156ee171fe29",
+      "size_bytes": 18605,
+      "media_type": "application/json"
+    }
+  },
+  "overall": {
+    "planned_slots": 40,
+    "completed_slots": 40,
+    "technical_failure_slots": 0,
+    "missing_slots": 0,
+    "interrupted_slots": 0,
+    "successful_slots": 20,
+    "completed_unsuccessful_slots": 20,
+    "success_rate_all_slots": {
+      "numerator": 20,
+      "denominator": 40,
+      "rate": "0.5"
+    },
+    "success_rate_completed": {
+      "numerator": 20,
+      "denominator": 40,
+      "rate": "0.5"
+    },
+    "reproduction_rate_completed": {
+      "numerator": 40,
+      "denominator": 40,
+      "rate": "1"
+    },
+    "patch_apply_rate_completed": {
+      "numerator": 24,
+      "denominator": 40,
+      "rate": "0.6"
+    },
+    "test_pass_rate_completed": {
+      "numerator": 20,
+      "denominator": 40,
+      "rate": "0.5"
+    },
+    "technical_failure_rate_all_slots": {
+      "numerator": 0,
+      "denominator": 40,
+      "rate": "0"
+    },
+    "budget_termination_rate_completed": {
+      "numerator": 9,
+      "denominator": 40,
+      "rate": "0.225"
+    },
+    "timeout_rate_completed": {
+      "numerator": 0,
+      "denominator": 40,
+      "rate": "0"
+    },
+    "cost_limit_rate_completed": {
+      "numerator": 0,
+      "denominator": 40,
+      "rate": "0"
+    },
+    "sandbox_error_rate_completed": {
+      "numerator": 0,
+      "denominator": 40,
+      "rate": "0"
+    },
+    "termination_counts": {
+      "invalid_patch": 7,
+      "repeated_action": 1,
+      "success": 20,
+      "tests_failed": 3,
+      "token_limit": 9
+    },
+    "usage_observed_slots": 40,
+    "usage_missing_slots": 0,
+    "known_cost_usd": "7.715310000",
+    "reserved_unknown_cost_usd": "0",
+    "accounted_cost_usd": "7.715310000",
+    "known_cost_per_success_usd": "0.385765500",
+    "accounted_cost_per_success_usd": "0.385765500",
+    "cost_usd": {
+      "sample_count": 40,
+      "mean": "0.192882750",
+      "p50": "0.1697543750",
+      "p95": "0.34768640625",
+      "percentile_method": "linear_r7_h=(n-1)*q"
+    },
+    "total_tokens": {
+      "sample_count": 40,
+      "mean": "56634.4",
+      "p50": "51522.5",
+      "p95": "105885.95",
+      "percentile_method": "linear_r7_h=(n-1)*q"
+    },
+    "tool_steps": {
+      "sample_count": 40,
+      "mean": "6.875",
+      "p50": "6.5",
+      "p95": "13.05",
+      "percentile_method": "linear_r7_h=(n-1)*q"
+    },
+    "evaluator_steps": {
+      "sample_count": 8,
+      "mean": "2.125",
+      "p50": "2.0",
+      "p95": "2.65",
+      "percentile_method": "linear_r7_h=(n-1)*q"
+    },
+    "provider_latency_ms": {
+      "sample_count": 40,
+      "mean": "20754",
+      "p50": "18118.5",
+      "p95": "37267.85",
+      "percentile_method": "linear_r7_h=(n-1)*q"
+    },
+    "event_wall_ms": {
+      "sample_count": 40,
+      "mean": "103979.100575",
+      "p50": "61308.2865",
+      "p95": "413730.54960",
+      "percentile_method": "linear_r7_h=(n-1)*q"
+    },
+    "tool_calls": 275,
+    "tool_errors": 0,
+    "tool_error_rate": {
+      "numerator": 0,
+      "denominator": 275,
+      "rate": "0"
+    },
+    "tool_errors_by_code": {},
+    "patch_attempts": 36,
+    "patch_rejections": 8,
+    "patch_rejection_rate": {
+      "numerator": 8,
+      "denominator": 36,
+      "rate": "0.2222222222222222222222222222"
+    },
+    "patch_rejections_by_code": {
+      "apply_conflict": 5,
+      "invalid_diff": 3
+    },
+    "policy_rejected_tool_calls": 0,
+    "policy_rejection_rate_of_tool_calls": {
+      "numerator": 0,
+      "denominator": 275,
+      "rate": "0"
+    },
+    "observed_policy_decisions": 111,
+    "sandbox_policy_denials": 0,
+    "sandbox_denial_rate_of_observed_decisions": {
+      "numerator": 0,
+      "denominator": 111,
+      "rate": "0"
+    },
+    "trace_observed_slots": 40,
+    "provider_decision_calls": 312,
+    "provider_attempts_reported": 312,
+    "provider_retry_attempts_reported": 0,
+    "provider_failed_decisions": 0,
+    "validation_repair_slots": 4,
+    "validation_repair_rescued_slots": 1,
+    "validation_repair_rescue_rate": {
+      "numerator": 1,
+      "denominator": 4,
+      "rate": "0.25"
+    },
+    "adversarial_interception_rate": null,
+    "unsafe_host_execution_count": null,
+    "secret_exposure_count": null,
+    "safety_evaluation": "not_measured_by_this_dataset"
+  },
+  "arms": [
+    {
+      "arm_id": "dense-only-v1",
+      "execution": {
+        "planned_slots": 8,
+        "completed_slots": 8,
+        "technical_failure_slots": 0,
+        "missing_slots": 0,
+        "interrupted_slots": 0,
+        "successful_slots": 4,
+        "completed_unsuccessful_slots": 4,
+        "success_rate_all_slots": {
+          "numerator": 4,
+          "denominator": 8,
+          "rate": "0.5"
+        },
+        "success_rate_completed": {
+          "numerator": 4,
+          "denominator": 8,
+          "rate": "0.5"
+        },
+        "reproduction_rate_completed": {
+          "numerator": 8,
+          "denominator": 8,
+          "rate": "1"
+        },
+        "patch_apply_rate_completed": {
+          "numerator": 5,
+          "denominator": 8,
+          "rate": "0.625"
+        },
+        "test_pass_rate_completed": {
+          "numerator": 4,
+          "denominator": 8,
+          "rate": "0.5"
+        },
+        "technical_failure_rate_all_slots": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "budget_termination_rate_completed": {
+          "numerator": 3,
+          "denominator": 8,
+          "rate": "0.375"
+        },
+        "timeout_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "cost_limit_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "sandbox_error_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "termination_counts": {
+          "success": 4,
+          "tests_failed": 1,
+          "token_limit": 3
+        },
+        "usage_observed_slots": 8,
+        "usage_missing_slots": 0,
+        "known_cost_usd": "1.926355625",
+        "reserved_unknown_cost_usd": "0",
+        "accounted_cost_usd": "1.926355625",
+        "known_cost_per_success_usd": "0.48158890625",
+        "accounted_cost_per_success_usd": "0.48158890625",
+        "cost_usd": {
+          "sample_count": 8,
+          "mean": "0.240794453125",
+          "p50": "0.2322293750",
+          "p95": "0.35309140625",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "total_tokens": {
+          "sample_count": 8,
+          "mean": "73202.875",
+          "p50": "67354.0",
+          "p95": "109525.75",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "tool_steps": {
+          "sample_count": 8,
+          "mean": "8",
+          "p50": "8.0",
+          "p95": "11.00",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "evaluator_steps": {
+          "sample_count": 0,
+          "mean": null,
+          "p50": null,
+          "p95": null,
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "provider_latency_ms": {
+          "sample_count": 8,
+          "mean": "18588.625",
+          "p50": "18751.0",
+          "p95": "30262.20",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "event_wall_ms": {
+          "sample_count": 8,
+          "mean": "154492.57175",
+          "p50": "76092.5225",
+          "p95": "407672.63455",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "tool_calls": 64,
+        "tool_errors": 0,
+        "tool_error_rate": {
+          "numerator": 0,
+          "denominator": 64,
+          "rate": "0"
+        },
+        "tool_errors_by_code": {},
+        "patch_attempts": 6,
+        "patch_rejections": 0,
+        "patch_rejection_rate": {
+          "numerator": 0,
+          "denominator": 6,
+          "rate": "0"
+        },
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "policy_rejection_rate_of_tool_calls": {
+          "numerator": 0,
+          "denominator": 64,
+          "rate": "0"
+        },
+        "observed_policy_decisions": 20,
+        "sandbox_policy_denials": 0,
+        "sandbox_denial_rate_of_observed_decisions": {
+          "numerator": 0,
+          "denominator": 20,
+          "rate": "0"
+        },
+        "trace_observed_slots": 8,
+        "provider_decision_calls": 71,
+        "provider_attempts_reported": 71,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "validation_repair_slots": 1,
+        "validation_repair_rescued_slots": 0,
+        "validation_repair_rescue_rate": {
+          "numerator": 0,
+          "denominator": 1,
+          "rate": "0"
+        },
+        "adversarial_interception_rate": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "localization": {
+        "task_count": 8,
+        "metrics": {
+          "file_recall_at_1": {
+            "mean": 0.125,
+            "available_task_count": 8,
+            "unavailable_task_count": 0
+          },
+          "file_recall_at_3": {
+            "mean": 0.5,
+            "available_task_count": 8,
+            "unavailable_task_count": 0
+          },
+          "file_recall_at_5": {
+            "mean": 0.5,
+            "available_task_count": 8,
+            "unavailable_task_count": 0
+          },
+          "mean_reciprocal_rank": {
+            "mean": 0.2916666666666667,
+            "available_task_count": 8,
+            "unavailable_task_count": 0
+          }
+        },
+        "timing": {
+          "indexing_latency_ms": {
+            "mean": 116171.875,
+            "available_task_count": 8
+          },
+          "retrieval_latency_ms": {
+            "mean": 576.875,
+            "available_task_count": 8
+          }
+        },
+        "first_relevant_repository_tool": {
+          "observed_task_count": 7,
+          "not_observed_task_count": 1,
+          "not_applicable_task_count": 0,
+          "mean_observed_tool_steps": 2.0,
+          "elapsed_ms": null
+        }
+      }
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "execution": {
+        "planned_slots": 8,
+        "completed_slots": 8,
+        "technical_failure_slots": 0,
+        "missing_slots": 0,
+        "interrupted_slots": 0,
+        "successful_slots": 6,
+        "completed_unsuccessful_slots": 2,
+        "success_rate_all_slots": {
+          "numerator": 6,
+          "denominator": 8,
+          "rate": "0.75"
+        },
+        "success_rate_completed": {
+          "numerator": 6,
+          "denominator": 8,
+          "rate": "0.75"
+        },
+        "reproduction_rate_completed": {
+          "numerator": 8,
+          "denominator": 8,
+          "rate": "1"
+        },
+        "patch_apply_rate_completed": {
+          "numerator": 7,
+          "denominator": 8,
+          "rate": "0.875"
+        },
+        "test_pass_rate_completed": {
+          "numerator": 6,
+          "denominator": 8,
+          "rate": "0.75"
+        },
+        "technical_failure_rate_all_slots": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "budget_termination_rate_completed": {
+          "numerator": 2,
+          "denominator": 8,
+          "rate": "0.25"
+        },
+        "timeout_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "cost_limit_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "sandbox_error_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "termination_counts": {
+          "success": 6,
+          "token_limit": 2
+        },
+        "usage_observed_slots": 8,
+        "usage_missing_slots": 0,
+        "known_cost_usd": "1.810553750",
+        "reserved_unknown_cost_usd": "0",
+        "accounted_cost_usd": "1.810553750",
+        "known_cost_per_success_usd": "0.3017589583333333333333333333",
+        "accounted_cost_per_success_usd": "0.3017589583333333333333333333",
+        "cost_usd": {
+          "sample_count": 8,
+          "mean": "0.22631921875",
+          "p50": "0.2151940625",
+          "p95": "0.33915375000",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "total_tokens": {
+          "sample_count": 8,
+          "mean": "67938.375",
+          "p50": "65086.0",
+          "p95": "101790.10",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "tool_steps": {
+          "sample_count": 8,
+          "mean": "7.75",
+          "p50": "8.0",
+          "p95": "11.00",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "evaluator_steps": {
+          "sample_count": 0,
+          "mean": null,
+          "p50": null,
+          "p95": null,
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "provider_latency_ms": {
+          "sample_count": 8,
+          "mean": "19727.125",
+          "p50": "18427.5",
+          "p95": "33739.45",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "event_wall_ms": {
+          "sample_count": 8,
+          "mean": "199427.997",
+          "p50": "90978.0590",
+          "p95": "556444.63140",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "tool_calls": 62,
+        "tool_errors": 0,
+        "tool_error_rate": {
+          "numerator": 0,
+          "denominator": 62,
+          "rate": "0"
+        },
+        "tool_errors_by_code": {},
+        "patch_attempts": 9,
+        "patch_rejections": 1,
+        "patch_rejection_rate": {
+          "numerator": 1,
+          "denominator": 9,
+          "rate": "0.1111111111111111111111111111"
+        },
+        "patch_rejections_by_code": {
+          "apply_conflict": 1
+        },
+        "policy_rejected_tool_calls": 0,
+        "policy_rejection_rate_of_tool_calls": {
+          "numerator": 0,
+          "denominator": 62,
+          "rate": "0"
+        },
+        "observed_policy_decisions": 23,
+        "sandbox_policy_denials": 0,
+        "sandbox_denial_rate_of_observed_decisions": {
+          "numerator": 0,
+          "denominator": 23,
+          "rate": "0"
+        },
+        "trace_observed_slots": 8,
+        "provider_decision_calls": 70,
+        "provider_attempts_reported": 70,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "validation_repair_slots": 1,
+        "validation_repair_rescued_slots": 1,
+        "validation_repair_rescue_rate": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": "1"
+        },
+        "adversarial_interception_rate": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "localization": {
+        "task_count": 8,
+        "metrics": {
+          "file_recall_at_1": {
+            "mean": 0.375,
+            "available_task_count": 8,
+            "unavailable_task_count": 0
+          },
+          "file_recall_at_3": {
+            "mean": 0.5,
+            "available_task_count": 8,
+            "unavailable_task_count": 0
+          },
+          "file_recall_at_5": {
+            "mean": 0.6666666666666666,
+            "available_task_count": 6,
+            "unavailable_task_count": 2
+          },
+          "mean_reciprocal_rank": {
+            "mean": 0.875,
+            "available_task_count": 4,
+            "unavailable_task_count": 4
+          }
+        },
+        "timing": {
+          "indexing_latency_ms": {
+            "mean": 154209.25,
+            "available_task_count": 8
+          },
+          "retrieval_latency_ms": {
+            "mean": 1104.125,
+            "available_task_count": 8
+          }
+        },
+        "first_relevant_repository_tool": {
+          "observed_task_count": 7,
+          "not_observed_task_count": 1,
+          "not_applicable_task_count": 0,
+          "mean_observed_tool_steps": 2.7142857142857144,
+          "elapsed_ms": null
+        }
+      }
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "execution": {
+        "planned_slots": 8,
+        "completed_slots": 8,
+        "technical_failure_slots": 0,
+        "missing_slots": 0,
+        "interrupted_slots": 0,
+        "successful_slots": 5,
+        "completed_unsuccessful_slots": 3,
+        "success_rate_all_slots": {
+          "numerator": 5,
+          "denominator": 8,
+          "rate": "0.625"
+        },
+        "success_rate_completed": {
+          "numerator": 5,
+          "denominator": 8,
+          "rate": "0.625"
+        },
+        "reproduction_rate_completed": {
+          "numerator": 8,
+          "denominator": 8,
+          "rate": "1"
+        },
+        "patch_apply_rate_completed": {
+          "numerator": 6,
+          "denominator": 8,
+          "rate": "0.75"
+        },
+        "test_pass_rate_completed": {
+          "numerator": 5,
+          "denominator": 8,
+          "rate": "0.625"
+        },
+        "technical_failure_rate_all_slots": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "budget_termination_rate_completed": {
+          "numerator": 1,
+          "denominator": 8,
+          "rate": "0.125"
+        },
+        "timeout_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "cost_limit_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "sandbox_error_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "termination_counts": {
+          "repeated_action": 1,
+          "success": 5,
+          "tests_failed": 1,
+          "token_limit": 1
+        },
+        "usage_observed_slots": 8,
+        "usage_missing_slots": 0,
+        "known_cost_usd": "1.618186875",
+        "reserved_unknown_cost_usd": "0",
+        "accounted_cost_usd": "1.618186875",
+        "known_cost_per_success_usd": "0.323637375",
+        "accounted_cost_per_success_usd": "0.323637375",
+        "cost_usd": {
+          "sample_count": 8,
+          "mean": "0.202273359375",
+          "p50": "0.1765471875",
+          "p95": "0.33715712500",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "total_tokens": {
+          "sample_count": 8,
+          "mean": "59489.75",
+          "p50": "51034.5",
+          "p95": "98448.00",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "tool_steps": {
+          "sample_count": 8,
+          "mean": "9.875",
+          "p50": "9.0",
+          "p95": "15.95",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "evaluator_steps": {
+          "sample_count": 0,
+          "mean": null,
+          "p50": null,
+          "p95": null,
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "provider_latency_ms": {
+          "sample_count": 8,
+          "mean": "23963.5",
+          "p50": "21118.5",
+          "p95": "49674.75",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "event_wall_ms": {
+          "sample_count": 8,
+          "mean": "48795.51475",
+          "p50": "42511.1805",
+          "p95": "84002.66125",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "tool_calls": 79,
+        "tool_errors": 0,
+        "tool_error_rate": {
+          "numerator": 0,
+          "denominator": 79,
+          "rate": "0"
+        },
+        "tool_errors_by_code": {},
+        "patch_attempts": 7,
+        "patch_rejections": 0,
+        "patch_rejection_rate": {
+          "numerator": 0,
+          "denominator": 7,
+          "rate": "0"
+        },
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "policy_rejection_rate_of_tool_calls": {
+          "numerator": 0,
+          "denominator": 79,
+          "rate": "0"
+        },
+        "observed_policy_decisions": 22,
+        "sandbox_policy_denials": 0,
+        "sandbox_denial_rate_of_observed_decisions": {
+          "numerator": 0,
+          "denominator": 22,
+          "rate": "0"
+        },
+        "trace_observed_slots": 8,
+        "provider_decision_calls": 86,
+        "provider_attempts_reported": 86,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "validation_repair_slots": 1,
+        "validation_repair_rescued_slots": 0,
+        "validation_repair_rescue_rate": {
+          "numerator": 0,
+          "denominator": 1,
+          "rate": "0"
+        },
+        "adversarial_interception_rate": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "localization": {
+        "task_count": 8,
+        "metrics": {
+          "file_recall_at_1": {
+            "mean": null,
+            "available_task_count": 0,
+            "unavailable_task_count": 8
+          },
+          "file_recall_at_3": {
+            "mean": null,
+            "available_task_count": 0,
+            "unavailable_task_count": 8
+          },
+          "file_recall_at_5": {
+            "mean": null,
+            "available_task_count": 0,
+            "unavailable_task_count": 8
+          },
+          "mean_reciprocal_rank": {
+            "mean": null,
+            "available_task_count": 0,
+            "unavailable_task_count": 8
+          }
+        },
+        "timing": {
+          "indexing_latency_ms": {
+            "mean": null,
+            "available_task_count": 0
+          },
+          "retrieval_latency_ms": {
+            "mean": null,
+            "available_task_count": 0
+          }
+        },
+        "first_relevant_repository_tool": {
+          "observed_task_count": 7,
+          "not_observed_task_count": 1,
+          "not_applicable_task_count": 0,
+          "mean_observed_tool_steps": 2.857142857142857,
+          "elapsed_ms": null
+        }
+      }
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "execution": {
+        "planned_slots": 8,
+        "completed_slots": 8,
+        "technical_failure_slots": 0,
+        "missing_slots": 0,
+        "interrupted_slots": 0,
+        "successful_slots": 4,
+        "completed_unsuccessful_slots": 4,
+        "success_rate_all_slots": {
+          "numerator": 4,
+          "denominator": 8,
+          "rate": "0.5"
+        },
+        "success_rate_completed": {
+          "numerator": 4,
+          "denominator": 8,
+          "rate": "0.5"
+        },
+        "reproduction_rate_completed": {
+          "numerator": 8,
+          "denominator": 8,
+          "rate": "1"
+        },
+        "patch_apply_rate_completed": {
+          "numerator": 5,
+          "denominator": 8,
+          "rate": "0.625"
+        },
+        "test_pass_rate_completed": {
+          "numerator": 4,
+          "denominator": 8,
+          "rate": "0.5"
+        },
+        "technical_failure_rate_all_slots": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "budget_termination_rate_completed": {
+          "numerator": 3,
+          "denominator": 8,
+          "rate": "0.375"
+        },
+        "timeout_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "cost_limit_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "sandbox_error_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "termination_counts": {
+          "success": 4,
+          "tests_failed": 1,
+          "token_limit": 3
+        },
+        "usage_observed_slots": 8,
+        "usage_missing_slots": 0,
+        "known_cost_usd": "2.056925000",
+        "reserved_unknown_cost_usd": "0",
+        "accounted_cost_usd": "2.056925000",
+        "known_cost_per_success_usd": "0.514231250",
+        "accounted_cost_per_success_usd": "0.514231250",
+        "cost_usd": {
+          "sample_count": 8,
+          "mean": "0.257115625",
+          "p50": "0.2717440625",
+          "p95": "0.35055840625",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "total_tokens": {
+          "sample_count": 8,
+          "mean": "77222.25",
+          "p50": "78115.5",
+          "p95": "105548.35",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "tool_steps": {
+          "sample_count": 8,
+          "mean": "8.75",
+          "p50": "9.0",
+          "p95": "12.00",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "evaluator_steps": {
+          "sample_count": 0,
+          "mean": null,
+          "p50": null,
+          "p95": null,
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "provider_latency_ms": {
+          "sample_count": 8,
+          "mean": "22829.625",
+          "p50": "23484.5",
+          "p95": "36951.75",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "event_wall_ms": {
+          "sample_count": 8,
+          "mean": "84445.723",
+          "p50": "51169.8785",
+          "p95": "184829.15635",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "tool_calls": 70,
+        "tool_errors": 0,
+        "tool_error_rate": {
+          "numerator": 0,
+          "denominator": 70,
+          "rate": "0"
+        },
+        "tool_errors_by_code": {},
+        "patch_attempts": 6,
+        "patch_rejections": 0,
+        "patch_rejection_rate": {
+          "numerator": 0,
+          "denominator": 6,
+          "rate": "0"
+        },
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "policy_rejection_rate_of_tool_calls": {
+          "numerator": 0,
+          "denominator": 70,
+          "rate": "0"
+        },
+        "observed_policy_decisions": 20,
+        "sandbox_policy_denials": 0,
+        "sandbox_denial_rate_of_observed_decisions": {
+          "numerator": 0,
+          "denominator": 20,
+          "rate": "0"
+        },
+        "trace_observed_slots": 8,
+        "provider_decision_calls": 77,
+        "provider_attempts_reported": 77,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "validation_repair_slots": 1,
+        "validation_repair_rescued_slots": 0,
+        "validation_repair_rescue_rate": {
+          "numerator": 0,
+          "denominator": 1,
+          "rate": "0"
+        },
+        "adversarial_interception_rate": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "localization": {
+        "task_count": 8,
+        "metrics": {
+          "file_recall_at_1": {
+            "mean": 0.375,
+            "available_task_count": 8,
+            "unavailable_task_count": 0
+          },
+          "file_recall_at_3": {
+            "mean": 0.625,
+            "available_task_count": 8,
+            "unavailable_task_count": 0
+          },
+          "file_recall_at_5": {
+            "mean": 0.75,
+            "available_task_count": 8,
+            "unavailable_task_count": 0
+          },
+          "mean_reciprocal_rank": {
+            "mean": 0.525,
+            "available_task_count": 8,
+            "unavailable_task_count": 0
+          }
+        },
+        "timing": {
+          "indexing_latency_ms": {
+            "mean": 39308.875,
+            "available_task_count": 8
+          },
+          "retrieval_latency_ms": {
+            "mean": 523.125,
+            "available_task_count": 8
+          }
+        },
+        "first_relevant_repository_tool": {
+          "observed_task_count": 7,
+          "not_observed_task_count": 1,
+          "not_applicable_task_count": 0,
+          "mean_observed_tool_steps": 2.0,
+          "elapsed_ms": null
+        }
+      }
+    },
+    {
+      "arm_id": "single-shot-hybrid-context-v1",
+      "execution": {
+        "planned_slots": 8,
+        "completed_slots": 8,
+        "technical_failure_slots": 0,
+        "missing_slots": 0,
+        "interrupted_slots": 0,
+        "successful_slots": 1,
+        "completed_unsuccessful_slots": 7,
+        "success_rate_all_slots": {
+          "numerator": 1,
+          "denominator": 8,
+          "rate": "0.125"
+        },
+        "success_rate_completed": {
+          "numerator": 1,
+          "denominator": 8,
+          "rate": "0.125"
+        },
+        "reproduction_rate_completed": {
+          "numerator": 8,
+          "denominator": 8,
+          "rate": "1"
+        },
+        "patch_apply_rate_completed": {
+          "numerator": 1,
+          "denominator": 8,
+          "rate": "0.125"
+        },
+        "test_pass_rate_completed": {
+          "numerator": 1,
+          "denominator": 8,
+          "rate": "0.125"
+        },
+        "technical_failure_rate_all_slots": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "budget_termination_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "timeout_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "cost_limit_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "sandbox_error_rate_completed": {
+          "numerator": 0,
+          "denominator": 8,
+          "rate": "0"
+        },
+        "termination_counts": {
+          "invalid_patch": 7,
+          "success": 1
+        },
+        "usage_observed_slots": 8,
+        "usage_missing_slots": 0,
+        "known_cost_usd": "0.303288750",
+        "reserved_unknown_cost_usd": "0",
+        "accounted_cost_usd": "0.303288750",
+        "known_cost_per_success_usd": "0.303288750",
+        "accounted_cost_per_success_usd": "0.303288750",
+        "cost_usd": {
+          "sample_count": 8,
+          "mean": "0.03791109375",
+          "p50": "0.0315859375",
+          "p95": "0.0663081250",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "total_tokens": {
+          "sample_count": 8,
+          "mean": "5318.75",
+          "p50": "5186.5",
+          "p95": "7238.05",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "tool_steps": {
+          "sample_count": 8,
+          "mean": "0",
+          "p50": "0.0",
+          "p95": "0.00",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "evaluator_steps": {
+          "sample_count": 8,
+          "mean": "2.125",
+          "p50": "2.0",
+          "p95": "2.65",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "provider_latency_ms": {
+          "sample_count": 8,
+          "mean": "18661.125",
+          "p50": "14984.5",
+          "p95": "39065.00",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "event_wall_ms": {
+          "sample_count": 8,
+          "mean": "32733.696375",
+          "p50": "31031.2270",
+          "p95": "49702.99175",
+          "percentile_method": "linear_r7_h=(n-1)*q"
+        },
+        "tool_calls": 0,
+        "tool_errors": 0,
+        "tool_error_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "tool_errors_by_code": {},
+        "patch_attempts": 8,
+        "patch_rejections": 7,
+        "patch_rejection_rate": {
+          "numerator": 7,
+          "denominator": 8,
+          "rate": "0.875"
+        },
+        "patch_rejections_by_code": {
+          "apply_conflict": 4,
+          "invalid_diff": 3
+        },
+        "policy_rejected_tool_calls": 0,
+        "policy_rejection_rate_of_tool_calls": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "observed_policy_decisions": 26,
+        "sandbox_policy_denials": 0,
+        "sandbox_denial_rate_of_observed_decisions": {
+          "numerator": 0,
+          "denominator": 26,
+          "rate": "0"
+        },
+        "trace_observed_slots": 8,
+        "provider_decision_calls": 8,
+        "provider_attempts_reported": 8,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "validation_repair_slots": 0,
+        "validation_repair_rescued_slots": 0,
+        "validation_repair_rescue_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "adversarial_interception_rate": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "localization": {
+        "task_count": 8,
+        "metrics": {
+          "file_recall_at_1": {
+            "mean": 0.375,
+            "available_task_count": 8,
+            "unavailable_task_count": 0
+          },
+          "file_recall_at_3": {
+            "mean": 0.5,
+            "available_task_count": 8,
+            "unavailable_task_count": 0
+          },
+          "file_recall_at_5": {
+            "mean": 0.6666666666666666,
+            "available_task_count": 6,
+            "unavailable_task_count": 2
+          },
+          "mean_reciprocal_rank": {
+            "mean": 0.875,
+            "available_task_count": 4,
+            "unavailable_task_count": 4
+          }
+        },
+        "timing": {
+          "indexing_latency_ms": {
+            "mean": null,
+            "available_task_count": 0
+          },
+          "retrieval_latency_ms": {
+            "mean": null,
+            "available_task_count": 0
+          }
+        },
+        "first_relevant_repository_tool": {
+          "observed_task_count": 0,
+          "not_observed_task_count": 0,
+          "not_applicable_task_count": 8,
+          "mean_observed_tool_steps": null,
+          "elapsed_ms": null
+        }
+      }
+    }
+  ],
+  "slots": [
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "django__django-15902",
+      "run_id": "5c19e377-7aca-523e-98ac-c55e956c9ccb",
+      "execution": {
+        "arm_id": "dense-only-v1",
+        "task_id": "django__django-15902",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 5,
+        "evaluator_steps": null,
+        "input_tokens": 38651,
+        "output_tokens": 898,
+        "total_tokens": 39549,
+        "known_cost_usd": "0.133796875",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 16629,
+        "event_wall_ms": "405921.803",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 6,
+        "provider_attempts_reported": 6,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 5,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "django/forms/formsets.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 361680,
+        "retrieval_latency_ms": 1242
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/django__django-15902/executions/attempt_d8a1d2e06afedd3744566d4da76b1681e19484ec1eadc325dc40b6c1f41b98bc/0000/trace.json",
+        "sha256": "595993d3b09996433f74b85046c500606d9de184cd908b61ab45ef61920adc51",
+        "size_bytes": 2299585,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/django__django-15902/executions/attempt_d8a1d2e06afedd3744566d4da76b1681e19484ec1eadc325dc40b6c1f41b98bc/0000/result.json",
+        "sha256": "758e979f6fe421f54b5f0e415117ab675f0799c79d01184f0acb15904fd7995b",
+        "size_bytes": 3863,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "django/forms/utils.py",
+          "tests/forms_tests/tests/test_forms.py",
+          "tests/forms_tests/tests/test_formsets.py",
+          "tests/forms_tests/tests/test_deprecation_forms.py",
+          "docs/releases/1.10.txt",
+          "django/forms/renderers.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": 0.0,
+          "mean_reciprocal_rank": 0.0,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "django/forms/formsets.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 361680,
+        "retrieval_latency_ms": 1242,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "mwaskom__seaborn-3190",
+      "run_id": "d5fd7f3d-8dfc-56e4-9158-10c91beaa774",
+      "execution": {
+        "arm_id": "dense-only-v1",
+        "task_id": "mwaskom__seaborn-3190",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "token_limit",
+        "budget_terminated": true,
+        "tool_steps": 11,
+        "evaluator_steps": null,
+        "input_tokens": 105739,
+        "output_tokens": 982,
+        "total_tokens": 106721,
+        "known_cost_usd": "0.344249375",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 21077,
+        "event_wall_ms": "58096.245",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 12,
+        "provider_attempts_reported": 12,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 11,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 0,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 1,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "seaborn/_core/scales.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 23658,
+        "retrieval_latency_ms": 322
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/mwaskom__seaborn-3190/executions/attempt_3353d95b1f8e412913e621123364a02fb9cd144d1c05e92beb0385ed930b8b25/0000/trace.json",
+        "sha256": "5db497751468ffd20cfc38bbbf926a313bf8787cf95852614f53befbffd2c89b",
+        "size_bytes": 5593640,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/mwaskom__seaborn-3190/executions/attempt_3353d95b1f8e412913e621123364a02fb9cd144d1c05e92beb0385ed930b8b25/0000/result.json",
+        "sha256": "3154e761cf6e77133feb7538b9d45dcdf7e50ae38cca3801086f8c3f62d3b26e",
+        "size_bytes": 2657,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "tests/_marks/test_bar.py",
+          "tests/_marks/test_base.py",
+          "tests/_marks/test_dot.py",
+          "tests/_core/test_plot.py",
+          "tests/test_axisgrid.py",
+          "tests/test_categorical.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": 0.0,
+          "mean_reciprocal_rank": 0.0,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "seaborn/_core/scales.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 23658,
+        "retrieval_latency_ms": 322,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pallets__flask-4992",
+      "run_id": "dd368ebf-1f14-51ce-b48c-1e92b2c31e2c",
+      "execution": {
+        "arm_id": "dense-only-v1",
+        "task_id": "pallets__flask-4992",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": false,
+        "termination_reason": "tests_failed",
+        "budget_terminated": false,
+        "tool_steps": 10,
+        "evaluator_steps": null,
+        "input_tokens": 79707,
+        "output_tokens": 2791,
+        "total_tokens": 82498,
+        "known_cost_usd": "0.290186875",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 35088,
+        "event_wall_ms": "65112.781",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 10,
+        "provider_attempts_reported": 10,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 10,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 2,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 5,
+        "sandbox_policy_denials": 0,
+        "replans": 1,
+        "validation_repair_count": 1,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/flask/config.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 12736,
+        "retrieval_latency_ms": 233
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/pallets__flask-4992/executions/attempt_96d04e71c984251286cc1a272f5f154c5e1e306aab0a00c5c6be17c238d6899b/0000/trace.json",
+        "sha256": "9937f8817466d03a3356b40aca4768b1d03dd4758dd6d7fcd802be3603469c19",
+        "size_bytes": 4023011,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/pallets__flask-4992/executions/attempt_96d04e71c984251286cc1a272f5f154c5e1e306aab0a00c5c6be17c238d6899b/0000/result.json",
+        "sha256": "cfdde669ae94535c11355ca14f33404e5fa00968287436682192d2c3ae8c68c5",
+        "size_bytes": 4016,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "src/flask/config.py",
+          "tests/test_config.py",
+          "src/flask/app.py",
+          "src/flask/json/__init__.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 1.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 1.0,
+          "first_relevant_file_rank": 1
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "src/flask/config.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 12736,
+        "retrieval_latency_ms": 233,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pydata__xarray-4094",
+      "run_id": "7f7442e3-d7eb-59fe-ab90-e6c649eeb634",
+      "execution": {
+        "arm_id": "dense-only-v1",
+        "task_id": "pydata__xarray-4094",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 6,
+        "evaluator_steps": null,
+        "input_tokens": 51229,
+        "output_tokens": 981,
+        "total_tokens": 52210,
+        "known_cost_usd": "0.174271875",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 14781,
+        "event_wall_ms": "77413.438",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 7,
+        "provider_attempts_reported": 7,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 6,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "xarray/core/dataarray.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 37519,
+        "retrieval_latency_ms": 445
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/pydata__xarray-4094/executions/attempt_25d349d5b1a80a40eda555191fdb4d01b17cf0ac96e0e42f2570d86d7aff5b9a/0000/trace.json",
+        "sha256": "622b541579bb4617ce624227d8c97ea96a8b432813f24306f855d13b94c0b079",
+        "size_bytes": 2302090,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/pydata__xarray-4094/executions/attempt_25d349d5b1a80a40eda555191fdb4d01b17cf0ac96e0e42f2570d86d7aff5b9a/0000/result.json",
+        "sha256": "034b929f5f49c3647e2e63a11d054590570728f6a885e8dbcab780359817dc37",
+        "size_bytes": 3941,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "xarray/tests/test_dataset.py",
+          "xarray/core/dataarray.py",
+          "asv_bench/benchmarks/unstacking.py",
+          "doc/reshaping.rst",
+          "xarray/tests/test_units.py",
+          "xarray/core/dataset.py",
+          "xarray/tests/test_dataarray.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 0.5,
+          "first_relevant_file_rank": 2
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "xarray/core/dataarray.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 37519,
+        "retrieval_latency_ms": 445,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pydata__xarray-5131",
+      "run_id": "180ccb1a-b526-5aae-8d53-fe44e4658660",
+      "execution": {
+        "arm_id": "dense-only-v1",
+        "task_id": "pydata__xarray-5131",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 5,
+        "evaluator_steps": null,
+        "input_tokens": 41489,
+        "output_tokens": 478,
+        "total_tokens": 41967,
+        "known_cost_usd": "0.136365625",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 9216,
+        "event_wall_ms": "75528.981",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 6,
+        "provider_attempts_reported": 6,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 5,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "xarray/core/groupby.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 40296,
+        "retrieval_latency_ms": 303
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/pydata__xarray-5131/executions/attempt_163f1b73c52f776fffd8549015d756e1d683facd54d1ef813708d0e954fdd96a/0000/trace.json",
+        "sha256": "fa764acc2f1f1c83cbd6b15870725628b03292287c91f0ee44fdfceb8282d55e",
+        "size_bytes": 1998091,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/pydata__xarray-5131/executions/attempt_163f1b73c52f776fffd8549015d756e1d683facd54d1ef813708d0e954fdd96a/0000/result.json",
+        "sha256": "d2b0f2381c2fcf17ed4bb72566c8f006635f59ec65839b832cfcae8f5305afbc",
+        "size_bytes": 5415,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "xarray/tests/test_groupby.py",
+          "xarray/core/groupby.py",
+          "xarray/core/dataset.py",
+          "xarray/core/formatting.py",
+          "xarray/tests/test_dataset.py",
+          "xarray/core/formatting_html.py",
+          "xarray/tests/test_formatting.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 0.5,
+          "first_relevant_file_rank": 2
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "xarray/core/groupby.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 40296,
+        "retrieval_latency_ms": 303,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pytest-dev__pytest-11143",
+      "run_id": "4086382a-8cb3-5e6c-af96-c4517f947b90",
+      "execution": {
+        "arm_id": "dense-only-v1",
+        "task_id": "pytest-dev__pytest-11143",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 5,
+        "evaluator_steps": null,
+        "input_tokens": 50333,
+        "output_tokens": 502,
+        "total_tokens": 50835,
+        "known_cost_usd": "0.164363125",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 9745,
+        "event_wall_ms": "68595.872",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 6,
+        "provider_attempts_reported": 6,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 5,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/_pytest/assertion/rewrite.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 46771,
+        "retrieval_latency_ms": 339
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/pytest-dev__pytest-11143/executions/attempt_d1a302e9010b5fdeef3eb68aedb37fa23da3d055e9fd805f0ff51ebba7a9f4c1/0000/trace.json",
+        "sha256": "43f17dbb34101b87b0d91da4e5156dcf16b66819d667ad1690b5c23fb807a65c",
+        "size_bytes": 2131786,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/pytest-dev__pytest-11143/executions/attempt_d1a302e9010b5fdeef3eb68aedb37fa23da3d055e9fd805f0ff51ebba7a9f4c1/0000/result.json",
+        "sha256": "ced8e0e5bc72d27365ea2caef8ab55dbdecf1369949601431f359efc3b2be7d7",
+        "size_bytes": 3956,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "testing/test_assertrewrite.py",
+          "testing/test_assertion.py",
+          "src/_pytest/assertion/rewrite.py",
+          "testing/test_doctest.py",
+          "testing/test_warnings.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 0.3333333333333333,
+          "first_relevant_file_rank": 3
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "src/_pytest/assertion/rewrite.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 46771,
+        "retrieval_latency_ms": 339,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "pytest-dev__pytest-11148",
+      "run_id": "eea60683-ddff-5773-82d7-91597390e813",
+      "execution": {
+        "arm_id": "dense-only-v1",
+        "task_id": "pytest-dev__pytest-11148",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "token_limit",
+        "budget_terminated": true,
+        "tool_steps": 11,
+        "evaluator_steps": null,
+        "input_tokens": 110044,
+        "output_tokens": 992,
+        "total_tokens": 111036,
+        "known_cost_usd": "0.357852500",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 20873,
+        "event_wall_ms": "76656.064",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 12,
+        "provider_attempts_reported": 12,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 11,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 0,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 1,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/_pytest/pathlib.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 43475,
+        "retrieval_latency_ms": 371
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/pytest-dev__pytest-11148/executions/attempt_004809f8f8dbf92b44d952550ee1da763b5ed2e30787e10e5650a514fa6fee0b/0000/trace.json",
+        "sha256": "b601b96c542f677ff57faf92415c3856b2b3c6d426f2f96a66ed03a8c7001a1f",
+        "size_bytes": 5589940,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/pytest-dev__pytest-11148/executions/attempt_004809f8f8dbf92b44d952550ee1da763b5ed2e30787e10e5650a514fa6fee0b/0000/result.json",
+        "sha256": "f3cb8c1a716ae1ec4d6c6ec9536aa32fdbc3010339a14d56c672c0f9d1556e22",
+        "size_bytes": 2838,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "testing/acceptance_test.py",
+          "changelog/10337.bugfix.rst",
+          "testing/test_doctest.py",
+          "testing/test_pathlib.py",
+          "testing/test_collection.py",
+          "src/_pytest/_py/path.py",
+          "testing/test_meta.py",
+          "testing/_py/test_local.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": 0.0,
+          "mean_reciprocal_rank": 0.0,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "src/_pytest/pathlib.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 43475,
+        "retrieval_latency_ms": 371,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "dense-only-v1",
+      "task_id": "sympy__sympy-20590",
+      "run_id": "235264f6-0aad-5ffa-8599-85572caea2ef",
+      "execution": {
+        "arm_id": "dense-only-v1",
+        "task_id": "sympy__sympy-20590",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "token_limit",
+        "budget_terminated": true,
+        "tool_steps": 11,
+        "evaluator_steps": null,
+        "input_tokens": 99867,
+        "output_tokens": 940,
+        "total_tokens": 100807,
+        "known_cost_usd": "0.325269375",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 21300,
+        "event_wall_ms": "408615.39",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 12,
+        "provider_attempts_reported": 12,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 11,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 0,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 1,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "sympy/core/_print_helpers.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 363240,
+        "retrieval_latency_ms": 1360
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/sympy__sympy-20590/executions/attempt_4a625beddeedeb0cc10a6b26f81c57757057a417892ccfc8e596b170265f5954/0000/trace.json",
+        "sha256": "af709e8751497c6e0615d167bd2c19d2140997c6a15f891838a35b5aaa2c6b19",
+        "size_bytes": 4726616,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/dense-only-v1/sympy__sympy-20590/executions/attempt_4a625beddeedeb0cc10a6b26f81c57757057a417892ccfc8e596b170265f5954/0000/result.json",
+        "sha256": "67f78efa7cadf8d001560c4fc23125dcf2d16ac9960597cc01397133c7bd405f",
+        "size_bytes": 2611,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "sympy/core/basic.py",
+          "sympy/tensor/array/mutable_ndim_array.py",
+          "sympy/sets/conditionset.py",
+          "sympy/printing/tests/test_repr.py",
+          "sympy/core/containers.py",
+          "sympy/polys/polyutils.py",
+          "sympy/stats/rv.py",
+          "sympy/assumptions/cnf.py",
+          "sympy/deprecated/class_registry.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": 0.0,
+          "mean_reciprocal_rank": 0.0,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "not_observed",
+          "tool_step": null,
+          "tool_name": null,
+          "relative_path": null,
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 363240,
+        "retrieval_latency_ms": 1360,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "django__django-15902",
+      "run_id": "e162d5be-6596-54af-bbf9-00bb5b63d0a3",
+      "execution": {
+        "arm_id": "hybrid-rrf-v1",
+        "task_id": "django__django-15902",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 9,
+        "evaluator_steps": null,
+        "input_tokens": 69460,
+        "output_tokens": 947,
+        "total_tokens": 70407,
+        "known_cost_usd": "0.230505000",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 18858,
+        "event_wall_ms": "510918.582",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 10,
+        "provider_attempts_reported": 10,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 9,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 1,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "django/forms/formsets.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 457958,
+        "retrieval_latency_ms": 3272
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/django__django-15902/executions/attempt_c5fac16f127da6bfa2d5d7c3ef3d59783b64d14c9c7b9e8278ca8cc8ebcefb41/0000/trace.json",
+        "sha256": "3581cda3db8e8968405164efddba323934638027cf3a022201786a7250808e61",
+        "size_bytes": 4135935,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/django__django-15902/executions/attempt_c5fac16f127da6bfa2d5d7c3ef3d59783b64d14c9c7b9e8278ca8cc8ebcefb41/0000/result.json",
+        "sha256": "669b68372b7790dd17e3d407b398ec6c1d434ae1ec79d9019c3b328a84037226",
+        "size_bytes": 3863,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "partial",
+        "basis": "raw_initial_retrieval",
+        "reason": "unresolved_chunk_paths",
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 9,
+        "unresolved_chunk_ids": [
+          "chunk_4173880274208cb4bd0d95a7fee5c09f5ecb1db34c8a369cc6cc420adc64d489"
+        ],
+        "ranked_file_prefix": [
+          "tests/forms_tests/tests/test_deprecation_forms.py",
+          "tests/forms_tests/tests/test_forms.py",
+          "tests/forms_tests/tests/test_formsets.py",
+          "django/forms/utils.py",
+          "django/forms/renderers.py"
+        ],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": 0.0,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 6,
+          "tool_name": "read_file",
+          "relative_path": "django/forms/formsets.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 457958,
+        "retrieval_latency_ms": 3272,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "mwaskom__seaborn-3190",
+      "run_id": "0f7f1009-0703-56a5-b85d-3ac7b9036720",
+      "execution": {
+        "arm_id": "hybrid-rrf-v1",
+        "task_id": "mwaskom__seaborn-3190",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "token_limit",
+        "budget_terminated": true,
+        "tool_steps": 11,
+        "evaluator_steps": null,
+        "input_tokens": 99899,
+        "output_tokens": 2400,
+        "total_tokens": 102299,
+        "known_cost_usd": "0.347269375",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 36873,
+        "event_wall_ms": "83216.206",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 12,
+        "provider_attempts_reported": 12,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 11,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 0,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 1,
+        "sandbox_policy_denials": 0,
+        "replans": 1,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "seaborn/_core/scales.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 30663,
+        "retrieval_latency_ms": 376
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/mwaskom__seaborn-3190/executions/attempt_2a1d7a9990120c219dac8f5fda7dd3e2c03c45f1c3324f4dad070a8d3b0a74de/0000/trace.json",
+        "sha256": "e022fe9eabbb8754f377a1d41b1df581fed17793a228c7db821333fd7611d1cd",
+        "size_bytes": 5550622,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/mwaskom__seaborn-3190/executions/attempt_2a1d7a9990120c219dac8f5fda7dd3e2c03c45f1c3324f4dad070a8d3b0a74de/0000/result.json",
+        "sha256": "d69af9bf67ffc49598b8233e54aca569d0b8dac3801fdaf3fac296ef216b6a8e",
+        "size_bytes": 2657,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "partial",
+        "basis": "raw_initial_retrieval",
+        "reason": "unresolved_chunk_paths",
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 7,
+        "unresolved_chunk_ids": [
+          "chunk_86cfcad148c9487ba0da4b953a81580c20590c4afe0d1d572e9eb301cdbc8872",
+          "chunk_1e6d50c806225bdaaf80a73bc734ab65de5ad4103cbda3fc8f01638928032997",
+          "chunk_03af316224b22dc6269cc44a492136280635673fad590df3ff5e4dcbb741a57a"
+        ],
+        "ranked_file_prefix": [
+          "tests/test_axisgrid.py",
+          "seaborn/_core/properties.py",
+          "tests/_core/test_plot.py",
+          "tests/_core/test_properties.py"
+        ],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": null,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 3,
+          "tool_name": "search_code",
+          "relative_path": "seaborn/_core/scales.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 30663,
+        "retrieval_latency_ms": 376,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pallets__flask-4992",
+      "run_id": "2403a8b2-3080-5382-9f60-c5e4d4ef213b",
+      "execution": {
+        "arm_id": "hybrid-rrf-v1",
+        "task_id": "pallets__flask-4992",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 9,
+        "evaluator_steps": null,
+        "input_tokens": 75887,
+        "output_tokens": 2463,
+        "total_tokens": 78350,
+        "known_cost_usd": "0.273329375",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 27920,
+        "event_wall_ms": "59986.916",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 10,
+        "provider_attempts_reported": 10,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 9,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 2,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 5,
+        "sandbox_policy_denials": 0,
+        "replans": 1,
+        "validation_repair_count": 1,
+        "validation_repair_rescued": true,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/flask/config.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 14580,
+        "retrieval_latency_ms": 280
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/pallets__flask-4992/executions/attempt_41d5291b77de52014e02123b279457b892d67e042ec746f97fbe4218431c2158/0000/trace.json",
+        "sha256": "40aff5772bf73ea90bc6a757d14204d4a334b32605f11b2832bcbca0df69221d",
+        "size_bytes": 3604546,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/pallets__flask-4992/executions/attempt_41d5291b77de52014e02123b279457b892d67e042ec746f97fbe4218431c2158/0000/result.json",
+        "sha256": "dc0118aab74021d11e4c1adf504dcd582887788d2312b95842bf5b934237b8ab",
+        "size_bytes": 3888,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "src/flask/config.py",
+          "tests/test_config.py",
+          "docs/config.rst",
+          "src/flask/json/__init__.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 1.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 1.0,
+          "first_relevant_file_rank": 1
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "src/flask/config.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 14580,
+        "retrieval_latency_ms": 280,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pydata__xarray-4094",
+      "run_id": "d03084bd-09bc-5b75-9902-32cdac2324a9",
+      "execution": {
+        "arm_id": "hybrid-rrf-v1",
+        "task_id": "pydata__xarray-4094",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 5,
+        "evaluator_steps": null,
+        "input_tokens": 42405,
+        "output_tokens": 1159,
+        "total_tokens": 43564,
+        "known_cost_usd": "0.149443125",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 17997,
+        "event_wall_ms": "94366.617",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 6,
+        "provider_attempts_reported": 6,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 5,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "xarray/core/dataarray.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 46836,
+        "retrieval_latency_ms": 553
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/pydata__xarray-4094/executions/attempt_e25642bd18b6ac04c52eb3ae1547b799428c0d3cd5dd5619adf29558a0010016/0000/trace.json",
+        "sha256": "81b4d500ee401a0543ad62dc2973c0beea52802c75dcc3e6edb612e83009f7fa",
+        "size_bytes": 1916301,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/pydata__xarray-4094/executions/attempt_e25642bd18b6ac04c52eb3ae1547b799428c0d3cd5dd5619adf29558a0010016/0000/result.json",
+        "sha256": "805a81afb3b3c9b3617fa0fbe7b42fce6ca9b0a2cd321a5da2351d1d8fff21ee",
+        "size_bytes": 3943,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "partial",
+        "basis": "raw_initial_retrieval",
+        "reason": "unresolved_chunk_paths",
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 9,
+        "unresolved_chunk_ids": [
+          "chunk_6765a3599184db3b568073f20fd5b10d8da9a6429ad3e4298a477149b213d9d0"
+        ],
+        "ranked_file_prefix": [
+          "xarray/core/dataarray.py",
+          "xarray/tests/test_dataset.py",
+          "doc/reshaping.rst",
+          "xarray/tests/test_units.py",
+          "xarray/core/dataset.py"
+        ],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 1.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 1.0,
+          "first_relevant_file_rank": 1
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "xarray/core/dataarray.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 46836,
+        "retrieval_latency_ms": 553,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pydata__xarray-5131",
+      "run_id": "3a2e78a1-4958-5851-be6d-d9ed419cbc80",
+      "execution": {
+        "arm_id": "hybrid-rrf-v1",
+        "task_id": "pydata__xarray-5131",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 5,
+        "evaluator_steps": null,
+        "input_tokens": 41204,
+        "output_tokens": 474,
+        "total_tokens": 41678,
+        "known_cost_usd": "0.135415000",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 9614,
+        "event_wall_ms": "92265.035",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 6,
+        "provider_attempts_reported": 6,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 5,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "xarray/core/groupby.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 53563,
+        "retrieval_latency_ms": 534
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/pydata__xarray-5131/executions/attempt_8b1236b6d7a684c67a8eb7b3e5382833fc0d75db5ed8fa9f399ba0de767dc165/0000/trace.json",
+        "sha256": "b0afe3b42e2c35e3b7ef72d0f77980aafad3da20ad98eea925d22d3afb02809f",
+        "size_bytes": 2046236,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/pydata__xarray-5131/executions/attempt_8b1236b6d7a684c67a8eb7b3e5382833fc0d75db5ed8fa9f399ba0de767dc165/0000/result.json",
+        "sha256": "f220f1a91f1073716e33f87a1e6132d1c2d84f8952ecff5d466ebcc815758d52",
+        "size_bytes": 5415,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "partial",
+        "basis": "raw_initial_retrieval",
+        "reason": "unresolved_chunk_paths",
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 9,
+        "unresolved_chunk_ids": [
+          "chunk_345952d924a4d71885f96eca3bd1fa783eb35ff7f2761d22ac63bae597830abe"
+        ],
+        "ranked_file_prefix": [
+          "doc/user-guide/groupby.rst",
+          "xarray/core/groupby.py",
+          "xarray/tests/test_groupby.py"
+        ],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 0.5,
+          "first_relevant_file_rank": 2
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "xarray/core/groupby.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 53563,
+        "retrieval_latency_ms": 534,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pytest-dev__pytest-11143",
+      "run_id": "9d9ff381-6aef-5df4-9be2-93ae86ead9ad",
+      "execution": {
+        "arm_id": "hybrid-rrf-v1",
+        "task_id": "pytest-dev__pytest-11143",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 5,
+        "evaluator_steps": null,
+        "input_tokens": 46139,
+        "output_tokens": 460,
+        "total_tokens": 46599,
+        "known_cost_usd": "0.150626875",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 9679,
+        "event_wall_ms": "84020.879",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 6,
+        "provider_attempts_reported": 6,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 5,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/_pytest/assertion/rewrite.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 60753,
+        "retrieval_latency_ms": 552
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/pytest-dev__pytest-11143/executions/attempt_f8ec86506eb642eb288ca4e936e6fa65606ef0810035eb8a42ccd5e9874bee79/0000/trace.json",
+        "sha256": "ee7d30fb79dcb84310666876441d62249e9d07389aa574a62f0cceccd34e7d7a",
+        "size_bytes": 2000442,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/pytest-dev__pytest-11143/executions/attempt_f8ec86506eb642eb288ca4e936e6fa65606ef0810035eb8a42ccd5e9874bee79/0000/result.json",
+        "sha256": "37f0842b56a9de36ecc0be8630e114958862060004c8af8d47b3cf2bac6676c2",
+        "size_bytes": 3956,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "src/_pytest/assertion/rewrite.py",
+          "doc/en/how-to/assert.rst",
+          "testing/test_assertrewrite.py",
+          ".github/ISSUE_TEMPLATE/1_bug_report.md",
+          "testing/test_assertion.py",
+          ".github/ISSUE_TEMPLATE/2_feature_request.md"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 1.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 1.0,
+          "first_relevant_file_rank": 1
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "src/_pytest/assertion/rewrite.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 60753,
+        "retrieval_latency_ms": 552,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "pytest-dev__pytest-11148",
+      "run_id": "024fbdaa-a956-5796-b74b-1308ec67dae8",
+      "execution": {
+        "arm_id": "hybrid-rrf-v1",
+        "task_id": "pytest-dev__pytest-11148",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 7,
+        "evaluator_steps": null,
+        "input_tokens": 58609,
+        "output_tokens": 1156,
+        "total_tokens": 59765,
+        "known_cost_usd": "0.199883125",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 16403,
+        "event_wall_ms": "89691.083",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 8,
+        "provider_attempts_reported": 8,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 7,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 2,
+        "patch_rejections": 1,
+        "patch_rejections_by_code": {
+          "apply_conflict": 1
+        },
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/_pytest/pathlib.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 59288,
+        "retrieval_latency_ms": 577
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/pytest-dev__pytest-11148/executions/attempt_3ce16bd0d60882925e8ecee2947f36af4b0b36895c19f7f99225aa05073228e6/0000/trace.json",
+        "sha256": "34c3e21e4f486d7955effadd99c227870dd055b2c06d8d866f71093d80aa8a34",
+        "size_bytes": 2700457,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/pytest-dev__pytest-11148/executions/attempt_3ce16bd0d60882925e8ecee2947f36af4b0b36895c19f7f99225aa05073228e6/0000/result.json",
+        "sha256": "3caca583b5537cb8f9da6b055ca93a9bce0b09a0151d15a6c2a021f875079405",
+        "size_bytes": 4091,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "partial",
+        "basis": "raw_initial_retrieval",
+        "reason": "unresolved_chunk_paths",
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 7,
+        "unresolved_chunk_ids": [
+          "chunk_a359dd730c2e9e0ed9e4ae0d3776caddc1d89bb02db6893ceeccfd1ad4219609",
+          "chunk_28dbc957ff9530bd939bbce854b330b2756a136dddf51c413b13d58603a0f4bd",
+          "chunk_9b6d5d494a8552619bfb9bc0e278c6db23d0ed7fa02bee99c45e31b4c041b55d"
+        ],
+        "ranked_file_prefix": [
+          "testing/test_collection.py",
+          "changelog/10337.bugfix.rst",
+          "testing/test_pathlib.py"
+        ],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": null,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "src/_pytest/pathlib.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 59288,
+        "retrieval_latency_ms": 577,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_id": "sympy__sympy-20590",
+      "run_id": "16024ecf-bd70-5f5f-a7ee-29f1d0fb9f0f",
+      "execution": {
+        "arm_id": "hybrid-rrf-v1",
+        "task_id": "sympy__sympy-20590",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": false,
+        "termination_reason": "token_limit",
+        "budget_terminated": true,
+        "tool_steps": 11,
+        "evaluator_steps": null,
+        "input_tokens": 100015,
+        "output_tokens": 830,
+        "total_tokens": 100845,
+        "known_cost_usd": "0.324081875",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 20473,
+        "event_wall_ms": "580958.658",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 12,
+        "provider_attempts_reported": 12,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 11,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 2,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "sympy/core/_print_helpers.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 510033,
+        "retrieval_latency_ms": 2689
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/sympy__sympy-20590/executions/attempt_378818df721bed6c38ceed5e14a72502d99033d56d8f4acc19fa14ef9761ede7/0000/trace.json",
+        "sha256": "bd92fbe26546a42c72776acb5dc3003d93b4076cf1f9f9d2ef7103894fe34828",
+        "size_bytes": 4805223,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/hybrid-rrf-v1/sympy__sympy-20590/executions/attempt_378818df721bed6c38ceed5e14a72502d99033d56d8f4acc19fa14ef9761ede7/0000/result.json",
+        "sha256": "0a0d05715825daca913611bf4c378146fe0819d54aa0b4c56d81e041c08e3e03",
+        "size_bytes": 2691,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "partial",
+        "basis": "raw_initial_retrieval",
+        "reason": "unresolved_chunk_paths",
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 9,
+        "unresolved_chunk_ids": [
+          "chunk_1d124f5fb76d30eba410c8ac5304803ad454e71809ad28c23c8e078805adb405"
+        ],
+        "ranked_file_prefix": [
+          "sympy/printing/tests/test_repr.py",
+          "sympy/core/containers.py",
+          "sympy/deprecated/class_registry.py",
+          "sympy/core/singleton.py",
+          "sympy/polys/rings.py"
+        ],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": 0.0,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "not_observed",
+          "tool_step": null,
+          "tool_name": null,
+          "relative_path": null,
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 510033,
+        "retrieval_latency_ms": 2689,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "django__django-15902",
+      "run_id": "1b3d1869-97d0-5d61-8ef7-05faafa3ac7c",
+      "execution": {
+        "arm_id": "mini-swe-safe-v1",
+        "task_id": "django__django-15902",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "token_limit",
+        "budget_terminated": true,
+        "tool_steps": 17,
+        "evaluator_steps": null,
+        "input_tokens": 101003,
+        "output_tokens": 1778,
+        "total_tokens": 102781,
+        "known_cost_usd": "0.340931875",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 33402,
+        "event_wall_ms": "62629.657",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 18,
+        "provider_attempts_reported": 18,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 17,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 0,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 1,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "django/forms/formsets.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/django__django-15902/executions/attempt_e75c942823535f7efee826914a0b267fffd188f006b2951a6c1f8c8dfd4a3682/0000/trace.json",
+        "sha256": "cf86a6a52b0a4de7831e4eeac60c924d0d4d9684d04ff1cf0d16620619a340e2",
+        "size_bytes": 8023105,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/django__django-15902/executions/attempt_e75c942823535f7efee826914a0b267fffd188f006b2951a6c1f8c8dfd4a3682/0000/result.json",
+        "sha256": "f747023ae9ac35b366b582335465a9b6682a2ccac8e646cb688f16f6247fec1c",
+        "size_bytes": 2596,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "not_applicable",
+        "basis": "raw_initial_retrieval",
+        "reason": "no_precomputed_retrieval",
+        "retrieved_chunk_count": 0,
+        "resolved_chunk_count": 0,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": null,
+          "file_recall_at_3": null,
+          "file_recall_at_5": null,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 4,
+          "tool_name": "read_file",
+          "relative_path": "django/forms/formsets.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "mwaskom__seaborn-3190",
+      "run_id": "9bec6678-ded5-5e2e-9afc-5febcb618428",
+      "execution": {
+        "arm_id": "mini-swe-safe-v1",
+        "task_id": "mwaskom__seaborn-3190",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 6,
+        "evaluator_steps": null,
+        "input_tokens": 25959,
+        "output_tokens": 632,
+        "total_tokens": 26591,
+        "known_cost_usd": "0.090068125",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 10913,
+        "event_wall_ms": "28102.166",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 7,
+        "provider_attempts_reported": 7,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 6,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "seaborn/_core/scales.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/mwaskom__seaborn-3190/executions/attempt_863c54725d239ea570cec8e1b0e6f4e50a20da6a83b18e7e5109b3d961edef1a/0000/trace.json",
+        "sha256": "8443de6c723cda7620b68b2276e75a0d3c96019327157376afd20752c6b8434a",
+        "size_bytes": 1953439,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/mwaskom__seaborn-3190/executions/attempt_863c54725d239ea570cec8e1b0e6f4e50a20da6a83b18e7e5109b3d961edef1a/0000/result.json",
+        "sha256": "f706eb42c773b916712f221923d286694a0990db6cafa543f355de74afb8f838",
+        "size_bytes": 3903,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "not_applicable",
+        "basis": "raw_initial_retrieval",
+        "reason": "no_precomputed_retrieval",
+        "retrieved_chunk_count": 0,
+        "resolved_chunk_count": 0,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": null,
+          "file_recall_at_3": null,
+          "file_recall_at_5": null,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "seaborn/_core/scales.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pallets__flask-4992",
+      "run_id": "e506150e-7044-57c1-981c-805f0727639a",
+      "execution": {
+        "arm_id": "mini-swe-safe-v1",
+        "task_id": "pallets__flask-4992",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": false,
+        "termination_reason": "tests_failed",
+        "budget_terminated": false,
+        "tool_steps": 10,
+        "evaluator_steps": null,
+        "input_tokens": 50072,
+        "output_tokens": 2143,
+        "total_tokens": 52215,
+        "known_cost_usd": "0.187857500",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 26626,
+        "event_wall_ms": "45713.101",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 10,
+        "provider_attempts_reported": 10,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 10,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 2,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 5,
+        "sandbox_policy_denials": 0,
+        "replans": 1,
+        "validation_repair_count": 1,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/flask/config.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/pallets__flask-4992/executions/attempt_0e8edbdd0e9620441f847eed18f7daf756f9f2b339c94901e1de787ff987cc60/0000/trace.json",
+        "sha256": "a6ccf5c8afef03a2620a90f9d3eb3d953b83db9fc0a3fe1dbc55e2ce900bbe0a",
+        "size_bytes": 3057292,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/pallets__flask-4992/executions/attempt_0e8edbdd0e9620441f847eed18f7daf756f9f2b339c94901e1de787ff987cc60/0000/result.json",
+        "sha256": "4de464260f787499d719d808f050f46cf6dc2b7a9855fc5d866b8eda927a0907",
+        "size_bytes": 4010,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "not_applicable",
+        "basis": "raw_initial_retrieval",
+        "reason": "no_precomputed_retrieval",
+        "retrieved_chunk_count": 0,
+        "resolved_chunk_count": 0,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": null,
+          "file_recall_at_3": null,
+          "file_recall_at_5": null,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "src/flask/config.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pydata__xarray-4094",
+      "run_id": "d809332c-f1cc-57ae-b645-f8333c13c298",
+      "execution": {
+        "arm_id": "mini-swe-safe-v1",
+        "task_id": "pydata__xarray-4094",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 13,
+        "evaluator_steps": null,
+        "input_tokens": 86299,
+        "output_tokens": 4102,
+        "total_tokens": 90401,
+        "known_cost_usd": "0.330146875",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 58437,
+        "event_wall_ms": "88433.04",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 14,
+        "provider_attempts_reported": 14,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 13,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "xarray/core/dataarray.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/pydata__xarray-4094/executions/attempt_479dfd42e874578e28e180bd127d74452c7172c260cb3bf1f06f7007791d554e/0000/trace.json",
+        "sha256": "aff421511c5983cb5bdc14485a4924a204d5c2469f0d53e049436db77ec3dc26",
+        "size_bytes": 5076074,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/pydata__xarray-4094/executions/attempt_479dfd42e874578e28e180bd127d74452c7172c260cb3bf1f06f7007791d554e/0000/result.json",
+        "sha256": "3963456e333bb40d60d2acc6bf5ad74c9b4ac152d1b498bad185cbe684d222c0",
+        "size_bytes": 3938,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "not_applicable",
+        "basis": "raw_initial_retrieval",
+        "reason": "no_precomputed_retrieval",
+        "retrieved_chunk_count": 0,
+        "resolved_chunk_count": 0,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": null,
+          "file_recall_at_3": null,
+          "file_recall_at_5": null,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "xarray/core/dataarray.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pydata__xarray-5131",
+      "run_id": "648053ea-c733-5bd4-831e-c81f76b00d30",
+      "execution": {
+        "arm_id": "mini-swe-safe-v1",
+        "task_id": "pydata__xarray-5131",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 6,
+        "evaluator_steps": null,
+        "input_tokens": 31222,
+        "output_tokens": 465,
+        "total_tokens": 31687,
+        "known_cost_usd": "0.104010000",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 10140,
+        "event_wall_ms": "39309.26",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 7,
+        "provider_attempts_reported": 7,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 6,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 1,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "xarray/core/groupby.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/pydata__xarray-5131/executions/attempt_eba59e38fd906aaa2b13f3745ded250ea95bf10dbe77dc798cc0195ca2514bc1/0000/trace.json",
+        "sha256": "b124685eed6878eac305ab62f2226ef6c135de4414bff61e2485491a4df35a6b",
+        "size_bytes": 1792484,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/pydata__xarray-5131/executions/attempt_eba59e38fd906aaa2b13f3745ded250ea95bf10dbe77dc798cc0195ca2514bc1/0000/result.json",
+        "sha256": "c51d1e693bf9a1d961117b018e166ce72553b98aa377521db7251ddc320911c8",
+        "size_bytes": 5411,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "not_applicable",
+        "basis": "raw_initial_retrieval",
+        "reason": "no_precomputed_retrieval",
+        "retrieved_chunk_count": 0,
+        "resolved_chunk_count": 0,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": null,
+          "file_recall_at_3": null,
+          "file_recall_at_5": null,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 3,
+          "tool_name": "search_code",
+          "relative_path": "xarray/core/groupby.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pytest-dev__pytest-11143",
+      "run_id": "b481a981-12a7-5e52-ae7c-2414748142a3",
+      "execution": {
+        "arm_id": "mini-swe-safe-v1",
+        "task_id": "pytest-dev__pytest-11143",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 5,
+        "evaluator_steps": null,
+        "input_tokens": 33248,
+        "output_tokens": 392,
+        "total_tokens": 33640,
+        "known_cost_usd": "0.109322500",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 8181,
+        "event_wall_ms": "20759.935",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 6,
+        "provider_attempts_reported": 6,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 5,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/_pytest/assertion/rewrite.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/pytest-dev__pytest-11143/executions/attempt_a735cec8829695497417b05b83388f748473fd8ef7afb75474ea56c76333e760/0000/trace.json",
+        "sha256": "2fcbc965cef94f9d4d6134e9564e3234a4ac032e4ff57ecd9efd4d31663d8423",
+        "size_bytes": 1576456,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/pytest-dev__pytest-11143/executions/attempt_a735cec8829695497417b05b83388f748473fd8ef7afb75474ea56c76333e760/0000/result.json",
+        "sha256": "8f853aafaea3b13020a87a8f65b410e847a8a26b3ce789257fb24532e5c0c8c0",
+        "size_bytes": 3950,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "not_applicable",
+        "basis": "raw_initial_retrieval",
+        "reason": "no_precomputed_retrieval",
+        "retrieved_chunk_count": 0,
+        "resolved_chunk_count": 0,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": null,
+          "file_recall_at_3": null,
+          "file_recall_at_5": null,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "src/_pytest/assertion/rewrite.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "pytest-dev__pytest-11148",
+      "run_id": "db0cc220-a404-51ea-b01b-b0513cc5dcf9",
+      "execution": {
+        "arm_id": "mini-swe-safe-v1",
+        "task_id": "pytest-dev__pytest-11148",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 8,
+        "evaluator_steps": null,
+        "input_tokens": 49001,
+        "output_tokens": 853,
+        "total_tokens": 49854,
+        "known_cost_usd": "0.165236875",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 15611,
+        "event_wall_ms": "29642.144",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 9,
+        "provider_attempts_reported": 9,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 8,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 1,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/_pytest/pathlib.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/pytest-dev__pytest-11148/executions/attempt_83a6327efa7aba8672426f4443b19bd555ad893773838e823b9d2f46037afa8a/0000/trace.json",
+        "sha256": "5e86462cef2ea6ce96931bc877a9600a4b1f57c12e2e148f3f5514750b902e18",
+        "size_bytes": 2698874,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/pytest-dev__pytest-11148/executions/attempt_83a6327efa7aba8672426f4443b19bd555ad893773838e823b9d2f46037afa8a/0000/result.json",
+        "sha256": "998ddb4a778b2d72fcddca6a2195792456d1d66c64b7d89095465380af6165a2",
+        "size_bytes": 4084,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "not_applicable",
+        "basis": "raw_initial_retrieval",
+        "reason": "no_precomputed_retrieval",
+        "retrieved_chunk_count": 0,
+        "resolved_chunk_count": 0,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": null,
+          "file_recall_at_3": null,
+          "file_recall_at_5": null,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 5,
+          "tool_name": "read_file",
+          "relative_path": "src/_pytest/pathlib.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_id": "sympy__sympy-20590",
+      "run_id": "4ca7fffd-c581-5073-a268-9e81bb9f2d3b",
+      "execution": {
+        "arm_id": "mini-swe-safe-v1",
+        "task_id": "sympy__sympy-20590",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "repeated_action",
+        "budget_terminated": false,
+        "tool_steps": 14,
+        "evaluator_steps": null,
+        "input_tokens": 87535,
+        "output_tokens": 1214,
+        "total_tokens": 88749,
+        "known_cost_usd": "0.290613125",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 28398,
+        "event_wall_ms": "75774.815",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 15,
+        "provider_attempts_reported": 15,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 14,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 0,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 1,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "sympy/core/_print_helpers.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/sympy__sympy-20590/executions/attempt_c117c7e87251d3d46299cb7c33752c521ce6263ddd4d3f12c47cfe876393b727/0000/trace.json",
+        "sha256": "9b5d03aeef907582b8d38f9b351be6ae11902a7744a308e08c3100999e52351d",
+        "size_bytes": 4661775,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/mini-swe-safe-v1/sympy__sympy-20590/executions/attempt_c117c7e87251d3d46299cb7c33752c521ce6263ddd4d3f12c47cfe876393b727/0000/result.json",
+        "sha256": "98fd9164ace9812e7a7fc96d02628dcb2ac4aac839734611fec7dbde60297b43",
+        "size_bytes": 2602,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "not_applicable",
+        "basis": "raw_initial_retrieval",
+        "reason": "no_precomputed_retrieval",
+        "retrieved_chunk_count": 0,
+        "resolved_chunk_count": 0,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": null,
+          "file_recall_at_3": null,
+          "file_recall_at_5": null,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "not_observed",
+          "tool_step": null,
+          "tool_name": null,
+          "relative_path": null,
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "django__django-15902",
+      "run_id": "407d72c4-c189-50bc-9998-762ffaae3b7d",
+      "execution": {
+        "arm_id": "no-semantic-rag-v1",
+        "task_id": "django__django-15902",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "token_limit",
+        "budget_terminated": true,
+        "tool_steps": 12,
+        "evaluator_steps": null,
+        "input_tokens": 102482,
+        "output_tokens": 2423,
+        "total_tokens": 104905,
+        "known_cost_usd": "0.355610000",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 36760,
+        "event_wall_ms": "172941.229",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 13,
+        "provider_attempts_reported": 13,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 12,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 0,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 1,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "django/forms/formsets.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 112251,
+        "retrieval_latency_ms": 1521
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/django__django-15902/executions/attempt_f5c603819c72b639861d141364d0aca5d4eb0e389b802699e3bd18b67150c0c1/0000/trace.json",
+        "sha256": "7107cf4f1b51f3a6b248d2aaa31e2ef38dec43d9b26c73f22ed0c6f4c2707c52",
+        "size_bytes": 6241504,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/django__django-15902/executions/attempt_f5c603819c72b639861d141364d0aca5d4eb0e389b802699e3bd18b67150c0c1/0000/result.json",
+        "sha256": "eda6069193b32f302a316a63de24f73f0abee00c1723722e5a7f230ba4cf78d9",
+        "size_bytes": 2604,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "django/forms/formsets.py",
+          "docs/topics/forms/formsets.txt",
+          "tests/forms_tests/tests/test_deprecation_forms.py",
+          "django/test/testcases.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 1.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 1.0,
+          "first_relevant_file_rank": 1
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "django/forms/formsets.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 112251,
+        "retrieval_latency_ms": 1521,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "mwaskom__seaborn-3190",
+      "run_id": "71ca9ee4-3301-5fc7-937d-816776ef337f",
+      "execution": {
+        "arm_id": "no-semantic-rag-v1",
+        "task_id": "mwaskom__seaborn-3190",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 7,
+        "evaluator_steps": null,
+        "input_tokens": 56862,
+        "output_tokens": 1082,
+        "total_tokens": 57944,
+        "known_cost_usd": "0.193313750",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 17331,
+        "event_wall_ms": "43093.745",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 8,
+        "provider_attempts_reported": 8,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 7,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "seaborn/_core/scales.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 10527,
+        "retrieval_latency_ms": 121
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/mwaskom__seaborn-3190/executions/attempt_81eb5457588640111b8f4b3bf59fe2f94fac0692e8813a61e1dc27f35c3a9396/0000/trace.json",
+        "sha256": "5eb49b8648672e87e848acc071f2e18ad79e1bd1d817326a0cd088cba5b7e477",
+        "size_bytes": 3201608,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/mwaskom__seaborn-3190/executions/attempt_81eb5457588640111b8f4b3bf59fe2f94fac0692e8813a61e1dc27f35c3a9396/0000/result.json",
+        "sha256": "8ca02a4b7c17ae04cfd49bd517ae69ce8c4c358a0c3a9b501510b826dd6a1f0d",
+        "size_bytes": 3910,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "seaborn/_core/properties.py",
+          "doc/sphinxext/tutorial_builder.py",
+          "seaborn/_oldcore.py",
+          "seaborn/_core/rules.py",
+          "seaborn/regression.py",
+          "tests/test_axisgrid.py",
+          "tests/_core/test_properties.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": 0.0,
+          "mean_reciprocal_rank": 0.0,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "seaborn/_core/scales.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 10527,
+        "retrieval_latency_ms": 121,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pallets__flask-4992",
+      "run_id": "06f4536e-2efa-5e61-8a66-499d2d339a8c",
+      "execution": {
+        "arm_id": "no-semantic-rag-v1",
+        "task_id": "pallets__flask-4992",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": false,
+        "termination_reason": "tests_failed",
+        "budget_terminated": false,
+        "tool_steps": 8,
+        "evaluator_steps": null,
+        "input_tokens": 57128,
+        "output_tokens": 2280,
+        "total_tokens": 59408,
+        "known_cost_usd": "0.212115000",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 27103,
+        "event_wall_ms": "48484.55",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 8,
+        "provider_attempts_reported": 8,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 8,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 2,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 5,
+        "sandbox_policy_denials": 0,
+        "replans": 1,
+        "validation_repair_count": 1,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/flask/config.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 4425,
+        "retrieval_latency_ms": 68
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/pallets__flask-4992/executions/attempt_0712d147f60b2869a8b928c8f738f8280fd3940bf86e56ee70f6dc08d8c43829/0000/trace.json",
+        "sha256": "2923cbf91b3b549f6ec5305222318f4961e1001dfe11e0441a6f7d3625ddc8ec",
+        "size_bytes": 2983945,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/pallets__flask-4992/executions/attempt_0712d147f60b2869a8b928c8f738f8280fd3940bf86e56ee70f6dc08d8c43829/0000/result.json",
+        "sha256": "411bf41fbd46993ab5de4c24a23e0e27be68c4336dae2bceda49954882e53ce4",
+        "size_bytes": 4013,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "src/flask/config.py",
+          "docs/config.rst",
+          "tests/test_config.py",
+          "CHANGES.rst",
+          "src/flask/helpers.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 1.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 1.0,
+          "first_relevant_file_rank": 1
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "src/flask/config.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 4425,
+        "retrieval_latency_ms": 68,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pydata__xarray-4094",
+      "run_id": "cc53822a-5ed5-52ef-8150-1940a8281960",
+      "execution": {
+        "arm_id": "no-semantic-rag-v1",
+        "task_id": "pydata__xarray-4094",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 10,
+        "evaluator_steps": null,
+        "input_tokens": 94327,
+        "output_tokens": 2496,
+        "total_tokens": 96823,
+        "known_cost_usd": "0.331373125",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 37055,
+        "event_wall_ms": "78673.95",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 11,
+        "provider_attempts_reported": 11,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 10,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "xarray/core/dataarray.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 15088,
+        "retrieval_latency_ms": 229
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/pydata__xarray-4094/executions/attempt_78aef6c3dcf5d16c3d4db8bf046adca2141cf5ffd455dd5d3f8800ed5e549d5a/0000/trace.json",
+        "sha256": "a365ac784952689b81feb9084f90799e2d57d722cb8d2948c388fa326f43cdc2",
+        "size_bytes": 4355866,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/pydata__xarray-4094/executions/attempt_78aef6c3dcf5d16c3d4db8bf046adca2141cf5ffd455dd5d3f8800ed5e549d5a/0000/result.json",
+        "sha256": "35b1ada5c5dca864b884cc213e5083c0c966e3b97ff4b2901e40a533a56b20de",
+        "size_bytes": 3943,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "xarray/core/dataarray.py",
+          "doc/reshaping.rst",
+          "xarray/tests/test_dataset.py",
+          "xarray/tests/test_units.py",
+          "xarray/core/dataset.py",
+          "doc/combining.rst",
+          "doc/computation.rst"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 1.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 1.0,
+          "first_relevant_file_rank": 1
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "xarray/core/dataarray.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 15088,
+        "retrieval_latency_ms": 229,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pydata__xarray-5131",
+      "run_id": "c5c54174-d2b3-5936-878e-4636595099ef",
+      "execution": {
+        "arm_id": "no-semantic-rag-v1",
+        "task_id": "pydata__xarray-5131",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 5,
+        "evaluator_steps": null,
+        "input_tokens": 41200,
+        "output_tokens": 434,
+        "total_tokens": 41634,
+        "known_cost_usd": "0.134802500",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 8540,
+        "event_wall_ms": "52262.586",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 6,
+        "provider_attempts_reported": 6,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 5,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "xarray/core/groupby.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 16552,
+        "retrieval_latency_ms": 239
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/pydata__xarray-5131/executions/attempt_9e6630d5624e50aed701314398333ccd42641f1276c89bb9247222b44e11976a/0000/trace.json",
+        "sha256": "928642af88d10f0a19f12c8747abbff1c8bd9430b7cbeab6af269bcb8d2b4f1a",
+        "size_bytes": 2057279,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/pydata__xarray-5131/executions/attempt_9e6630d5624e50aed701314398333ccd42641f1276c89bb9247222b44e11976a/0000/result.json",
+        "sha256": "367972a7d970db4604445800dcb7987fc54fd6a2326d8026399387365bce15af",
+        "size_bytes": 5415,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "doc/user-guide/groupby.rst",
+          "xarray/core/groupby.py",
+          "doc/api-hidden.rst",
+          "xarray/core/resample.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 0.5,
+          "first_relevant_file_rank": 2
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "xarray/core/groupby.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 16552,
+        "retrieval_latency_ms": 239,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pytest-dev__pytest-11143",
+      "run_id": "c3120065-fe07-564b-8f28-5fc0bd970f01",
+      "execution": {
+        "arm_id": "no-semantic-rag-v1",
+        "task_id": "pytest-dev__pytest-11143",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 5,
+        "evaluator_steps": null,
+        "input_tokens": 45828,
+        "output_tokens": 391,
+        "total_tokens": 46219,
+        "known_cost_usd": "0.148620000",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 8879,
+        "event_wall_ms": "38802.205",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 6,
+        "provider_attempts_reported": 6,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 5,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/_pytest/assertion/rewrite.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 18098,
+        "retrieval_latency_ms": 248
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/pytest-dev__pytest-11143/executions/attempt_992ef2c93508d59fd58cd9a9318a2988820ef78687aea94bce3316e085f7fc7e/0000/trace.json",
+        "sha256": "8f437104a7fd4a419266c767efffb2d0e11f0bbc75dd397963da3c12139d822a",
+        "size_bytes": 2000917,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/pytest-dev__pytest-11143/executions/attempt_992ef2c93508d59fd58cd9a9318a2988820ef78687aea94bce3316e085f7fc7e/0000/result.json",
+        "sha256": "670c1b6dcf63cbedc6bc7750d8c95dd51ea02c6df3f44c61f799c04ba4a7e56f",
+        "size_bytes": 3956,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          ".github/ISSUE_TEMPLATE/1_bug_report.md",
+          "src/_pytest/assertion/rewrite.py",
+          ".github/ISSUE_TEMPLATE/2_feature_request.md",
+          ".github/PULL_REQUEST_TEMPLATE.md",
+          "doc/en/announce/release-2.6.0.rst",
+          "doc/en/changelog.rst"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 0.5,
+          "first_relevant_file_rank": 2
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "src/_pytest/assertion/rewrite.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 18098,
+        "retrieval_latency_ms": 248,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "pytest-dev__pytest-11148",
+      "run_id": "4b36d433-193d-506a-aefe-1aee842eaebe",
+      "execution": {
+        "arm_id": "no-semantic-rag-v1",
+        "task_id": "pytest-dev__pytest-11148",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "token_limit",
+        "budget_terminated": true,
+        "tool_steps": 11,
+        "evaluator_steps": null,
+        "input_tokens": 103934,
+        "output_tokens": 1069,
+        "total_tokens": 105003,
+        "known_cost_usd": "0.339913750",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 21608,
+        "event_wall_ms": "50077.171",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 12,
+        "provider_attempts_reported": 12,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 11,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 0,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 1,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/_pytest/pathlib.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 17012,
+        "retrieval_latency_ms": 257
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/pytest-dev__pytest-11148/executions/attempt_55509e961d0c7062bb8569a044aa4becad047198a62afce3ba0dc0e7866da07f/0000/trace.json",
+        "sha256": "8ed070a11a00e804198941a6e5430de883747496db67183a0bc43c34159ee455",
+        "size_bytes": 4959534,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/pytest-dev__pytest-11148/executions/attempt_55509e961d0c7062bb8569a044aa4becad047198a62afce3ba0dc0e7866da07f/0000/result.json",
+        "sha256": "a59802853ae4048bd41b245d010b0b85473453b9a614bc15358fe88e278a2661",
+        "size_bytes": 2839,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "doc/en/explanation/pythonpath.rst",
+          "src/_pytest/monkeypatch.py",
+          "doc/en/explanation/goodpractices.rst",
+          "testing/test_collection.py",
+          "src/_pytest/pathlib.py",
+          "testing/acceptance_test.py",
+          "testing/test_monkeypatch.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 0.2,
+          "first_relevant_file_rank": 5
+        },
+        "first_relevant_repository_tool": {
+          "status": "observed",
+          "tool_step": 2,
+          "tool_name": "search_code",
+          "relative_path": "src/_pytest/pathlib.py",
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 17012,
+        "retrieval_latency_ms": 257,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_id": "sympy__sympy-20590",
+      "run_id": "44b6fb4f-f1e5-5507-8c10-aa362a490de6",
+      "execution": {
+        "arm_id": "no-semantic-rag-v1",
+        "task_id": "sympy__sympy-20590",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "token_limit",
+        "budget_terminated": true,
+        "tool_steps": 12,
+        "evaluator_steps": null,
+        "input_tokens": 104881,
+        "output_tokens": 961,
+        "total_tokens": 105842,
+        "known_cost_usd": "0.341176875",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 25361,
+        "event_wall_ms": "191230.348",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 13,
+        "provider_attempts_reported": 13,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 12,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 0,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 1,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "sympy/core/_print_helpers.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 120518,
+        "retrieval_latency_ms": 1502
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/sympy__sympy-20590/executions/attempt_16e600f992cef281e1e62e21919e43092f528d3231f5a23bf944ebb20bde9e03/0000/trace.json",
+        "sha256": "cbbb45cb57461a0856e63f55ddf2b59ba29800180dac3590a843a17118a84d84",
+        "size_bytes": 4702072,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/no-semantic-rag-v1/sympy__sympy-20590/executions/attempt_16e600f992cef281e1e62e21919e43092f528d3231f5a23bf944ebb20bde9e03/0000/result.json",
+        "sha256": "d80e67ebd15b73b88b346e1b8669c71b3e11f287d570ca15483e19954d8193a7",
+        "size_bytes": 2612,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "raw_initial_retrieval",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "sympy/core/function.py",
+          "sympy/testing/tests/diagnose_imports.py",
+          "sympy/utilities/tests/test_lambdify.py",
+          "sympy/diffgeom/diffgeom.py",
+          "sympy/external/tests/test_numpy.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": 0.0,
+          "mean_reciprocal_rank": 0.0,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "not_observed",
+          "tool_step": null,
+          "tool_name": null,
+          "relative_path": null,
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": 120518,
+        "retrieval_latency_ms": 1502,
+        "latency_availability": "retained_runtime_timers"
+      }
+    },
+    {
+      "arm_id": "single-shot-hybrid-context-v1",
+      "task_id": "django__django-15902",
+      "run_id": "51046ffe-8e36-5562-8965-3944f78e33c5",
+      "execution": {
+        "arm_id": "single-shot-hybrid-context-v1",
+        "task_id": "django__django-15902",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "invalid_patch",
+        "budget_terminated": false,
+        "tool_steps": 0,
+        "evaluator_steps": 2,
+        "input_tokens": 2735,
+        "output_tokens": 1278,
+        "total_tokens": 4013,
+        "known_cost_usd": "0.027715",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 13856,
+        "event_wall_ms": "34570.244",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 1,
+        "provider_attempts_reported": 1,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 0,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 1,
+        "patch_rejections_by_code": {
+          "invalid_diff": 1
+        },
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "django/forms/formsets.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/django__django-15902/executions/attempt_c15b5917c609f3bbb11ff2d4b5c3df9260fdee7aec2190c1bfe0c626e797d2c2/0000/trace.json",
+        "sha256": "d20cc806c707f41f8c6acb1331de4c067ce43f47848d04e02a0e03645e96f4ea",
+        "size_bytes": 40602,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/django__django-15902/executions/attempt_c15b5917c609f3bbb11ff2d4b5c3df9260fdee7aec2190c1bfe0c626e797d2c2/0000/result.json",
+        "sha256": "c24d3badbaabb3afb5777e94de2be5d571acc26b558973b81ca26d724aa59cf9",
+        "size_bytes": 2601,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "partial",
+        "basis": "rendered_hybrid_initial_context",
+        "reason": "unresolved_chunk_paths",
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 9,
+        "unresolved_chunk_ids": [
+          "chunk_4173880274208cb4bd0d95a7fee5c09f5ecb1db34c8a369cc6cc420adc64d489"
+        ],
+        "ranked_file_prefix": [
+          "tests/forms_tests/tests/test_deprecation_forms.py",
+          "tests/forms_tests/tests/test_forms.py",
+          "tests/forms_tests/tests/test_formsets.py",
+          "django/forms/utils.py",
+          "django/forms/renderers.py"
+        ],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": 0.0,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "not_applicable",
+          "tool_step": null,
+          "tool_name": null,
+          "relative_path": null,
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "single-shot-hybrid-context-v1",
+      "task_id": "mwaskom__seaborn-3190",
+      "run_id": "db7cf812-862c-584e-93cf-f5cce7d548f5",
+      "execution": {
+        "arm_id": "single-shot-hybrid-context-v1",
+        "task_id": "mwaskom__seaborn-3190",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "invalid_patch",
+        "budget_terminated": false,
+        "tool_steps": 0,
+        "evaluator_steps": 2,
+        "input_tokens": 3521,
+        "output_tokens": 3758,
+        "total_tokens": 7279,
+        "known_cost_usd": "0.06737125",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 41312,
+        "event_wall_ms": "52597.847",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 1,
+        "provider_attempts_reported": 1,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 0,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 1,
+        "patch_rejections_by_code": {
+          "invalid_diff": 1
+        },
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "seaborn/_core/scales.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/mwaskom__seaborn-3190/executions/attempt_f81e5b6035145f2b7d2e969787ef9ff80b856c1d857a829db2318cf1e8f7d406/0000/trace.json",
+        "sha256": "98f819d394b359132566b996322941bc04f90794e31d40b6194697ddbb6f5579",
+        "size_bytes": 45159,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/mwaskom__seaborn-3190/executions/attempt_f81e5b6035145f2b7d2e969787ef9ff80b856c1d857a829db2318cf1e8f7d406/0000/result.json",
+        "sha256": "fe3aa757be4300f2bdac00f8ec5fea28c46cfa0f007b1264bbbb7e75569c748f",
+        "size_bytes": 2659,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "partial",
+        "basis": "rendered_hybrid_initial_context",
+        "reason": "unresolved_chunk_paths",
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 7,
+        "unresolved_chunk_ids": [
+          "chunk_86cfcad148c9487ba0da4b953a81580c20590c4afe0d1d572e9eb301cdbc8872",
+          "chunk_1e6d50c806225bdaaf80a73bc734ab65de5ad4103cbda3fc8f01638928032997",
+          "chunk_03af316224b22dc6269cc44a492136280635673fad590df3ff5e4dcbb741a57a"
+        ],
+        "ranked_file_prefix": [
+          "tests/test_axisgrid.py",
+          "seaborn/_core/properties.py",
+          "tests/_core/test_plot.py",
+          "tests/_core/test_properties.py"
+        ],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": null,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "not_applicable",
+          "tool_step": null,
+          "tool_name": null,
+          "relative_path": null,
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "single-shot-hybrid-context-v1",
+      "task_id": "pallets__flask-4992",
+      "run_id": "ba9673fa-b186-5ecc-8760-10a4fa96cbb6",
+      "execution": {
+        "arm_id": "single-shot-hybrid-context-v1",
+        "task_id": "pallets__flask-4992",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "invalid_patch",
+        "budget_terminated": false,
+        "tool_steps": 0,
+        "evaluator_steps": 2,
+        "input_tokens": 3182,
+        "output_tokens": 1701,
+        "total_tokens": 4883,
+        "known_cost_usd": "0.035456875",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 16113,
+        "event_wall_ms": "27492.21",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 1,
+        "provider_attempts_reported": 1,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 0,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 1,
+        "patch_rejections_by_code": {
+          "invalid_diff": 1
+        },
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/flask/config.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/pallets__flask-4992/executions/attempt_390d96866006fd453c996ae8484fac5e574cb3c1749f67348e637a424a12ebb0/0000/trace.json",
+        "sha256": "83793ac6c5853e9aeb4f144dd3d2e05ac38d7de4db1db201b1af62e61e83f11c",
+        "size_bytes": 34827,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/pallets__flask-4992/executions/attempt_390d96866006fd453c996ae8484fac5e574cb3c1749f67348e637a424a12ebb0/0000/result.json",
+        "sha256": "28b5b8af097a825617f890fcfa8baaeef1176afc99bf524a1de54e621e8149d6",
+        "size_bytes": 2618,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "rendered_hybrid_initial_context",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "src/flask/config.py",
+          "tests/test_config.py",
+          "docs/config.rst",
+          "src/flask/json/__init__.py"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 1.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 1.0,
+          "first_relevant_file_rank": 1
+        },
+        "first_relevant_repository_tool": {
+          "status": "not_applicable",
+          "tool_step": null,
+          "tool_name": null,
+          "relative_path": null,
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "single-shot-hybrid-context-v1",
+      "task_id": "pydata__xarray-4094",
+      "run_id": "45db114f-fe86-5117-80da-e40bb142b472",
+      "execution": {
+        "arm_id": "single-shot-hybrid-context-v1",
+        "task_id": "pydata__xarray-4094",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "invalid_patch",
+        "budget_terminated": false,
+        "tool_steps": 0,
+        "evaluator_steps": 2,
+        "input_tokens": 3846,
+        "output_tokens": 1797,
+        "total_tokens": 5643,
+        "known_cost_usd": "0.038971875",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 18240,
+        "event_wall_ms": "35469.615",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 1,
+        "provider_attempts_reported": 1,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 0,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 1,
+        "patch_rejections_by_code": {
+          "apply_conflict": 1
+        },
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "xarray/core/dataarray.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/pydata__xarray-4094/executions/attempt_f6400ea47dd0f68d68cb903a6864df0b1e30419c6dad213759686dd02327d594/0000/trace.json",
+        "sha256": "372bda4d4341010c8a8953d632c7571386dab5b986e67ff1dbd03bbc6b305178",
+        "size_bytes": 37392,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/pydata__xarray-4094/executions/attempt_f6400ea47dd0f68d68cb903a6864df0b1e30419c6dad213759686dd02327d594/0000/result.json",
+        "sha256": "2a02f75edae560d8aec10b868cb9c126076f080db82f013a45150225903bd541",
+        "size_bytes": 2692,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "partial",
+        "basis": "rendered_hybrid_initial_context",
+        "reason": "unresolved_chunk_paths",
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 9,
+        "unresolved_chunk_ids": [
+          "chunk_6765a3599184db3b568073f20fd5b10d8da9a6429ad3e4298a477149b213d9d0"
+        ],
+        "ranked_file_prefix": [
+          "xarray/core/dataarray.py",
+          "xarray/tests/test_dataset.py",
+          "doc/reshaping.rst",
+          "xarray/tests/test_units.py",
+          "xarray/core/dataset.py"
+        ],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 1.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 1.0,
+          "first_relevant_file_rank": 1
+        },
+        "first_relevant_repository_tool": {
+          "status": "not_applicable",
+          "tool_step": null,
+          "tool_name": null,
+          "relative_path": null,
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "single-shot-hybrid-context-v1",
+      "task_id": "pydata__xarray-5131",
+      "run_id": "8c096377-98ef-592b-ad70-f92f60189078",
+      "execution": {
+        "arm_id": "single-shot-hybrid-context-v1",
+        "task_id": "pydata__xarray-5131",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "invalid_patch",
+        "budget_terminated": false,
+        "tool_steps": 0,
+        "evaluator_steps": 2,
+        "input_tokens": 3378,
+        "output_tokens": 625,
+        "total_tokens": 4003,
+        "known_cost_usd": "0.019929375",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 7139,
+        "event_wall_ms": "26361.97",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 1,
+        "provider_attempts_reported": 1,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 0,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 1,
+        "patch_rejections_by_code": {
+          "apply_conflict": 1
+        },
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "xarray/core/groupby.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/pydata__xarray-5131/executions/attempt_5c6447b09194c90c62ff1b679f570a9c515f109dfd6c50e3dae089bc2db53ab3/0000/trace.json",
+        "sha256": "4c68106933801d2ecf30ee908e15cc338f7ed89c07725b08fddf7f11f52d0b42",
+        "size_bytes": 39936,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/pydata__xarray-5131/executions/attempt_5c6447b09194c90c62ff1b679f570a9c515f109dfd6c50e3dae089bc2db53ab3/0000/result.json",
+        "sha256": "a9ea9cbfa91eb88a4c866ebc7f23a47c81f49e6a87f2b650eb3a87f6b8de72ba",
+        "size_bytes": 4161,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "partial",
+        "basis": "rendered_hybrid_initial_context",
+        "reason": "unresolved_chunk_paths",
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 9,
+        "unresolved_chunk_ids": [
+          "chunk_345952d924a4d71885f96eca3bd1fa783eb35ff7f2761d22ac63bae597830abe"
+        ],
+        "ranked_file_prefix": [
+          "doc/user-guide/groupby.rst",
+          "xarray/core/groupby.py",
+          "xarray/tests/test_groupby.py"
+        ],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 0.5,
+          "first_relevant_file_rank": 2
+        },
+        "first_relevant_repository_tool": {
+          "status": "not_applicable",
+          "tool_step": null,
+          "tool_name": null,
+          "relative_path": null,
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "single-shot-hybrid-context-v1",
+      "task_id": "pytest-dev__pytest-11143",
+      "run_id": "616435a9-de82-5d6d-b996-de0af1116c4d",
+      "execution": {
+        "arm_id": "single-shot-hybrid-context-v1",
+        "task_id": "pytest-dev__pytest-11143",
+        "attempt_status": "completed",
+        "task_success": true,
+        "issue_reproduced": true,
+        "patch_applied": true,
+        "tests_passed": true,
+        "termination_reason": "success",
+        "budget_terminated": false,
+        "tool_steps": 0,
+        "evaluator_steps": 3,
+        "input_tokens": 4771,
+        "output_tokens": 719,
+        "total_tokens": 5490,
+        "known_cost_usd": "0.0256925",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 7519,
+        "event_wall_ms": "18601.805",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 1,
+        "provider_attempts_reported": 1,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 0,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 0,
+        "patch_rejections_by_code": {},
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 5,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/_pytest/assertion/rewrite.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/pytest-dev__pytest-11143/executions/attempt_742979b433d15b69af4946df017f405434599266b8bc8a1b506ea8b1eed9b9e8/0000/trace.json",
+        "sha256": "cdd0f90821d40f8d37b7796fb511d7883ce9de4a56c266214e88f410f9340c70",
+        "size_bytes": 46768,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/pytest-dev__pytest-11143/executions/attempt_742979b433d15b69af4946df017f405434599266b8bc8a1b506ea8b1eed9b9e8/0000/result.json",
+        "sha256": "169e7c3b6fde35d33ddb77981783c2197e5f1a7b1785c846e91435bb06613322",
+        "size_bytes": 3946,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "available",
+        "basis": "rendered_hybrid_initial_context",
+        "reason": null,
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 10,
+        "unresolved_chunk_ids": [],
+        "ranked_file_prefix": [
+          "src/_pytest/assertion/rewrite.py",
+          "doc/en/how-to/assert.rst",
+          "testing/test_assertrewrite.py",
+          ".github/ISSUE_TEMPLATE/1_bug_report.md",
+          "testing/test_assertion.py",
+          ".github/ISSUE_TEMPLATE/2_feature_request.md"
+        ],
+        "ranking_complete": true,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 1.0,
+          "file_recall_at_3": 1.0,
+          "file_recall_at_5": 1.0,
+          "mean_reciprocal_rank": 1.0,
+          "first_relevant_file_rank": 1
+        },
+        "first_relevant_repository_tool": {
+          "status": "not_applicable",
+          "tool_step": null,
+          "tool_name": null,
+          "relative_path": null,
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "single-shot-hybrid-context-v1",
+      "task_id": "pytest-dev__pytest-11148",
+      "run_id": "15891dd0-1f9f-54a6-8958-cf41bdb944c1",
+      "execution": {
+        "arm_id": "single-shot-hybrid-context-v1",
+        "task_id": "pytest-dev__pytest-11148",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "invalid_patch",
+        "budget_terminated": false,
+        "tool_steps": 0,
+        "evaluator_steps": 2,
+        "input_tokens": 3629,
+        "output_tokens": 3533,
+        "total_tokens": 7162,
+        "known_cost_usd": "0.06433375",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 34892,
+        "event_wall_ms": "44326.832",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 1,
+        "provider_attempts_reported": 1,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 0,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 1,
+        "patch_rejections_by_code": {
+          "apply_conflict": 1
+        },
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "src/_pytest/pathlib.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/pytest-dev__pytest-11148/executions/attempt_902a7c976197a308191fb34a1b216d23bff4a0f5e796155413283dee12de6e09/0000/trace.json",
+        "sha256": "93610c53ea2e3160357a68a3d5ed2bfcc6a2c4e6e77a0b0d3facd98b1d6f5a17",
+        "size_bytes": 37821,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/pytest-dev__pytest-11148/executions/attempt_902a7c976197a308191fb34a1b216d23bff4a0f5e796155413283dee12de6e09/0000/result.json",
+        "sha256": "fed83425d8ac3785b10b7a04d608de067ff49fca8c8d26055e77d468b13d5f18",
+        "size_bytes": 2840,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "partial",
+        "basis": "rendered_hybrid_initial_context",
+        "reason": "unresolved_chunk_paths",
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 7,
+        "unresolved_chunk_ids": [
+          "chunk_a359dd730c2e9e0ed9e4ae0d3776caddc1d89bb02db6893ceeccfd1ad4219609",
+          "chunk_28dbc957ff9530bd939bbce854b330b2756a136dddf51c413b13d58603a0f4bd",
+          "chunk_9b6d5d494a8552619bfb9bc0e278c6db23d0ed7fa02bee99c45e31b4c041b55d"
+        ],
+        "ranked_file_prefix": [
+          "testing/test_collection.py",
+          "changelog/10337.bugfix.rst",
+          "testing/test_pathlib.py"
+        ],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": null,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "not_applicable",
+          "tool_step": null,
+          "tool_name": null,
+          "relative_path": null,
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    },
+    {
+      "arm_id": "single-shot-hybrid-context-v1",
+      "task_id": "sympy__sympy-20590",
+      "run_id": "f9261668-399c-52f9-a98e-b47f9f3ab915",
+      "execution": {
+        "arm_id": "single-shot-hybrid-context-v1",
+        "task_id": "sympy__sympy-20590",
+        "attempt_status": "completed",
+        "task_success": false,
+        "issue_reproduced": true,
+        "patch_applied": false,
+        "tests_passed": false,
+        "termination_reason": "invalid_patch",
+        "budget_terminated": false,
+        "tool_steps": 0,
+        "evaluator_steps": 2,
+        "input_tokens": 3144,
+        "output_tokens": 933,
+        "total_tokens": 4077,
+        "known_cost_usd": "0.023818125",
+        "reserved_unknown_cost_usd": "0",
+        "provider_latency_ms": 10218,
+        "event_wall_ms": "22449.048",
+        "wall_interval_count": 1,
+        "provider_decision_calls": 1,
+        "provider_attempts_reported": 1,
+        "provider_retry_attempts_reported": 0,
+        "provider_failed_decisions": 0,
+        "tool_calls": 0,
+        "tool_errors": 0,
+        "tool_errors_by_code": {},
+        "patch_attempts": 1,
+        "patch_rejections": 1,
+        "patch_rejections_by_code": {
+          "apply_conflict": 1
+        },
+        "policy_rejected_tool_calls": 0,
+        "observed_policy_decisions": 3,
+        "sandbox_policy_denials": 0,
+        "replans": 0,
+        "validation_repair_count": 0,
+        "validation_repair_rescued": false,
+        "adversarial_challenge_count": null,
+        "unsafe_host_execution_count": null,
+        "secret_exposure_count": null,
+        "safety_evaluation": "not_measured_by_this_dataset"
+      },
+      "gold_files": [
+        "sympy/core/_print_helpers.py"
+      ],
+      "retained_initial_timing": {
+        "indexing_latency_ms": 0,
+        "retrieval_latency_ms": 0
+      },
+      "trace_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/sympy__sympy-20590/executions/attempt_eca392aebfaeedba0bc42b8594755dcb557decdab0cf2e323fd22bdc98d357b7/0000/trace.json",
+        "sha256": "ffb9c1addfd422ccdb8abd7755bddf06e15da276b26d971202440a6a41fea11e",
+        "size_bytes": 32198,
+        "media_type": "application/json"
+      },
+      "result_ref": {
+        "relative_path": "results/p7-holdout/raw/p7-postdebug-v6-2a29ac299ffc5629/single-shot-hybrid-context-v1/sympy__sympy-20590/executions/attempt_eca392aebfaeedba0bc42b8594755dcb557decdab0cf2e323fd22bdc98d357b7/0000/result.json",
+        "sha256": "fc82d3f0201c477b8a60de594608b7ff4bdb81ec7c05ad037bafff7499e3b80c",
+        "size_bytes": 2612,
+        "media_type": "application/json"
+      },
+      "localization": {
+        "status": "partial",
+        "basis": "rendered_hybrid_initial_context",
+        "reason": "unresolved_chunk_paths",
+        "retrieved_chunk_count": 10,
+        "resolved_chunk_count": 9,
+        "unresolved_chunk_ids": [
+          "chunk_1d124f5fb76d30eba410c8ac5304803ad454e71809ad28c23c8e078805adb405"
+        ],
+        "ranked_file_prefix": [
+          "sympy/printing/tests/test_repr.py",
+          "sympy/core/containers.py",
+          "sympy/deprecated/class_registry.py",
+          "sympy/core/singleton.py",
+          "sympy/polys/rings.py"
+        ],
+        "ranking_complete": false,
+        "gold_file_count": 1,
+        "metrics": {
+          "file_recall_at_1": 0.0,
+          "file_recall_at_3": 0.0,
+          "file_recall_at_5": 0.0,
+          "mean_reciprocal_rank": null,
+          "first_relevant_file_rank": null
+        },
+        "first_relevant_repository_tool": {
+          "status": "not_applicable",
+          "tool_step": null,
+          "tool_name": null,
+          "relative_path": null,
+          "elapsed_ms": null,
+          "time_availability": "completion_timestamp_not_retained"
+        },
+        "indexing_latency_ms": null,
+        "retrieval_latency_ms": null,
+        "latency_availability": "no_independent_initial_retrieval"
+      }
+    }
+  ],
+  "accounting": {
+    "known_cost_usd": "7.715310000",
+    "reserved_unknown_cost_usd": "0",
+    "carried_cost_usd": "22.625591875",
+    "total_accounted_cost_usd": "30.340901875",
+    "budget_usd": "50.00"
+  },
+  "historical_carry_basis": "sealed_plan_previously_audited_in_s6_not_replayed_here",
+  "historical_unknown_reserve_usd": "11.00",
+  "localization_definitions": {
+    "ranking": "retained chunk order, deduplicated by first occurrence of relative_path",
+    "recall": "unique Gold files in first K deduplicated files / all frozen Gold files",
+    "mrr": "reciprocal first relevant file rank; zero only for a fully resolved no-match list",
+    "depth": "retained initial retrieval only, not an exhaustive repository ranking",
+    "unresolved": "unresolved chunk stops certified prefix; non-identifiable metrics are null",
+    "single_shot": "selected rendered Hybrid context, not a fresh raw retrieval ranking",
+    "mini": "no precomputed retrieval: initial localization is not applicable, not zero",
+    "tool_step": "one-based position in all completed tool results; first successful nonempty read_file/search_code response for a Gold file, excluding initial context",
+    "time": "read/search completion timestamps are not retained: elapsed_ms is unavailable",
+    "aggregate": "macro mean over available task metrics; each denominator is explicit"
+  },
+  "localization_aggregation_warning": "Available-only means with n<8 are diagnostic subsets, not full-arm comparative scores.",
+  "initial_timing_scope": "Indexing timer includes ingest, chunking, BM25 construction and/or cached embedding lookup and vector indexing. Retrieval timer covers the initial query. These retained runtime timers exclude earlier GPU cache construction; not cold embedding benchmarks.",
+  "limitations": [
+    "8 previously inspected issues, one repetition per arm; 40 slots are not 40 independent issues.",
+    "Post-debug seen-task rerun, not fresh blind holdout or the official full SWE-bench score.",
+    "Single-shot uses the first actually rendered Hybrid context, but its diff-format instruction is weaker. Interaction, compute, and output-contract differences confound causal attribution.",
+    "The 75% versus 12.5% comparison is descriptive, not a clean architecture-only uplift claim.",
+    "Historical unknown-cost reserves remain reserved; estimates exclude cloud charges and are not a reconciled provider invoice.",
+    "No new paid experiment, patch repair, sandbox test, indexing, or embedding is run by this report.",
+    "Safety telemetry is not an adversarial security evaluation or proof of no secret exposure."
+  ],
+  "content_sha256": "ad86e73c0acaa5a2d3ff4125d4540b9b615a19bd740832eace68442ebd674a5b"
+}

@@ -189,6 +189,40 @@ def test_large_function_uses_deterministic_overlapping_line_windows(
     assert chunks[1].content.splitlines()[-1] == chunks[2].content.splitlines()[0]
 
 
+@pytest.mark.parametrize("outer_declaration", ["class Container:", "def outer():"])
+def test_windowed_parent_and_nested_definition_are_globally_sorted(
+    tmp_path: Path, outer_declaration: str
+) -> None:
+    lines = [f"{outer_declaration}\n", "    def inner():\n"]
+    lines.extend(f"        value_{index} = {index}\n" for index in range(10))
+    tmp_path.joinpath("nested.py").write_text("".join(lines), encoding="utf-8")
+    policy = PythonChunkPolicy(max_lines=4, overlap_lines=1)
+
+    first = build_result(tmp_path, policy=policy)
+    second = build_result(tmp_path, policy=policy)
+    chunks = first.sources[0].chunks
+    parent = "Container" if outer_declaration.startswith("class") else "outer"
+
+    assert first == second
+    assert tuple((chunk.start_line, chunk.end_line) for chunk in chunks) == (
+        (1, 4),
+        (2, 5),
+        (4, 7),
+        (5, 8),
+        (7, 10),
+        (8, 11),
+        (10, 12),
+        (11, 12),
+    )
+    for symbol in (parent, f"{parent}.inner"):
+        parts = tuple(chunk for chunk in chunks if chunk.symbol_name == symbol)
+        assert tuple(chunk.metadata["part_index"] for chunk in parts) == (0, 1, 2, 3)
+        assert all(chunk.metadata["part_count"] == 4 for chunk in parts)
+    for chunk in chunks:
+        assert chunk.content == "".join(lines[chunk.start_line - 1 : chunk.end_line])
+        assert chunk.content_hash == hashlib.sha256(chunk.content.encode("utf-8")).hexdigest()
+
+
 def test_syntax_fallback_uses_the_same_window_contract(tmp_path: Path) -> None:
     tmp_path.joinpath("broken.py").write_text(
         "def broken(:\n    one = 1\n    two = 2\n    three = 3\n"

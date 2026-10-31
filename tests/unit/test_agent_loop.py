@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import socket
 import subprocess
@@ -217,12 +218,25 @@ def happy_responses() -> tuple[ProviderResponse, ...]:
     )
 
 
-def make_observation(*, call_id: UUID = TEST_CALL_ID) -> Observation:
+def make_observation(
+    *,
+    call_id: UUID = TEST_CALL_ID,
+    exit_code: int = 0,
+    output: str = "1 passed in 0.01s\n",
+) -> Observation:
+    content = output.encode("utf-8")
     return Observation(
         call_id=call_id,
         started_at=STARTED_AT + timedelta(seconds=2),
         duration_ms=23,
-        exit_code=0,
+        exit_code=exit_code,
+        stdout_ref=ArtifactRef(
+            relative_path="stdout.txt",
+            sha256=hashlib.sha256(content).hexdigest(),
+            size_bytes=len(content),
+            media_type="text/plain",
+        ),
+        stdout_preview=output,
         sandbox_id="sandbox-happy-path",
         policy_decision=PolicyDecision.ALLOWED,
     )
@@ -775,26 +789,35 @@ def test_same_search_after_empty_result_terminates_before_repeat_execution() -> 
     assert provider.calls_made == 2
 
 
-def test_nonzero_test_observation_terminates_as_tests_failed() -> None:
-    failed_observation = make_observation().model_copy(
-        update={
-            "exit_code": 1,
-            "stderr_ref": ArtifactRef(
-                relative_path="stderr.txt",
-                sha256="a" * 64,
-                size_bytes=141,
-                media_type="text/plain",
-            ),
-            "stderr_preview": (
-                "FAIL: test_regression (checks.ParserTests.test_regression)\n"
-                "----------------------------------------------------------------------\n"
-                "Ran 1 test in 0.001s\n\n"
-                "FAILED (failures=1)\n"
-            ),
-        }
-    )
+@pytest.mark.parametrize(
+    ("framework", "output", "failing_test"),
+    [
+        (
+            "pytest",
+            "=== short test summary info ===\n"
+            "FAILED checks/test_parser.py::test_regression - AssertionError\n"
+            "1 failed in 0.001s\n",
+            "checks/test_parser.py::test_regression",
+        ),
+        (
+            "unittest",
+            "FAIL: test_regression (checks.ParserTests.test_regression)\n"
+            "----------------------------------------------------------------------\n"
+            "Ran 1 test in 0.001s\n\nFAILED (failures=1)\n",
+            "checks.ParserTests.test_regression",
+        ),
+    ],
+)
+def test_nonzero_test_observation_terminates_as_tests_failed(
+    framework: str, output: str, failing_test: str
+) -> None:
+    task = make_task()
+    command = task.test_commands[0].model_copy(update={"argv": ("python", "-m", framework, "-q")})
+    task = task.model_copy(update={"test_commands": (command,)})
+    failed_observation = make_observation(exit_code=1, output=output)
     graph, provider, _, initial = make_graph(
         happy_responses()[:3],
+        task=task,
         observation=failed_observation,
     )
 
@@ -803,7 +826,7 @@ def test_nonzero_test_observation_terminates_as_tests_failed() -> None:
     assert final.termination_reason is TerminationReason.TESTS_FAILED
     assert final.test_state.status is AgentTestStatus.FAILED
     assert final.test_state.last_result is not None
-    assert final.test_state.last_result.failing_tests == ("checks.ParserTests.test_regression",)
+    assert final.test_state.last_result.failing_tests == (failing_test,)
     assert final.current_plan[2].status is PlanStepStatus.BLOCKED
     assert final.failure_history[0].kind is AgentFailureKind.TEST_FAILURE
     assert provider.calls_made == 3

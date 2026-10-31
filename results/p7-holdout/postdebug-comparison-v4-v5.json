@@ -1,0 +1,97 @@
+{
+  "comparison_version": "postdebug-paired-summary-v4-v5",
+  "evaluation_label": "post_debug_seen_task_rerun",
+  "fresh_blind_holdout": false,
+  "distinct_task_count": 8,
+  "arms_per_round": 4,
+  "repetitions_per_arm_per_round": 1,
+  "v4_report_content_sha256": "8509874efd8a3aff97d112ecef62e703b01e5e7e303f85c6185fa818d4c7c08d",
+  "v5_report_content_sha256": "1ecc41b4267da0ae6f56cbb6567de419442db5692d62f5025e7aa955581368ba",
+  "v4_success_count": 10,
+  "v5_success_count": 18,
+  "v4_technical_failure_count": 9,
+  "v5_technical_failure_count": 0,
+  "improved_slots": 13,
+  "regressed_slots": 5,
+  "per_arm": [
+    {
+      "arm_id": "dense-only-v1",
+      "task_count": 8,
+      "v4_successes": 4,
+      "v5_successes": 4,
+      "v4_technical_failures": 2,
+      "v5_technical_failures": 0,
+      "improved_task_ids": [
+        "django__django-15902",
+        "mwaskom__seaborn-3190",
+        "pytest-dev__pytest-11143"
+      ],
+      "regressed_task_ids": [
+        "pallets__flask-4992",
+        "pydata__xarray-4094",
+        "pytest-dev__pytest-11148"
+      ]
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_count": 8,
+      "v4_successes": 3,
+      "v5_successes": 5,
+      "v4_technical_failures": 3,
+      "v5_technical_failures": 0,
+      "improved_task_ids": [
+        "django__django-15902",
+        "mwaskom__seaborn-3190",
+        "pydata__xarray-4094"
+      ],
+      "regressed_task_ids": [
+        "pallets__flask-4992"
+      ]
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_count": 8,
+      "v4_successes": 2,
+      "v5_successes": 4,
+      "v4_technical_failures": 2,
+      "v5_technical_failures": 0,
+      "improved_task_ids": [
+        "mwaskom__seaborn-3190",
+        "pydata__xarray-4094",
+        "pydata__xarray-5131"
+      ],
+      "regressed_task_ids": [
+        "sympy__sympy-20590"
+      ]
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_count": 8,
+      "v4_successes": 1,
+      "v5_successes": 5,
+      "v4_technical_failures": 2,
+      "v5_technical_failures": 0,
+      "improved_task_ids": [
+        "django__django-15902",
+        "mwaskom__seaborn-3190",
+        "pydata__xarray-5131",
+        "pytest-dev__pytest-11148"
+      ],
+      "regressed_task_ids": []
+    }
+  ],
+  "v5_unsuccessful_termination_counts": {
+    "tests_failed": 7,
+    "token_limit": 5,
+    "repeated_action": 2
+  },
+  "limitations": [
+    "The 32 slots are four arms on the same eight tasks, not 32 distinct issues.",
+    "Do not pool successes across rounds or omit technical failures from denominators.",
+    "The common prompt and tool-output handling changed together; this is not a causal ablation of one fix.",
+    "One stochastic repetition per arm on seen tasks does not establish statistically significant superiority.",
+    "No-semantic-RAG uses BM25, not zero retrieval; both it and Hybrid scored 5/8 in v5.",
+    "Success uses the frozen isolated regression protocol, not official full SWE-bench scoring.",
+    "This acceptance comparison does not replace S7 localization/safety/latency aggregation."
+  ]
+}

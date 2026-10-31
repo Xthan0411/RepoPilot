@@ -110,6 +110,13 @@ class ChunkCorpus(StrictModel):
             raise ValueError("corpus chunk IDs must be unique")
 
         chunks_by_id = {chunk.chunk_id: chunk for chunk in self.chunks}
+        chunk_ids_by_source: dict[str, list[str]] = {}
+        for indexed_chunk in self.chunks:
+            source_id = indexed_chunk.metadata.get("source_id")
+            # Metadata may contain any JSON value. Non-string IDs cannot match a
+            # source and are rejected by the ownership checks below, as before.
+            if isinstance(source_id, str):
+                chunk_ids_by_source.setdefault(source_id, []).append(indexed_chunk.chunk_id)
         claimed_ids: list[str] = []
         for source in self.sources:
             claimed_ids.extend(source.chunk_ids)
@@ -127,11 +134,7 @@ class ChunkCorpus(StrictModel):
                     or chunk.metadata.get("processor") != source.processor
                 ):
                     raise ValueError("source snapshot does not match its chunks")
-            expected_ids = tuple(
-                chunk.chunk_id
-                for chunk in self.chunks
-                if chunk.metadata.get("source_id") == source.source_id
-            )
+            expected_ids = tuple(chunk_ids_by_source.get(source.source_id, ()))
             if source.chunk_ids != expected_ids:
                 raise ValueError("source snapshot chunk IDs must follow corpus order")
         if len(set(claimed_ids)) != len(claimed_ids) or set(claimed_ids) != set(chunk_ids):
@@ -284,6 +287,10 @@ class RepositoryChunkCorpusBuilder:
         self,
         manifest: RepositoryManifest,
     ) -> list[_SourceCandidate]:
+        # build() verified this manifest once and these candidates come directly
+        # from its members. Like chunk_manifest(), use the internal per-file path:
+        # it still reads and verifies each file's bytes/hash, without rehashing the
+        # entire manifest for every file. Public chunk_source() remains strict.
         candidates: list[_SourceCandidate] = []
         for source in manifest.files:
             if source.relative_path.endswith(".py"):
@@ -301,7 +308,7 @@ class RepositoryChunkCorpusBuilder:
                         processor=processor,
                         build_fingerprint=fingerprint,
                         build=_source_builder(
-                            self._python.chunk_source,
+                            self._python._chunk_source,
                             manifest,
                             source,
                         ),
@@ -326,7 +333,7 @@ class RepositoryChunkCorpusBuilder:
                     processor=processor,
                     build_fingerprint=fingerprint,
                     build=_source_builder(
-                        self._text.chunk_source,
+                        self._text._chunk_repository_source,
                         manifest,
                         source,
                     ),

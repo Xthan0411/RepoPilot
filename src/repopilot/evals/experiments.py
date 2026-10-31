@@ -62,6 +62,7 @@ EXPERIMENT_MATRIX_VERSION: Literal["experiment-matrix-v2"] = "experiment-matrix-
 EXPERIMENT_PREFLIGHT_VERSION: Literal["experiment-preflight-v1"] = "experiment-preflight-v1"
 EXPERIMENT_SUCCESS_CRITERION: Literal["rule-based-verifier-v1"] = "rule-based-verifier-v1"
 FROZEN_OPENAI_MODEL: Literal["gpt-5.6-terra"] = "gpt-5.6-terra"
+FROZEN_PROMPT_VERSION: Literal["repopilot-agent-v1"] = "repopilot-agent-v1"
 FROZEN_EMBEDDING_MODEL: Literal["jinaai/jina-embeddings-v2-base-code"] = (
     "jinaai/jina-embeddings-v2-base-code"
 )
@@ -335,8 +336,10 @@ class ExperimentMatrix(StrictModel):
 
     @model_validator(mode="after")
     def validate_matrix(self) -> Self:
-        if self.prompt_versions != (PROMPT_VERSION,):
-            raise ValueError("experiment Prompt version is not frozen to implementation")
+        # A frozen artifact must remain readable after runtime Prompt upgrades. Runtime
+        # compatibility is a separate fail-closed preflight check, not schema validity.
+        if self.prompt_versions != (FROZEN_PROMPT_VERSION,):
+            raise ValueError("experiment Prompt version is not the frozen matrix version")
         if _IMAGE_PATTERN.fullmatch(self.sandbox_image_reference) is None:
             raise ValueError("experiment Sandbox image must use an immutable digest")
         if self.allowed_secret_environment != ALLOWED_SECRET_ENVIRONMENT:
@@ -584,6 +587,9 @@ def build_experiment_executor(
 ) -> EvaluationTaskExecutor:
     """Bind a selected arm to the common repair executor without reading env overrides."""
 
+    if selection.matrix.prompt_versions != (PROMPT_VERSION,):
+        # Loading historical controls is safe; executing them with a changed Prompt is not.
+        raise ExperimentError(ExperimentErrorCode.FAIRNESS_VIOLATION)
     settings = selection.settings(
         openai_api_key=openai_api_key,
         database_url=database_url,
@@ -960,6 +966,7 @@ __all__ = [
     "FROZEN_EMBEDDING_MODEL",
     "FROZEN_EMBEDDING_REVISION",
     "FROZEN_OPENAI_MODEL",
+    "FROZEN_PROMPT_VERSION",
     "ExperimentArmDefinition",
     "ExperimentArmSelection",
     "ExperimentDatasetSnapshot",

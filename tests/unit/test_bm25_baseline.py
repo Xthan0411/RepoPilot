@@ -6,6 +6,7 @@ import json
 import socket
 import subprocess
 from collections.abc import Iterator
+from functools import partial
 from pathlib import Path
 from typing import Any, cast
 
@@ -22,6 +23,7 @@ from repopilot.evals import (
     run_bm25_baseline_manifest,
 )
 from repopilot.providers import FakeProvider
+from repopilot.retrieval import RepositoryIngestScanPolicy, ingest_repository
 from repopilot.sandbox import FakeSandbox
 
 FIXTURES = Path(__file__).parents[1] / "fixtures"
@@ -344,16 +346,22 @@ def test_output_symlink_escape_and_occupied_directory_are_typed(
 
 def test_indexing_and_tokenless_query_fail_with_retrieval_error(
     tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     manifest = load_bm25_baseline_manifest(MANIFEST_PATH)
-    with pytest.raises(LocalizationEvalError) as captured:
-        run_bm25_baseline_manifest(
-            manifest,
-            repository_root=REPOSITORY_ROOT,
-            output_dir=tmp_path / "truncated",
-            settings=RepoPilotSettings(repository_max_list_entries=1),
-            clock_ns=clock(0, 1),
+    with monkeypatch.context() as scoped:
+        scoped.setattr(
+            "repopilot.evals.baseline.ingest_repository",
+            partial(ingest_repository, scan_policy=RepositoryIngestScanPolicy(max_list_entries=1)),
         )
+        with pytest.raises(LocalizationEvalError) as captured:
+            run_bm25_baseline_manifest(
+                manifest,
+                repository_root=REPOSITORY_ROOT,
+                output_dir=tmp_path / "truncated",
+                settings=RepoPilotSettings(),
+                clock_ns=clock(0, 1),
+            )
     assert_eval_error(captured, LocalizationEvalErrorCode.RETRIEVAL_FAILURE)
 
     task = manifest.tasks[0].task.model_copy(update={"issue_title": "!!!", "issue_body": "..."})

@@ -194,6 +194,28 @@ def apply_hunks(source, hunks):
     cursor = 0
     for old_start, old_count, _new_start, _new_count, body in hunks:
         start = old_start if old_count == 0 else old_start - 1
+        old_lines = [line[1:] for line in body if line[0] in {" ", "-"}]
+        if len(old_lines) != old_count:
+            raise PatchFailure("apply_conflict")
+        exact_position = (
+            cursor <= start <= len(source_lines)
+            and source_lines[start:start + old_count] == old_lines
+        )
+        if not exact_position:
+            # Never relocate zero-old/context-free hunks or use fuzzy
+            # whitespace matching. Every old line must match one unique location
+            # in the ORIGINAL file, including regions consumed by earlier hunks.
+            if old_count == 0 or not any(line.startswith(" ") for line in body):
+                raise PatchFailure("apply_conflict")
+            matches = []
+            for candidate in range(len(source_lines) - old_count + 1):
+                if source_lines[candidate:candidate + old_count] == old_lines:
+                    matches.append(candidate)
+                    if len(matches) > 1:
+                        break
+            if len(matches) != 1:
+                raise PatchFailure("apply_conflict")
+            start = matches[0]
         if start < cursor or start > len(source_lines):
             raise PatchFailure("apply_conflict")
         output.extend(source_lines[cursor:start])

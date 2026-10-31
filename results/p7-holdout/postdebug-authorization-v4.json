@@ -1,0 +1,14 @@
+{
+  "authorization_version": "post-debug-authorization-v4",
+  "approved_at": "2026-10-31T08:14:04.683526Z",
+  "consent_basis": "operator_execute_exact_plan_cli",
+  "plan_sha256": "cb46ce95c18c94e2461080dc7863ffcfa13732f7590e1563f3d455b970d7fe58",
+  "plan_raw_sha256": "8fc54908267181ce94e40dd776a057f1464df88c6fc3cc8e8ed13c847083bfd8",
+  "frozen_source_commit": "d710c49104754264fdb3feb54c49967d8f177aee",
+  "max_total_cost_usd": "32.00",
+  "carried_cost_usd": "2.740420000",
+  "expensive_preflight_waived": true,
+  "post_debug_label_acknowledged": true,
+  "final_in_flight_response_overshoot_acknowledged": true,
+  "content_sha256": "4a241b929de0a00ada4f6309f88001faff6f571745c4cc20ca49e98ba52fe5c6"
+}

@@ -34,6 +34,7 @@ from repopilot.evals import (
     select_experiment_arm,
     write_experiment_preflight,
 )
+from repopilot.evals.experiments import FROZEN_PROMPT_VERSION
 
 PROJECT_ROOT = Path(__file__).parents[2]
 MATRIX_PATH = PROJECT_ROOT / "configs" / "experiments" / "p7-v2.yaml"
@@ -113,7 +114,9 @@ def test_default_arm_selection_builds_the_real_executor(
     executor_type: type[object],
     context_mode: RepairContextMode,
     retrieval_mode: RetrievalMode,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    monkeypatch.setattr("repopilot.evals.experiments.PROMPT_VERSION", FROZEN_PROMPT_VERSION)
     selection = select_experiment_arm(_matrix(), arm_id)
     executor = build_experiment_executor(
         selection,
@@ -134,7 +137,10 @@ def test_default_arm_selection_builds_the_real_executor(
     assert executor.sandbox_image_reference == selection.matrix.sandbox_image_reference
 
 
-def test_optional_memory_arm_requires_explicit_selection_and_matching_snapshot() -> None:
+def test_optional_memory_arm_requires_explicit_selection_and_matching_snapshot(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr("repopilot.evals.experiments.PROMPT_VERSION", FROZEN_PROMPT_VERSION)
     matrix = _matrix()
 
     with pytest.raises(ExperimentError) as captured:
@@ -193,7 +199,10 @@ def test_matrix_rejects_fairness_secret_and_integrity_drift() -> None:
 
 def test_preflight_is_ready_only_when_every_static_and_machine_check_passes(
     tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    # This historical positive case models the originally frozen v1 runtime explicitly.
+    monkeypatch.setattr("repopilot.evals.experiments.PROMPT_VERSION", FROZEN_PROMPT_VERSION)
     matrix = _matrix()
     checked_at = datetime(2026, 8, 7, 21, tzinfo=UTC)
     ready = build_experiment_preflight(
@@ -238,3 +247,62 @@ def test_preflight_is_ready_only_when_every_static_and_machine_check_passes(
         ExperimentErrorCode.PROVIDER_UNAVAILABLE,
         ExperimentErrorCode.SOURCE_SNAPSHOT_UNCLEAN,
     }
+
+
+def test_historical_matrix_remains_readable_but_new_runtime_is_not_implicitly_authorized(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr("repopilot.evals.experiments.PROMPT_VERSION", "repopilot-agent-v2")
+    matrix = _matrix()
+
+    assert matrix.prompt_versions == (FROZEN_PROMPT_VERSION,)
+    assert ExperimentMatrix.model_validate_json(matrix.model_dump_json()) == matrix
+    preflight = build_experiment_preflight(
+        matrix,
+        repository_root=PROJECT_ROOT,
+        checked_at=datetime(2026, 10, 31, tzinfo=UTC),
+        facts=_facts(),
+    )
+
+    assert not preflight.ready_for_formal_run
+    failed = [
+        item
+        for item in preflight.checks
+        if item.status is not ExperimentPreflightCheckStatus.PASSED
+    ]
+    assert [(item.check_id, item.error_code) for item in failed] == [
+        ("prompt-version", ExperimentErrorCode.FAIRNESS_VIOLATION)
+    ]
+    with pytest.raises(ExperimentError) as caught:
+        require_ready_preflight(preflight)
+    assert caught.value.code is ExperimentErrorCode.FAIRNESS_VIOLATION
+
+
+def test_frozen_matrix_schema_does_not_silently_adopt_v2_prompt() -> None:
+    payload = yaml.safe_load(MATRIX_PATH.read_text(encoding="utf-8"))
+    payload["prompt_versions"] = ["repopilot-agent-v2"]
+
+    with pytest.raises(ValidationError, match="not the frozen matrix version"):
+        ExperimentMatrix.model_validate(payload)
+
+
+def test_legacy_executor_factory_rechecks_runtime_prompt_before_construction(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr("repopilot.evals.experiments.PROMPT_VERSION", "repopilot-agent-v2")
+    monkeypatch.setattr(
+        "repopilot.evals.experiments.RepairWorkflowEvaluationExecutor",
+        lambda **_kwargs: pytest.fail("mismatched runtime must not construct an executor"),
+    )
+    selection = select_experiment_arm(_matrix(), "dense-only-v1")
+
+    with pytest.raises(ExperimentError) as caught:
+        build_experiment_executor(
+            selection,
+            repository_root=PROJECT_ROOT,
+            split=DatasetSplit.HOLDOUT,
+            openai_api_key="placeholder-not-used",
+            database_url="postgresql://placeholder-not-used",
+        )
+
+    assert caught.value.code is ExperimentErrorCode.FAIRNESS_VIOLATION

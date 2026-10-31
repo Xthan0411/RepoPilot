@@ -359,6 +359,33 @@ def test_prompt_uses_budgeted_memory_instead_of_a_fixed_recent_count() -> None:
     assert "memory-11-" in prompt
 
 
+@pytest.mark.parametrize("over_budget", [False, True])
+def test_prompt_v2_reports_remaining_budget_without_relaxing_limits(over_budget: bool) -> None:
+    initial = make_state()
+    budget = initial.budget.model_copy(
+        update={
+            "steps_used": initial.budget.max_steps + 1 if over_budget else 2,
+            "tokens_used": initial.budget.max_tokens + 5 if over_budget else 123,
+            "cost_used_usd": initial.budget.max_cost_usd + 1 if over_budget else Decimal("0.01"),
+        }
+    )
+    state = initial.model_copy(update={"budget": budget})
+    rendered = build_agent_prompt(make_request(state=state), max_chars=50_000)
+    prompt = json.loads(rendered.split("\n", 1)[1].rsplit("\n", 1)[0])
+    projected = prompt["state"]["budget"]
+
+    assert PROMPT_VERSION == "repopilot-agent-v2"
+    assert projected["steps_remaining"] == max(0, budget.max_steps - budget.steps_used)
+    assert projected["tokens_remaining"] == max(0, budget.max_tokens - budget.tokens_used)
+    assert Decimal(projected["cost_remaining_usd"]) == max(
+        0, budget.max_cost_usd - budget.cost_used_usd
+    )
+    assert projected["max_steps"] == initial.budget.max_steps
+    assert projected["max_tokens"] == initial.budget.max_tokens
+    assert Decimal(projected["max_cost_usd"]) == initial.budget.max_cost_usd
+    assert "Budget pressure never permits skipping" in SYSTEM_INSTRUCTIONS
+
+
 def _malformed_response(case: str) -> dict[str, object]:
     raw = copy.deepcopy(load_json("openai_response_tool.json"))
     output = cast(list[dict[str, object]], raw["output"])

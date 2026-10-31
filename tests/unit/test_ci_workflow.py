@@ -10,9 +10,9 @@ WORKFLOW_PATH = PROJECT_ROOT / ".github" / "workflows" / "ci.yml"
 EXPECTED_COMMANDS = (
     "uv sync --locked",
     "uv lock --check",
-    "uv run pytest -q",
-    "uv run ruff check .",
-    "uv run ruff format --check .",
+    'uv run pytest -q -m "not integration and not real_model and not eval"',
+    "uv run ruff check src tests scripts",
+    "uv run ruff format --check src tests scripts",
     "uv run mypy src/repopilot",
 )
 
@@ -34,6 +34,14 @@ def test_ci_workflow_has_read_only_permissions_and_quality_commands() -> None:
     assert quality["runs-on"] == "ubuntu-latest"
     assert quality["timeout-minutes"] == 15
     assert commands == EXPECTED_COMMANDS
+
+
+def test_ci_workflow_fetches_all_available_public_history() -> None:
+    workflow = load_workflow()
+    checkout_step = workflow["jobs"]["quality"]["steps"][0]
+
+    assert checkout_step["uses"].startswith("actions/checkout@")
+    assert checkout_step["with"]["fetch-depth"] == 0
 
 
 def test_ci_workflow_pins_python_and_uv_without_external_services() -> None:

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from typing import Protocol, cast
 
 from pydantic import BaseModel, Field, JsonValue, ValidationError
@@ -23,6 +23,13 @@ from repopilot.schemas import (
     ToolExecutionResult,
 )
 from repopilot.tools.repository import RepositoryAccessError
+
+ToolOutputProjector = Callable[[ToolCall, dict[str, JsonValue], bytes], dict[str, JsonValue]]
+
+
+class ToolOutputProjectionError(ValueError):
+    """A safe source preview cannot represent even one complete source line."""
+
 
 TOOL_ERROR_MESSAGES: Mapping[ToolErrorCode, str] = {
     ToolErrorCode.UNKNOWN_TOOL: "requested tool is not registered",
@@ -69,7 +76,12 @@ class ToolDescriptor(StrictModel):
 class ToolRegistry:
     """Register unique capabilities and invoke each call ID at most once."""
 
-    def __init__(self, *, max_output_bytes: int = 65_536) -> None:
+    def __init__(
+        self,
+        *,
+        max_output_bytes: int = 65_536,
+        output_projector: ToolOutputProjector | None = None,
+    ) -> None:
         if (
             isinstance(max_output_bytes, bool)
             or not isinstance(max_output_bytes, int)
@@ -77,14 +89,22 @@ class ToolRegistry:
         ):
             raise ToolRegistrationError("max_output_bytes must be between 1 and 1000000")
         self._max_output_bytes = max_output_bytes
+        self._output_projector = output_projector
         self._tools: dict[str, RegisteredTool] = {}
         self._seen_call_ids: set[str] = set()
 
     @classmethod
-    def from_settings(cls, settings: RepoPilotSettings) -> ToolRegistry:
+    def from_settings(
+        cls,
+        settings: RepoPilotSettings,
+        *,
+        output_projector: ToolOutputProjector | None = None,
+    ) -> ToolRegistry:
         """Construct a Registry using the validated global output limit."""
 
-        return cls(max_output_bytes=settings.tool_max_output_bytes)
+        return cls(
+            max_output_bytes=settings.tool_max_output_bytes, output_projector=output_projector
+        )
 
     def register(self, tool: RegisteredTool) -> None:
         """Register one valid, uniquely named tool."""
@@ -199,6 +219,30 @@ class ToolRegistry:
                 error_code=ToolErrorCode.OUTPUT_TOO_LARGE,
                 truncated=True,
             )
+        if self._output_projector is not None:
+            try:
+                payload = self._output_projector(call, payload, encoded)
+                encoded = json.dumps(
+                    payload,
+                    ensure_ascii=False,
+                    separators=(",", ":"),
+                    sort_keys=True,
+                ).encode("utf-8")
+                if len(encoded) > self._max_output_bytes:
+                    raise ToolOutputProjectionError
+            except ToolOutputProjectionError:
+                return self._error(
+                    call,
+                    error_type=ErrorType.TOOL_EXECUTION_ERROR,
+                    error_code=ToolErrorCode.OUTPUT_TOO_LARGE,
+                    truncated=True,
+                )
+            except Exception:
+                return self._error(
+                    call,
+                    error_type=ErrorType.TOOL_EXECUTION_ERROR,
+                    error_code=ToolErrorCode.TOOL_EXECUTION_ERROR,
+                )
         return ToolExecutionResult(
             call_id=call.call_id,
             tool_name=call.tool_name,

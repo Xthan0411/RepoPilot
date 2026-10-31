@@ -1,0 +1,208 @@
+{
+  "comparison_version": "postdebug-paired-summary-v5-v6",
+  "evaluation_label": "post_debug_seen_task_rerun",
+  "fresh_blind_holdout": false,
+  "distinct_task_count": 8,
+  "repetitions_per_arm": 1,
+  "v5_report_content_sha256": "1ecc41b4267da0ae6f56cbb6567de419442db5692d62f5025e7aa955581368ba",
+  "v6_report_content_sha256": "f4fc4817808caa6be82b5616857e28b94ebf5a2f4ce37f3b8296dd98fae1fa18",
+  "v5_agent_successes": 18,
+  "v6_agent_successes": 19,
+  "v6_single_shot_successes": 1,
+  "improved_agent_slots": 5,
+  "regressed_agent_slots": 4,
+  "per_arm": [
+    {
+      "arm_id": "dense-only-v1",
+      "task_count": 8,
+      "v6_successes": 4,
+      "v6_success_rate": 0.5,
+      "technical_failures": 0,
+      "estimated_model_cost_usd": "1.926355625",
+      "total_tokens": 585623,
+      "cost_per_success_usd": "0.48158890625",
+      "termination_counts": {
+        "success": 4,
+        "token_limit": 3,
+        "tests_failed": 1
+      },
+      "v5_successes": 4,
+      "improved_task_ids": [
+        "pydata__xarray-4094"
+      ],
+      "regressed_task_ids": [
+        "mwaskom__seaborn-3190"
+      ],
+      "paired_with_single_shot": {
+        "agent_only": [
+          "django__django-15902",
+          "pydata__xarray-4094",
+          "pydata__xarray-5131"
+        ],
+        "single_shot_only": [],
+        "both_success": [
+          "pytest-dev__pytest-11143"
+        ],
+        "both_failure": [
+          "mwaskom__seaborn-3190",
+          "pallets__flask-4992",
+          "pytest-dev__pytest-11148",
+          "sympy__sympy-20590"
+        ]
+      }
+    },
+    {
+      "arm_id": "hybrid-rrf-v1",
+      "task_count": 8,
+      "v6_successes": 6,
+      "v6_success_rate": 0.75,
+      "technical_failures": 0,
+      "estimated_model_cost_usd": "1.810553750",
+      "total_tokens": 543507,
+      "cost_per_success_usd": "0.3017589583333333333333333333",
+      "termination_counts": {
+        "success": 6,
+        "token_limit": 2
+      },
+      "v5_successes": 5,
+      "improved_task_ids": [
+        "pallets__flask-4992",
+        "pytest-dev__pytest-11148"
+      ],
+      "regressed_task_ids": [
+        "mwaskom__seaborn-3190"
+      ],
+      "paired_with_single_shot": {
+        "agent_only": [
+          "django__django-15902",
+          "pallets__flask-4992",
+          "pydata__xarray-4094",
+          "pydata__xarray-5131",
+          "pytest-dev__pytest-11148"
+        ],
+        "single_shot_only": [],
+        "both_success": [
+          "pytest-dev__pytest-11143"
+        ],
+        "both_failure": [
+          "mwaskom__seaborn-3190",
+          "sympy__sympy-20590"
+        ]
+      }
+    },
+    {
+      "arm_id": "mini-swe-safe-v1",
+      "task_count": 8,
+      "v6_successes": 5,
+      "v6_success_rate": 0.625,
+      "technical_failures": 0,
+      "estimated_model_cost_usd": "1.618186875",
+      "total_tokens": 475918,
+      "cost_per_success_usd": "0.323637375",
+      "termination_counts": {
+        "token_limit": 1,
+        "success": 5,
+        "tests_failed": 1,
+        "repeated_action": 1
+      },
+      "v5_successes": 4,
+      "improved_task_ids": [
+        "pytest-dev__pytest-11148"
+      ],
+      "regressed_task_ids": [],
+      "paired_with_single_shot": {
+        "agent_only": [
+          "mwaskom__seaborn-3190",
+          "pydata__xarray-4094",
+          "pydata__xarray-5131",
+          "pytest-dev__pytest-11148"
+        ],
+        "single_shot_only": [],
+        "both_success": [
+          "pytest-dev__pytest-11143"
+        ],
+        "both_failure": [
+          "django__django-15902",
+          "pallets__flask-4992",
+          "sympy__sympy-20590"
+        ]
+      }
+    },
+    {
+      "arm_id": "no-semantic-rag-v1",
+      "task_count": 8,
+      "v6_successes": 4,
+      "v6_success_rate": 0.5,
+      "technical_failures": 0,
+      "estimated_model_cost_usd": "2.056925000",
+      "total_tokens": 617778,
+      "cost_per_success_usd": "0.514231250",
+      "termination_counts": {
+        "token_limit": 3,
+        "success": 4,
+        "tests_failed": 1
+      },
+      "v5_successes": 5,
+      "improved_task_ids": [
+        "pydata__xarray-4094"
+      ],
+      "regressed_task_ids": [
+        "django__django-15902",
+        "pytest-dev__pytest-11148"
+      ],
+      "paired_with_single_shot": {
+        "agent_only": [
+          "mwaskom__seaborn-3190",
+          "pydata__xarray-4094",
+          "pydata__xarray-5131"
+        ],
+        "single_shot_only": [],
+        "both_success": [
+          "pytest-dev__pytest-11143"
+        ],
+        "both_failure": [
+          "django__django-15902",
+          "pallets__flask-4992",
+          "pytest-dev__pytest-11148",
+          "sympy__sympy-20590"
+        ]
+      }
+    },
+    {
+      "arm_id": "single-shot-hybrid-context-v1",
+      "task_count": 8,
+      "v6_successes": 1,
+      "v6_success_rate": 0.125,
+      "technical_failures": 0,
+      "estimated_model_cost_usd": "0.303288750",
+      "total_tokens": 42550,
+      "cost_per_success_usd": "0.303288750",
+      "termination_counts": {
+        "invalid_patch": 7,
+        "success": 1
+      }
+    }
+  ],
+  "baseline_comparison_caveat": {
+    "same_actual_initial_context_verified": true,
+    "single_shot_one_call_verified": true,
+    "same_patch_format_instructions": false,
+    "missing_git_header_task_ids": [
+      "django__django-15902",
+      "mwaskom__seaborn-3190",
+      "pallets__flask-4992"
+    ],
+    "header_only_in_memory_parser_accepts": 3,
+    "header_only_in_memory_apply_conflicts": 3,
+    "original_results_modified": false,
+    "clean_harness_only_causal_gain_claim_allowed": false
+  },
+  "limitations": [
+    "Eight seen issues, one repetition; not a fresh blind holdout or official full SWE-bench score.",
+    "The 40 slots are repeated arms on eight issues, not 40 independent issues.",
+    "Different interactions, compute and patch-format instructions confound pure architecture attribution.",
+    "Adding missing headers alone does not make the three affected candidates applicable or successful.",
+    "Do not pool best outcomes across rounds or compare 20/40 directly with 18/32.",
+    "Costs are usage estimates; historical unknown reserves and cloud charges are not invoice-reconciled."
+  ]
+}

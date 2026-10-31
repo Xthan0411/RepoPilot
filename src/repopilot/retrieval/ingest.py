@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 import hashlib
+from typing import Literal
+
+from pydantic import Field
 
 from repopilot.enums import (
     RepositoryEntryType,
@@ -17,7 +20,7 @@ from repopilot.retrieval.manifest import (
     SkippedRepositorySource,
     source_id_for,
 )
-from repopilot.schemas import GitSha, Identifier
+from repopilot.schemas import GitSha, Identifier, StrictModel
 from repopilot.tools.repository import (
     ReadOnlyRepository,
     RepositoryAccessError,
@@ -34,6 +37,19 @@ MUTATION_ERRORS = frozenset(
 )
 
 
+class RepositoryIngestScanPolicy(StrictModel):
+    """Independent, bounded inventory scan; never expands Agent-facing tool output.
+
+    The default is a safety ceiling, not evidence that a particular repository fits.
+    A successful scan is complete regardless of its ceiling, so the ceiling is not
+    added to the source manifest or its existing content digest. Runtime qualification
+    can record this policy separately without rewriting historical manifests.
+    """
+
+    policy_version: Literal[1] = 1
+    max_list_entries: int = Field(default=20_000, gt=0, le=20_000, strict=True)
+
+
 class RepositoryIngestor:
     """Build a stable source inventory without executing repository code."""
 
@@ -42,14 +58,16 @@ class RepositoryIngestor:
         repository: ReadOnlyRepository,
         *,
         ignore_policy: RepositoryIgnorePolicy | None = None,
+        scan_policy: RepositoryIngestScanPolicy | None = None,
     ) -> None:
+        self._scan_policy = scan_policy or RepositoryIngestScanPolicy()
         requested_policy = ignore_policy or RepositoryIgnorePolicy()
         self._ignore_policy = requested_policy.merge_repository_policy(repository.policy)
         source_policy = RepositoryAccessPolicy(
             max_file_bytes=repository.policy.max_file_bytes,
             max_read_bytes=repository.policy.max_read_bytes,
             max_read_lines=repository.policy.max_read_lines,
-            max_list_entries=repository.policy.max_list_entries,
+            max_list_entries=self._scan_policy.max_list_entries,
             denied_names=self._ignore_policy.ignored_names,
         )
         self._repository = ReadOnlyRepository(repository.root, policy=source_policy)
@@ -57,6 +75,12 @@ class RepositoryIngestor:
     @property
     def ignore_policy(self) -> RepositoryIgnorePolicy:
         return self._ignore_policy
+
+    @property
+    def scan_policy(self) -> RepositoryIngestScanPolicy:
+        """Return the effective internal ceiling, separate from the caller's tool policy."""
+
+        return self._scan_policy
 
     def build(self, *, repository_id: Identifier, commit: GitSha) -> RepositoryManifest:
         """Scan one caller-pinned checkout and return its deterministic inventory."""
@@ -141,10 +165,13 @@ def ingest_repository(
     repository_id: Identifier,
     commit: GitSha,
     ignore_policy: RepositoryIgnorePolicy | None = None,
+    scan_policy: RepositoryIngestScanPolicy | None = None,
 ) -> RepositoryManifest:
     """Convenience entry point for one deterministic repository scan."""
 
-    return RepositoryIngestor(repository, ignore_policy=ignore_policy).build(
+    return RepositoryIngestor(
+        repository, ignore_policy=ignore_policy, scan_policy=scan_policy
+    ).build(
         repository_id=repository_id,
         commit=commit,
     )

@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "sha256": "acae68987d6d0dd9dcf05e01b2ade0777420d06e9f865e3927b02d5f4ff6baf3",
+  "identity": {
+    "code_revision": "3baf9e3ac750e76e8edd3019170176884695fb94",
+    "dimension": 768,
+    "max_length": 2048,
+    "model": "jinaai/jina-embeddings-v2-base-code",
+    "normalize": true,
+    "provider": "jina_local",
+    "revision": "516f4baf13dec4ddddda8631e019b5737c8bc250"
+  },
+  "binding": {
+    "agent_constructed": false,
+    "agent_inputs_raw_sha256": "2a3a197ea7318d42e4b681db8b56b554fc241c19923ba8482566a4bdc9c7661f",
+    "controller_commit": "8fb2f3aabd35c60fdf143992a64f56e6b9064f9d",
+    "execution_source_sha256": "4434037d2d52933f1fb27beda72e366adb99b4622b95056987756d2c59fc8c7d",
+    "formal_ready": false,
+    "input_count": 103236,
+    "input_set_sha256": "488a9c2fc38a3ea70d438928c1f726fec48e6a8e1fc7092dd4f98443e117f3a1",
+    "matrix_sha256": "d75d36d711f23190062aded9e97a8f5abfaba859416466027b227421ea7407e8",
+    "openai_requests": 0,
+    "runtime": {
+      "batch_size": 8,
+      "cuda_runtime_version": "13.0",
+      "cudnn_tf32": true,
+      "deterministic_algorithms": false,
+      "device": "cuda",
+      "driver_version": "580.178.04",
+      "dtype": "torch.float32",
+      "float32_matmul_precision": "highest",
+      "gpu_name": "NVIDIA L4",
+      "matmul_tf32": false,
+      "maximum_length": 2048,
+      "numpy": "2.5.1",
+      "profile": "p7-gpu-cuda-fp32-batch8-v1",
+      "python_version": "3.12.3",
+      "runtime_model_module": "transformers_modules.jinaai.jina_hyphen_bert_hyphen_v2_hyphen_qk_hyphen_post_hyphen_norm.3baf9e3ac750e76e8edd3019170176884695fb94.modeling_bert",
+      "sentence-transformers": "5.6.1",
+      "torch_version": "2.13.0+cu130",
+      "transformers": "4.57.6"
+    },
+    "tasks": [
+      {
+        "base_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+        "chunk_contents_sha256": "54a7c94464649fb929808467dba18177acfd18751d8cad14c77f7b5d9370500f",
+        "chunk_count": 42098,
+        "file_count": 5294,
+        "source_files_sha256": "9e3618673f77e4bd257daf9b6570be7482da46a62c16de53774ab26c3500201e",
+        "task_id": "django__django-15902"
+      },
+      {
+        "base_commit": "4a9e54962a29c12a8b103d75f838e0e795a6974d",
+        "chunk_contents_sha256": "a1ff28aaf0c766a4b5a9c065ab180e237a96333bbf95d98008c764aba7d18e34",
+        "chunk_count": 3083,
+        "file_count": 313,
+        "source_files_sha256": "c6dc1769ece1665078d90ee5779d9f3a4bb684aa4e95dfd9e2d96eb6f6748e3f",
+        "task_id": "mwaskom__seaborn-3190"
+      },
+      {
+        "base_commit": "4c288bc97ea371817199908d0d9b12de9dae327e",
+        "chunk_contents_sha256": "cdb26e57b52e5644c4167c63af4373eafc72d85749763e22ae92afec0f0d7648",
+        "chunk_count": 1837,
+        "file_count": 240,
+        "source_files_sha256": "9cae49d1b457d899b8b77452f404c15f133e70313dcd30af21c82102cb8440a4",
+        "task_id": "pallets__flask-4992"
+      },
+      {
+        "base_commit": "a64cf2d5476e7bbda099b34c40b7be1880dbd39a",
+        "chunk_contents_sha256": "027c7969dc4a63e44d65f2de574c21cee50af39f0f517ea469a9c8747ad9a252",
+        "chunk_count": 5299,
+        "file_count": 244,
+        "source_files_sha256": "114376b8aa72f50396f59f4bdd9ab2943d2d755fa706f7559a8ea1a96766e5bc",
+        "task_id": "pydata__xarray-4094"
+      },
+      {
+        "base_commit": "e56905889c836c736152b11a7e6117a229715975",
+        "chunk_contents_sha256": "f83284b2270b747e8fd1d6a15545b6addd46a0eda1d608388807a1402cf0ad09",
+        "chunk_count": 5833,
+        "file_count": 263,
+        "source_files_sha256": "13db523b8537d62db89e65c699bd1fb0543b00f41c3a9498bde4eebbf423ab26",
+        "task_id": "pydata__xarray-5131"
+      },
+      {
+        "base_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+        "chunk_contents_sha256": "60b2ca771f7481ad264d9ae5e68742fe6ec27b86b104db1e5683132bd48e9a4d",
+        "chunk_count": 6790,
+        "file_count": 569,
+        "source_files_sha256": "03accd6566830c7752b2d6f47da48ff51e0b196376413063b9424c109626e151",
+        "task_id": "pytest-dev__pytest-11143"
+      },
+      {
+        "base_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+        "chunk_contents_sha256": "6efddde96d4e9003b936163570c5909a398e888971123f754a0f4b162966e587",
+        "chunk_count": 6785,
+        "file_count": 567,
+        "source_files_sha256": "fe915d1a55fd783d3ebbd4f591210a563b61091111e65714fbce5509e058cb7e",
+        "task_id": "pytest-dev__pytest-11148"
+      },
+      {
+        "base_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+        "chunk_contents_sha256": "c5e03ac1e544241de33419af49a3a5cfbdcf354fbdc1ee8bde0dade58b29f9d8",
+        "chunk_count": 45372,
+        "file_count": 1816,
+        "source_files_sha256": "352ec86f4a5dce24b79bc87e42acfa2798ea66d1c527da15f18e441db05ad12f",
+        "task_id": "sympy__sympy-20590"
+      }
+    ]
+  }
+}

@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import re
 from dataclasses import dataclass
-from typing import Protocol
+from typing import Protocol, cast
 from uuid import UUID
 
 from pydantic import BaseModel, Field, model_validator
@@ -17,6 +17,7 @@ from repopilot.enums import (
     PatchStatus,
     PolicyDecision,
 )
+from repopilot.sandbox.artifacts import SandboxArtifactStore
 from repopilot.sandbox.base import ApplyPatchRequest, SandboxHandle
 from repopilot.sandbox.policy import SANDBOX_DENIED_PATH_ROOTS
 from repopilot.schemas import (
@@ -28,9 +29,18 @@ from repopilot.schemas import (
     TaskSpec,
     ToolCall,
 )
+from repopilot.tools.builtin import ReadFileArguments
+from repopilot.tools.patch_workspace import (
+    CurrentPatchWorkspace,
+    CurrentSourceError,
+    ExactDiffConflict,
+    SourceSandbox,
+    cumulative_diff,
+)
+from repopilot.tools.repository import FileReadResult, ReadOnlyRepository
 
 _DIFF_HEADER = re.compile(r"^diff --git a/(\S+) b/(\S+)\n$")
-_HUNK_HEADER = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@(?: [^\r\n]*)?\n$")
+_HUNK_HEADER = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@(?P<section> [^\r\n]*)?\n$")
 _UNSUPPORTED_PREFIXES = (
     "Binary files ",
     "GIT binary patch",
@@ -54,6 +64,10 @@ _ERROR_MESSAGES = {
         "candidate patch exceeds the configured changed-line limit"
     ),
     PatchErrorCode.PATH_DENIED: "candidate patch targets a denied path",
+    PatchErrorCode.PROTECTED_TEST_PATH: (
+        "candidate patch targets read-only test inputs; no candidate source changes were "
+        "applied; submit a source-only patch"
+    ),
     PatchErrorCode.UNSUPPORTED_PATCH: "candidate patch uses unsupported diff semantics",
     PatchErrorCode.ARTIFACT_MISMATCH: "candidate patch artifact identity does not match",
     PatchErrorCode.APPLY_CONFLICT: "candidate patch does not apply to the current workspace",
@@ -90,6 +104,9 @@ class UnifiedDiffSummary(StrictModel):
     hunk_count: int = Field(gt=0)
     added_lines: int = Field(ge=0)
     removed_lines: int = Field(ge=0)
+    original_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
+    original_size_bytes: int | None = Field(default=None, gt=0)
+    normalized_hunk_count: int = Field(default=0, ge=0)
 
     @model_validator(mode="after")
     def validate_counts(self) -> UnifiedDiffSummary:
@@ -97,6 +114,12 @@ class UnifiedDiffSummary(StrictModel):
             raise ValueError("changed paths must be unique")
         if self.added_lines + self.removed_lines == 0:
             raise ValueError("candidate diff must change at least one line")
+        if (self.original_sha256 is None) != (self.original_size_bytes is None):
+            raise ValueError("original patch identity requires both hash and size")
+        if self.normalized_hunk_count > self.hunk_count:
+            raise ValueError("normalized hunk count exceeds total hunk count")
+        if self.normalized_hunk_count and self.original_sha256 is None:
+            raise ValueError("normalized patches require original patch identity")
         return self
 
 
@@ -225,6 +248,8 @@ class PatchToolSession:
         task: TaskSpec,
         limits: PatchLimits,
         preview_bytes: int,
+        repository: ReadOnlyRepository | None = None,
+        artifact_store: SandboxArtifactStore | None = None,
     ) -> None:
         if handle.task_id != task.task_id or handle.repository_commit != task.base_commit:
             raise ValueError("sandbox handle does not match task")
@@ -237,6 +262,13 @@ class PatchToolSession:
         self._preview_bytes = preview_bytes
         self._state = PatchState()
         self._latest: ParsedUnifiedDiff | None = None
+        if (repository is None) != (artifact_store is None):
+            raise ValueError("current-source tracking requires repository and artifact store")
+        self._workspace = (
+            CurrentPatchWorkspace(repository, artifact_store, cast(SourceSandbox, sandbox), handle)
+            if repository is not None and artifact_store is not None
+            else None
+        )
 
     @classmethod
     def from_settings(
@@ -246,6 +278,8 @@ class PatchToolSession:
         handle: SandboxHandle,
         task: TaskSpec,
         settings: RepoPilotSettings,
+        repository: ReadOnlyRepository | None = None,
+        artifact_store: SandboxArtifactStore | None = None,
     ) -> PatchToolSession:
         return cls(
             sandbox=sandbox,
@@ -253,6 +287,8 @@ class PatchToolSession:
             task=task,
             limits=PatchLimits.from_settings(settings),
             preview_bytes=max(1, settings.tool_max_output_bytes // 4),
+            repository=repository,
+            artifact_store=artifact_store,
         )
 
     @property
@@ -260,10 +296,40 @@ class PatchToolSession:
         return self._state
 
     def apply(self, diff: str, *, call: ToolCall) -> PatchApplicationResult:
+        if self._workspace is not None and self._workspace.poisoned:
+            return self._rejected(PatchErrorCode.SANDBOX_ERROR)
         try:
             parsed = parse_unified_diff(diff, self._limits)
         except PatchValidationError as error:
             return self._rejected(error.code)
+        if self._workspace is None and self._state.revision:
+            # A second incremental patch must never be mislabeled as the complete diff.
+            return self._rejected(PatchErrorCode.SANDBOX_ERROR)
+
+        expected: dict[str, str] | None = None
+        cumulative: ParsedUnifiedDiff | None = None
+        cumulative_ref: ArtifactRef | None = None
+        if self._workspace is not None:
+            try:
+                expected = self._workspace.candidate(
+                    parsed.content, parsed.summary.files_changed, call.call_id
+                )
+                cumulative = parse_unified_diff(
+                    cumulative_diff(self._workspace.base, expected), self._limits
+                )
+            except PatchValidationError as error:
+                return self._rejected(error.code)
+            except ExactDiffConflict:
+                return self._rejected(PatchErrorCode.APPLY_CONFLICT, summary=parsed.summary)
+            except CurrentSourceError:
+                self._workspace.poisoned = True
+                return self._rejected(PatchErrorCode.SANDBOX_ERROR)
+            if self._state.revision:
+                # Persist the complete candidate before mutation, in a separate public
+                # audit store. Only the incremental diff below enters either sandbox.
+                cumulative_ref = self._workspace.store.persist_patch(
+                    call.call_id, cumulative.encoded
+                )
 
         patch_ref = self._sandbox.stage_patch(
             self._handle,
@@ -290,22 +356,34 @@ class PatchToolSession:
                 observation=observation,
             )
 
+        if self._workspace is not None and expected is not None:
+            try:
+                self._workspace.verify(expected, call.call_id, "after")
+            except CurrentSourceError:
+                self._workspace.poisoned = True
+                return self._rejected(PatchErrorCode.SANDBOX_ERROR, observation=observation)
+            self._workspace.current = expected
+
+        exported = cumulative if cumulative_ref is not None and cumulative is not None else parsed
+
         self._state = PatchState(
             status=PatchStatus.APPLIED,
-            diff_ref=patch_ref,
-            files_changed=parsed.summary.files_changed,
+            diff_ref=cumulative_ref or patch_ref,
+            files_changed=exported.summary.files_changed,
             revision=self._state.revision + 1,
         )
-        self._latest = parsed
+        self._latest = exported
         return PatchApplicationResult(
             status=PatchStatus.APPLIED,
             patch_state=self._state,
-            summary=parsed.summary,
+            summary=exported.summary,
             observation=observation,
             message="candidate patch applied atomically in the sandbox",
         )
 
     def inspect(self) -> DiffInspectionResult:
+        if self._workspace is not None and self._workspace.poisoned:
+            raise CurrentSourceError
         if self._latest is None:
             return DiffInspectionResult(
                 available=False,
@@ -321,6 +399,15 @@ class PatchToolSession:
             patch_state=self._state,
             preview=preview,
             truncated=truncated,
+        )
+
+    def read_file(
+        self, path: str, *, start_line: int = 1, end_line: int | None = None, call_id: UUID
+    ) -> FileReadResult:
+        if self._workspace is None:
+            raise CurrentSourceError
+        return self._workspace.read_file(
+            path, start_line=start_line, end_line=end_line, call_id=call_id
         )
 
     def _rejected(
@@ -359,6 +446,27 @@ class ApplyPatchTool:
         return self._session.apply(arguments.diff, call=call)
 
 
+class CurrentSourceReadTool:
+    """Read verified modified source, or the unchanged clean repository source."""
+
+    name = "read_file"
+    description = "Read a bounded UTF-8 source line window, including current applied edits."
+    arguments_model: type[BaseModel] = ReadFileArguments
+
+    def __init__(self, session: PatchToolSession) -> None:
+        self._session = session
+
+    def execute(self, arguments: BaseModel, *, call: ToolCall) -> BaseModel:
+        if not isinstance(arguments, ReadFileArguments):
+            raise TypeError("unexpected argument model")
+        return self._session.read_file(
+            arguments.path,
+            start_line=arguments.start_line,
+            end_line=arguments.end_line,
+            call_id=call.call_id,
+        )
+
+
 class InspectDiffTool:
     """Return only a bounded preview plus the full diff ArtifactRef in PatchState."""
 
@@ -376,7 +484,12 @@ class InspectDiffTool:
 
 
 def parse_unified_diff(diff: str, limits: PatchLimits) -> ParsedUnifiedDiff:
-    """Validate one existing-file, text-only, canonical git-style unified diff."""
+    """Validate a diff, correcting only hunk counts from the unchanged body.
+
+    Both input and normalized bytes are bounded. The canonical artifact identity is
+    ``sha256``; ``original_sha256`` binds the exact model proposal in the tool trace.
+    Line numbers, file paths, context and changed lines are never inferred here.
+    """
 
     try:
         encoded = diff.encode("utf-8")
@@ -393,6 +506,8 @@ def parse_unified_diff(diff: str, limits: PatchLimits) -> ParsedUnifiedDiff:
     ):
         raise PatchValidationError(PatchErrorCode.UNSUPPORTED_PATCH)
 
+    canonical_lines = lines.copy()
+    normalized_hunk_count = 0
     index = 0
     files: list[str] = []
     hunk_count = 0
@@ -434,15 +549,7 @@ def parse_unified_diff(diff: str, limits: PatchLimits) -> ParsedUnifiedDiff:
             old_count = int(hunk.group(2) or "1")
             new_start = int(hunk.group(3))
             new_count = int(hunk.group(4) or "1")
-            if (
-                (old_count > 0 and old_start == 0)
-                or (new_count > 0 and new_start == 0)
-                or old_start < previous_old_end
-                or new_start < previous_new_end
-            ):
-                raise PatchValidationError(PatchErrorCode.INVALID_DIFF)
-            previous_old_end = old_start + old_count
-            previous_new_end = new_start + new_count
+            header_index = index
             file_hunks += 1
             hunk_count += 1
             if hunk_count > limits.max_hunks:
@@ -473,22 +580,47 @@ def parse_unified_diff(diff: str, limits: PatchLimits) -> ParsedUnifiedDiff:
                     removed_lines += 1
                     hunk_changed += 1
                 index += 1
-            if observed_old != old_count or observed_new != new_count or hunk_changed == 0:
+            if (
+                hunk_changed == 0
+                or (observed_old > 0 and old_start == 0)
+                or (observed_new > 0 and new_start == 0)
+                or old_start < previous_old_end
+                or new_start < previous_new_end
+            ):
                 raise PatchValidationError(PatchErrorCode.INVALID_DIFF)
+            previous_old_end = old_start + observed_old
+            previous_new_end = new_start + observed_new
+            if observed_old != old_count or observed_new != new_count:
+                canonical_lines[header_index] = (
+                    f"@@ -{hunk.group(1)},{observed_old} "
+                    f"+{hunk.group(3)},{observed_new} @@{hunk.group('section') or ''}\n"
+                )
+                normalized_hunk_count += 1
             if added_lines + removed_lines > limits.max_changed_lines:
                 raise PatchValidationError(PatchErrorCode.TOO_MANY_CHANGED_LINES)
         if file_hunks == 0:
             raise PatchValidationError(PatchErrorCode.INVALID_DIFF)
 
+    canonical_content = "".join(canonical_lines)
+    canonical_encoded = canonical_content.encode("utf-8")
+    if len(canonical_encoded) > limits.max_bytes:
+        raise PatchValidationError(PatchErrorCode.PATCH_TOO_LARGE)
     summary = UnifiedDiffSummary(
-        sha256=hashlib.sha256(encoded).hexdigest(),
-        size_bytes=len(encoded),
+        sha256=hashlib.sha256(canonical_encoded).hexdigest(),
+        size_bytes=len(canonical_encoded),
         files_changed=tuple(files),
         hunk_count=hunk_count,
         added_lines=added_lines,
         removed_lines=removed_lines,
+        original_sha256=hashlib.sha256(encoded).hexdigest(),
+        original_size_bytes=len(encoded),
+        normalized_hunk_count=normalized_hunk_count,
     )
-    return ParsedUnifiedDiff(content=diff, encoded=encoded, summary=summary)
+    return ParsedUnifiedDiff(
+        content=canonical_content,
+        encoded=canonical_encoded,
+        summary=summary,
+    )
 
 
 def _validated_patch_path(value: str) -> str:

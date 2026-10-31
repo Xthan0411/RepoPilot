@@ -1,60 +1,62 @@
-# Publication notes / 公开快照说明
+# Public snapshot boundaries
 
-This directory is a curated snapshot of the unfinished RepoPilot project, prepared for
-a public project link. The original development checkout remains unchanged.
+This update continues the existing public history rooted at
+`309b67a41a576394826a3aec32fbde2adc145f4f`; it does not merge or publish the internal
+development repository's history. The existing MIT license and upstream license
+texts are retained. No force push or replacement root is needed.
 
 ## Included
 
-- Python source, evaluation scripts, tests and fixtures.
-- Locked dependencies, Python version, default/baseline/experiment configurations,
-  pgvector Compose configuration and migration.
-- GitHub Actions quality workflow, blank-key `.env.example`, and publication ignore rules.
-- Frozen dataset and memory namespace manifests, preserving their integrity hashes.
-- Selected historical reports and qualification evidence used by regression tests.
-- English and Chinese README files, architecture, progress, technical documentation,
-  license, and upstream attribution.
+- Current Python source, scripts, tests/fixtures, configs, migrations, Compose file,
+  locked dependencies and no-secret/no-paid-service CI.
+- Frozen dataset/Memory manifests and selected historical controls and reports.
+- Final v6 aggregate, per-slot export, failed-case inventory, receipts and final report.
+- English/Chinese README, architecture/evaluation/safety documentation and notices.
 
-## Omitted
+## Excluded
 
-- Original `.git` history and all temporary `*.bundle` files.
-- `.env.p7-local`, other real credential/config files, local virtual environments,
-  caches, generated wheels, local `artifacts/`, and scratch `tmp/` directories.
-- Private study/interview-preparation notes and internal handoff/phase planning documents.
-- Raw `results/p7-dev/p7-dev-*/` execution trees, including provider traces and local paths.
-- Development spending authorization files `results/p7-dev/authorization-*.json`.
-- The internal chronological development log; its current checkpoint is summarized in
-  [development status](development-status.md).
+- Internal Git history, project handoff/phase files and chronological development log.
+- Private study/interview notes, the local `github_submission/` directory and bundles.
+- Real `.env*` files, credential/private-key files, caches, virtualenvs and model weights.
+- Local `artifacts/`, GPU caches, raw holdout runs and raw `results/p7-dev/p7-dev-*`
+  execution directories. Development spending authorizations remain omitted.
 
-Historical holdout control artifacts are retained byte-for-byte because the tests verify
-their exact hashes and cross-artifact relationships. They contain non-secret image/project
-identities and a historical approval record, but no API keys, cloud access tokens, service
-account private keys, or database credentials. The default database password in sample
-configuration is the local development placeholder `repopilot`.
+Selected historical holdout controls retain exact bytes because their hashes and
+relationships are regression inputs. They contain historical approvals and non-secret
+image/project identities, not credentials or permission to spend now. The sample
+database password `repopilot` is only a local development default. Do not expose that
+database publicly or reuse its defaults for a deployed service.
 
-## How to read the evidence
+## Verification and history
 
-The JSON reports retain historical provenance and may refer to omitted raw files. Those
-references are not a promise of complete public replay. P2/P3 synthetic artifacts and
-P7 dataset preflight inputs remain present; the latest P7 dev report is a summary only.
+The public checkout does not contain private development commit objects. A portable
+regression reconstructs the exact pre/post archive-metadata patch in a temporary Git
+repository and checks both blob identities and the full patch digest. A second portable
+test verifies rejection of additional source-path drift. The original-commit negative
+regression is preserved but explicitly skips when those commits are unavailable.
+Production readiness checks have not been weakened or bypassed.
 
-Frozen holdout controllers check original commit ancestry, image digests, clean checkouts,
-offline model caches, and explicit paid-run controls. The fresh publication history lacks
-those original commits, and its private registry references grant no image access.
-Readers can run the deterministic quick start and ordinary test suite without rebuilding
-the historical cloud experiment.
+The requalification unit-test fixture uses sealed recorded object bindings for its
+existing mocked Git boundary. The historical object comparison and GPU qualification
+source comparison are separate optional checks, not fabricated successes. Temporary
+real-Git source-drift tests still execute without private history.
 
-One publication-specific test adjustment makes the exact archive-metadata compatibility
-regression independent of the original Git history. It reconstructs the pre-patch sandbox
-bytes in a temporary repository and checks the same frozen/result Git blobs and complete
-patch SHA-256. Production source and frozen evidence are unchanged.
+Other raw-evidence-dependent tests explicitly skip when their archives are absent.
+Frozen controller source-ancestry checks require the retained development checkout.
+Offline aggregate/failed-case reconstruction instead uses the current reporting code,
+frozen inputs and separate original raw archive; it does not need to execute the
+historical controller or contact a Provider. Read the
+[evaluation guide](evaluation.md) before interpreting a summary as a rerun guarantee.
+Public test counts and the exact scan scope are recorded in [validation](validation.md).
 
-Upstream issue excerpts and evaluator-only patches in `data/manifests/p7-v1/source-rows.json`
-remain evaluator material. Do not feed that file to agent context or retrieval. Its
-upstream sources and license identities are recorded in the dataset manifest and
-[third-party notices](../THIRD_PARTY_NOTICES.md).
+## Evidence and licensing boundaries
 
-## 中文说明
+Issue excerpts and evaluator-only patches remain upstream material; do not feed
+`source-rows.json` or `regression-tests-v1.json` to Agent context or retrieval.
+[Third-party notices](../THIRD_PARTY_NOTICES.md) identify their origins and preserved
+license texts. Summaries and receipts can point to excluded raw evidence without
+promising that those files are included in this checkout.
 
-提交目录保留实现、测试、配置、依赖锁和选定证据；排除真实密钥、本机环境、临时 bundle、私人复习材料、原始开发 Trace 和开发费用授权。原工作区文件与 Git 状态不做提交、重置或改写。
-
-历史 Holdout 控制产物用于精确 hash 回归，按原字节保留。其中的云项目、镜像和历史审批标识不是凭据。新公开仓库不包含原 commit 历史，也不提供私人镜像访问；快速示例与普通测试可以运行，原冻结付费实验不能直接照搬到新环境。
+No test transcript, regex scan or hash proves the absence of every secret or every
+security flaw. Publication checks are scoped safeguards, not certification. No new
+video, model request, cloud deployment, cleanup or billing change is part of this update.

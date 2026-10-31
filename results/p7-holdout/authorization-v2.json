@@ -1,0 +1,18 @@
+{
+  "authorization_version": "holdout-authorization-v2",
+  "authorization_id": "p7-s6-v2-usd32-ethan",
+  "approved_by": "ethan",
+  "approved_at": "2026-10-29T03:44:30.170909Z",
+  "experiment_id": "repopilot-p7-v2",
+  "plan_id": "p7-holdout-v2-d26d33699d59b6fc",
+  "plan_sha256": "3660cc5962ab8810b9b74fab1c4820188340111d7798e0ef4c620f8d1aafb3c0",
+  "plan_raw_sha256": "b0654760cea101d8d1b295ca1c2c56e05e924a88f8d70c730e326706414253a2",
+  "freeze_marker_sha256": "d26d33699d59b6fc183ddd7c465f3ac8e38dadcbddb5c05716a15503f80e69d0",
+  "freeze_raw_sha256": "19bfbaae0c7ac122b96aa0be5385510787a63a9a70de05cee581f77441fc9ef8",
+  "matrix_sha256": "d75d36d711f23190062aded9e97a8f5abfaba859416466027b227421ea7407e8",
+  "max_total_cost_usd": "32.00",
+  "paid_execution_approved": true,
+  "final_in_flight_response_overshoot_acknowledged": true,
+  "readiness_required_before_paid": true,
+  "content_sha256": "3ef241060533ee68e5867e5c4c5cbf58c96b54490b3ca99c203f26d7cb58269c"
+}

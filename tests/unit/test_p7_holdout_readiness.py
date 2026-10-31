@@ -31,6 +31,7 @@ from scripts.p7_holdout_control import (  # noqa: E402
 AUTHORIZATION_PATH = PROJECT_ROOT / "results/p7-holdout/authorization-v1.json"
 AUTHORIZATION_RAW_SHA256 = "37df6c2210f71c3046cfc9c79101b4911b00e4143cc9a47999276fd7009aec58"
 CONTROLLER_COMMIT = "c" * 40
+TEST_PROTOCOL_REPAIR_COMMIT = "1f70118c11d7a7a723bbbe34a9be37ebf9f4c17c"
 NOW = datetime(2026, 8, 8, 19, tzinfo=UTC)
 
 
@@ -244,19 +245,23 @@ def test_image_diagnostic_attempts_all_tasks(
     assert set(missing_ids) == missing
 
 
-def test_exact_environment_compatibility_patch_is_accepted(tmp_path: Path) -> None:
-    """Verify exact historical bytes using isolated commits, including in a fresh clone."""
+def _fixture_git(root: Path, *arguments: str) -> str:
+    return subprocess.run(
+        ("git", *arguments),
+        cwd=root,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
 
-    def git(*arguments: str) -> str:
-        return subprocess.run(
-            ("git", *arguments),
-            cwd=tmp_path,
-            check=True,
-            capture_output=True,
-            text=True,
-        ).stdout.strip()
 
-    current = PROJECT_ROOT.joinpath(readiness.AUDITED_COMPATIBILITY_PATH).read_text()
+@pytest.fixture
+def compatibility_history(tmp_path: Path) -> tuple[str, str, str]:
+    """Rebuild the exact audited bytes without requiring private development commits."""
+
+    current = PROJECT_ROOT.joinpath(readiness.AUDITED_COMPATIBILITY_PATH).read_text(
+        encoding="utf-8"
+    )
     added_constant = (
         "# Deterministic 1980-01-02 UTC: accepted by ZIP-based build backends even after\n"
         "# a worst-case timezone conversion, unlike TarInfo's default Unix epoch.\n"
@@ -268,20 +273,27 @@ def test_exact_environment_compatibility_patch_is_accepted(tmp_path: Path) -> No
     frozen = current.replace(added_constant, "").replace(added_assignment, "")
     path = tmp_path / readiness.AUDITED_COMPATIBILITY_PATH
     path.parent.mkdir(parents=True)
-    path.write_text(frozen)
-    git("init", "--quiet")
-    git("config", "user.name", "RepoPilot test")
-    git("config", "user.email", "test@example.invalid")
-    git("config", "commit.gpgsign", "false")
-    git("add", readiness.AUDITED_COMPATIBILITY_PATH)
-    git("commit", "--quiet", "-m", "Frozen sandbox fixture")
-    source_commit = git("rev-parse", "HEAD")
-    path.write_text(current)
-    git("add", readiness.AUDITED_COMPATIBILITY_PATH)
-    git("commit", "--quiet", "-m", "Audited archive metadata compatibility patch")
-    environment_commit = git("rev-parse", "HEAD")
-    git("commit", "--quiet", "--allow-empty", "-m", "Controller fixture")
-    controller_commit = git("rev-parse", "HEAD")
+    path.write_text(frozen, encoding="utf-8")
+    _fixture_git(tmp_path, "init", "--quiet")
+    _fixture_git(tmp_path, "config", "user.name", "RepoPilot test")
+    _fixture_git(tmp_path, "config", "user.email", "test@example.invalid")
+    _fixture_git(tmp_path, "config", "commit.gpgsign", "false")
+    _fixture_git(tmp_path, "add", readiness.AUDITED_COMPATIBILITY_PATH)
+    _fixture_git(tmp_path, "commit", "--quiet", "-m", "Frozen sandbox fixture")
+    source_commit = _fixture_git(tmp_path, "rev-parse", "HEAD")
+    path.write_text(current, encoding="utf-8")
+    _fixture_git(tmp_path, "add", readiness.AUDITED_COMPATIBILITY_PATH)
+    _fixture_git(tmp_path, "commit", "--quiet", "-m", "Audited archive metadata patch")
+    environment_commit = _fixture_git(tmp_path, "rev-parse", "HEAD")
+    _fixture_git(tmp_path, "commit", "--quiet", "--allow-empty", "-m", "Controller fixture")
+    controller_commit = _fixture_git(tmp_path, "rev-parse", "HEAD")
+    return source_commit, environment_commit, controller_commit
+
+
+def test_exact_environment_compatibility_patch_is_accepted(
+    tmp_path: Path, compatibility_history: tuple[str, str, str]
+) -> None:
+    source_commit, environment_commit, controller_commit = compatibility_history
 
     evidence = readiness._verify_frozen_runtime(
         root=tmp_path,
@@ -294,6 +306,78 @@ def test_exact_environment_compatibility_patch_is_accepted(tmp_path: Path) -> No
     assert evidence.base_blob_git_sha1 == readiness.AUDITED_COMPATIBILITY_BASE_BLOB
     assert evidence.result_blob_git_sha1 == readiness.AUDITED_COMPATIBILITY_RESULT_BLOB
     assert evidence.patch_sha256 == readiness.AUDITED_COMPATIBILITY_PATCH_SHA256
+
+
+def test_legacy_freeze_rejects_committed_test_protocol_repair() -> None:
+    _, marker, _, _, _, environment = _artifacts().models
+    for commit in (
+        marker.source_commit,
+        environment.controller_commit,
+        TEST_PROTOCOL_REPAIR_COMMIT,
+    ):
+        present = subprocess.run(
+            ("git", "cat-file", "-e", f"{commit}^{{commit}}"),
+            cwd=PROJECT_ROOT,
+            check=False,
+            capture_output=True,
+        )
+        if present.returncode != 0:
+            pytest.skip(
+                "original private development history is not included in the public snapshot"
+            )
+
+    # Pin the rejected source too, so a future freeze does not redefine this regression.
+    with pytest.raises(readiness.ReadinessError) as captured:
+        readiness._verify_frozen_runtime(
+            root=PROJECT_ROOT,
+            source_commit=marker.source_commit,
+            environment_commit=environment.controller_commit,
+            controller_commit=TEST_PROTOCOL_REPAIR_COMMIT,
+        )
+
+    assert captured.value.code is readiness.ReadinessErrorCode.SOURCE_IDENTITY_MISMATCH
+    assert captured.value.diagnostic == {
+        "changed_paths": (
+            "src/repopilot/evals/isolated_tests.py",
+            readiness.AUDITED_COMPATIBILITY_PATH,
+            "src/repopilot/tools/tests.py",
+        ),
+        "stage": "frozen_runtime_paths",
+    }
+
+
+def test_reconstructed_history_rejects_additional_test_protocol_paths(
+    tmp_path: Path, compatibility_history: tuple[str, str, str]
+) -> None:
+    source_commit, environment_commit, _ = compatibility_history
+    changed_paths = (
+        "src/repopilot/evals/isolated_tests.py",
+        "src/repopilot/tools/tests.py",
+    )
+    for name in changed_paths:
+        path = tmp_path / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("# Additional test-protocol behavior.\n", encoding="utf-8")
+    _fixture_git(tmp_path, "add", *changed_paths)
+    _fixture_git(tmp_path, "commit", "--quiet", "-m", "Unapproved test-protocol changes")
+
+    with pytest.raises(readiness.ReadinessError) as captured:
+        readiness._verify_frozen_runtime(
+            root=tmp_path,
+            source_commit=source_commit,
+            environment_commit=environment_commit,
+            controller_commit=_fixture_git(tmp_path, "rev-parse", "HEAD"),
+        )
+
+    assert captured.value.code is readiness.ReadinessErrorCode.SOURCE_IDENTITY_MISMATCH
+    assert captured.value.diagnostic == {
+        "changed_paths": (
+            changed_paths[0],
+            readiness.AUDITED_COMPATIBILITY_PATH,
+            changed_paths[1],
+        ),
+        "stage": "frozen_runtime_paths",
+    }
 
 
 def test_any_additional_frozen_runtime_drift_is_rejected(

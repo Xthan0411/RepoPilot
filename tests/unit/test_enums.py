@@ -551,6 +551,7 @@ def test_patch_error_code_values_are_stable() -> None:
         "rollback_failed",
         "inspect_unavailable",
         "sandbox_error",
+        "protected_test_path",
     )
 
 

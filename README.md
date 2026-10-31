@@ -2,153 +2,198 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-An evaluation-driven coding agent that investigates repository issues, proposes bounded
-patches, and verifies repairs with independent test evidence.
+RepoPilot is a Python coding-agent project that investigates repository issues,
+proposes bounded source patches, runs configured tests, and retains evidence for
+every outcome. It uses a **single Agent in a LangGraph workflow**, not a
+master/sub-agent architecture.
 
-RepoPilot connects the full loop from issue reproduction to code retrieval, inspection,
-patching, and validation. Its focus is the engineering around the agent: constrained tool
-access, isolated execution, replayable traces, context budgets, and reproducible evaluation.
+The core loop is: reproduce → locate/read → patch → validate → verify. Supporting
+components include BM25/Dense/RRF retrieval, context budgeting, isolated memory
+stores, typed tools, a Docker execution boundary, and hash-checked trace replay.
+See the [architecture](docs/architecture.md) for the actual module and trust boundaries.
 
-**Status: under active development.** P0–P6 and P7-S1–S5 are complete according to the
-development records. The P7-S6 formal runner and environment checks are implemented;
-the planned 32 holdout runs have **not started (0/32)**. No formal holdout repair rate
-or retrieval improvement is claimed.
+## Current results
 
-## What is implemented
+The closing v6 run contains **8 previously seen issues × 5 arms × 1 repetition**.
+All 40 slots completed without technical failure; the four Agent arms solved
+19/32 slots, and the single-shot control solved 1/8. These are not 40 independent
+issues or an official full SWE-bench score.
 
-- **Repair workflow:** a LangGraph state machine runs
-  `reproduce → search → inspect → patch → validate → finish`, with typed tool contracts
-  and step, token, time, and estimated-cost budgets.
-- **Repository retrieval:** Python AST and text chunking, BM25, dense retrieval, and
-  Reciprocal Rank Fusion; Jina embedding and PostgreSQL/pgvector adapters; optional
-  bounded query rewriting.
-- **Isolated execution:** digest-pinned Docker images, no host bind mounts, a non-root
-  user, a read-only root filesystem, resource limits, and policy-approved command argv.
-  Agent execution uses no network by default.
-- **Evidence and recovery:** SHA-256-protected traces and artifacts, offline replay,
-  an independent rule-based verifier, and explicit interruption recovery. A model's
-  completion message alone cannot establish a successful repair.
-- **Context and memory:** per-source token budgets, artifact offloading, working-memory
-  checkpoints, repository memory with commit/content invalidation, and verifier-gated
-  episodic memory with development/holdout namespace isolation.
-- **Evaluation controls:** frozen datasets and experiment identities, agent/evaluator
-  gold separation, comparable baseline adapters, and an append-only resumable runner.
+| Arm | Passed / planned | Estimated model cost (USD) |
+|---|---:|---:|
+| Dense only | 4/8 | 1.92636 |
+| Hybrid BM25 + Dense + RRF | 6/8 | 1.81055 |
+| Mini-SWE-safe (no initial retrieval) | 5/8 | 1.61819 |
+| BM25 (no semantic RAG) | 4/8 | 2.05693 |
+| Single-shot, same initial Hybrid context | 1/8 | 0.30329 |
 
-**Stack:** Python 3.12 · LangGraph · Pydantic · OpenAI SDK · Docker · PostgreSQL/pgvector ·
-Jina embeddings · pytest · Ruff · mypy · uv.
+Source: [accepted aggregate](results/p7-holdout/aggregate-v6.md),
+[metrics JSON](results/p7-holdout/aggregate-v6.json), and
+[40-slot export](results/p7-holdout/aggregate-v6-slots.csv).
+v6 cost is USD 7.71531; cumulative accounting is USD 30.340901875, including
+USD 11 of historical unknown-cost reserves, **not a reconciled bill**. Cloud
+charges and earlier preparation time are separate.
 
-## Architecture
+Important limits:
 
-```mermaid
-flowchart LR
-    Task[Agent-visible issue and TaskSpec] --> Context[Retrieval, context and memory]
-    Context --> Agent[LangGraph repair workflow]
-    Agent <--> Provider[Fake or OpenAI provider]
-    Agent --> Tools[Typed tool registry]
-    Tools --> Sandbox[Policy-controlled Docker sandbox]
-    Sandbox --> Evidence[Test and patch artifacts]
-    Agent --> Trace[Replayable trace]
-    Evidence --> Verifier[Independent verifier]
-    Trace --> Verifier
-    Verifier --> Result[FinalResult]
-    Eval[Evaluator-only gold and frozen controls] --> Runner[Evaluation runner]
-    Runner --> Task
-    Result --> Runner
-```
+- This is a **post-debug, seen-task rerun**, with one repetition per arm.
+- The control receives the same initial evidence, but its diff-format instruction
+  is weaker than the Agent tool schema. Interaction and computation also differ.
+  **75% versus 12.5% is descriptive, not a clean sixfold architecture gain.**
+- The 20 unsuccessful slots include 9 token-limit stops, 3 failed validations,
+  1 repeated action, and 7 rejected control patches. Failures are not dropped.
+- Memory is implemented but was not ablated in this run. Ordinary-task safety
+  observations are not an adversarial interception rate or a security guarantee.
 
-The agent sees the issue and its permitted repository/test inputs. Expected patches and
-gold file labels belong to the evaluator and are excluded from agent prompts and indexes.
+See [evaluation and reproducibility limits](docs/evaluation.md) and the
+[five trace-linked failure cases](docs/error-analysis.md). No further paid
+experiment is planned for this closeout.
 
-## Quick start
+## Quick start: no API key or Docker
 
-Install Python 3.12 and [uv](https://docs.astral.sh/uv/), then run from the repository root:
+Use a full Git checkout of this repository and run commands from its root.
+Requirements: Git, Python **3.12**, and uv. The wheel alone does not include
+the repository's configs, fixtures or reporting scripts.
 
 ```bash
 uv sync --locked
-
-# Deterministic agent fixture: no API key, Docker, or database required.
-uv run repopilot run-fixture \
-  --manifest tests/fixtures/p1_agent_manifest.json \
-  --output-dir results/p1-fixture \
-  --config configs/default.yaml
-
-# Verify the generated trace without executing tools or calling a model.
-uv run repopilot replay --trace results/p1-fixture/trace.json
+.venv/bin/repopilot --help
 ```
 
-The fixture demonstrates orchestration and replay using scripted providers and sandbox
-responses. It does not perform a real repair; its terminal result is
-`stopped/agent_stopped`.
+Dependency installation normally needs network access. With the required Python
+and packages already cached, `uv sync --locked --offline` works without downloads.
+The base installation does not install Jina/PyTorch, load model weights, start
+PostgreSQL, or call a model. Do not add `--extra jina` for these examples.
 
-Inspect the CLI and run ordinary checks:
+Use a shell without existing `REPOPILOT_*`, `OPENAI_*`, `DATABASE_URL`,
+`LANGSMITH_*`, or `LANGCHAIN_*` overrides. Ordinary CLI settings read process
+environment variables; `.env` files are **not** loaded automatically. No key is
+needed here. Default model configuration is `fake-deterministic`.
+
+### 1. Run and replay a scripted investigation
+
+Create a new output directory for each demonstration:
 
 ```bash
-uv run repopilot --help
-uv run pytest -q
-uv run ruff check .
-uv run ruff format --check .
-uv run mypy src/repopilot
+p7_demo_root=$(mktemp -d /tmp/repopilot-demo.XXXXXX)
+
+.venv/bin/repopilot run-fixture \
+  --manifest tests/fixtures/p1_agent_manifest.json \
+  --config configs/default.yaml \
+  --output-dir "$p7_demo_root/investigation"
+
+.venv/bin/repopilot replay \
+  --trace "$p7_demo_root/investigation/trace.json"
 ```
 
-Tests that require real Docker images, a database, or a model are explicitly gated and
-skip when their prerequisites are absent. Ordinary CI needs no model secrets.
+This reads the small bundled repository, follows scripted Fake Provider actions,
+and uses Fake Sandbox observations. It writes `result.json` and `trace.json`.
+Expected result: `stopped / agent_stopped`, three tool results and
+`task_success=false`. It does **not** create or verify a patch. The fixture's
+token/cost values are simulated metadata, not an API charge. Replay checks the
+state history; it does not rerun tools or prove the truth of an external test.
 
-Real repair execution additionally requires an already-local digest-pinned Docker image
-and an agent-only task file. Dense retrieval requires the optional Jina runtime and a
-configured vector backend. See the [technical guide](docs/technical-guide.md) for exact
-contracts, configuration, and commands. `.env.example` contains blank API key fields and
-local development defaults; supply real credentials only through your local environment.
+### 2. Run a complete repair contract, including a failing candidate
 
-## Evaluation evidence and limits
+```bash
+.venv/bin/pytest -q \
+  tests/unit/test_isolated_repair_workflow.py::test_real_repair_graph_uses_isolated_regressions_without_leaking_source \
+  --basetemp "$p7_demo_root/repair-tests"
+```
 
-| Evidence | Recorded scope | What it establishes |
-| --- | --- | --- |
-| [BM25 baseline](results/p2-baseline/summary.md) | 3 synthetic tasks; Recall@1/3/5 and MRR = 1.0 | Localization metric and artifact plumbing on deliberately separable fixtures |
-| [Retrieval comparison](results/p3-retrieval-comparison/retrieval-comparison.md) | BM25, dense, and hybrid on the same 3 synthetic tasks with fake embeddings | Ranking, fusion, and comparison accounting |
-| [Final dev calibration](results/p7-dev/calibration-report-v5.json) | 2 development fixtures × 4 arms × 1 repetition; 5 verified successes and 3 invalid-patch outcomes | Connected repair/evaluation execution on a small development set |
-| [Sandbox qualification](results/p7-holdout/sandbox-matrix-preflight-v1.json) | 8 SWE-bench Lite tasks on Linux amd64; failing baseline and passing evaluator gold | Compatibility of task environments and test execution |
-| Formal holdout | 8 tasks × 4 default arms = 32 planned slots; 0 executed | Pending; no aggregate agent performance result |
+Expected: **2 passed**. These test cases drive the production repair workflow with
+a scripted Fake Provider. A test-only trusted local fixture adapter runs actual
+`git apply` and pytest against a tiny repository generated by the test:
 
-The final dev report records an estimated USD **0.546178750** for its eight attempts;
-this is the recorded application estimate for that calibration, not the total development
-spend or a current API price. These small fixture and qualification checks do not establish
-production performance or superiority over another coding agent.
+- `fixed`: failing baseline → applied patch → passing regression → verified success.
+- `still-fails`: failing baseline → applied but incorrect patch → failing regression;
+  the test passes because the workflow correctly refuses to report repair success.
 
-This repository is a publication snapshot. It retains selected reports and regression
-inputs, but omits raw local dev traces, private dev spending approvals, and the original
-Git history. Historical hashes and source commits remain as provenance. Reports referencing
-omitted raw executions cannot be independently replayed from this snapshot alone.
-The formal holdout controls also depend on original history and private image infrastructure;
-a fresh clone is not a ready-to-run reproduction of that frozen paid experiment.
+Each case retains `result/result.json`, `result/trace.json`, `result/artifacts.json` and referenced
+streams under its pytest directory. This is **not Docker isolation or autonomous
+LLM problem-solving**. The adapter accepts only its hard-coded trusted fixture;
+never use it to run an external repository on the host.
+Pytest clears `--basetemp`: use the new child directory above, never a repository
+or an existing evidence directory.
 
-## Repository map
+### 3. Produce a local retrieval report
 
-| Path | Purpose |
-| --- | --- |
-| `src/repopilot/` | Agent, retrieval, sandbox, providers, verifier, context, memory, and evaluation |
-| `tests/` | Unit, integration, security tests, and deterministic fixtures |
-| `configs/` | Default profiles, baseline settings, and versioned experiment matrices |
-| `scripts/` | Dataset freezing, calibration, and formal evaluation controllers |
-| `data/` | Frozen evaluation manifests and empty memory namespace manifests |
-| `results/` | Selected historical summaries, qualification evidence, and regression inputs |
-| `docs/` | Architecture, technical reference, status, threat model, and evaluation contracts |
-| `migrations/` | pgvector schema migration |
+```bash
+.venv/bin/repopilot eval-bm25 \
+  --manifest tests/fixtures/p2_bm25_baseline_manifest.json \
+  --config configs/eval.yaml \
+  --output-dir "$p7_demo_root/bm25"
+```
 
-Start with the [architecture](docs/architecture.md), [development status](docs/development-status.md),
-[technical guide](docs/technical-guide.md), [threat model](docs/threat-model.md),
-[baseline contracts](docs/baselines.md), and [experiment design](docs/experiments.md).
-The [publication notes](docs/publication-notes.md) describe what was selected for this snapshot.
-See [publication validation](docs/validation.md) for the checks actually run on this copy.
+Outputs include `baseline.json`, `summary.md`, `tasks.csv`, chunks and an index.
+The three deliberately separable synthetic tasks score 1.0 for Recall@1/3/5 and
+MRR. That tests the retrieval/metric pipeline, **not real-world accuracy**.
+The [clean-run receipt](results/p7-clean-run/receipt-v1.json) records the actual
+fresh-checkout installation, both repair outcomes, replay and artifact checks.
 
-## Roadmap
+## Real repair versus replaying the published evaluation
 
-- Execute and retain all 32 frozen holdout slots, including failures and interrupted attempts.
-- Complete P7-S7 aggregation with explicit denominators, cost/latency reporting, and bad-case analysis.
-- Finish P8 documentation and reproducibility checks against the measured evidence.
+The `repopilot repair` CLI is a production entry point, not the examples above.
+It requires an Agent-only `TaskSpec`, an already-local digest-pinned Docker image,
+and either a scripted provider file or an explicitly configured paid provider.
+It creates result, trace, patch and test artifacts. CLI exit 0 means a result was
+written; inspect `task_metrics.task_success` and `termination_reason`.
 
-## License and attribution
+It does not automatically select the v6 matrix, private images, GPU corpus cache,
+isolated evaluator or paid-experiment authorization. Generic CLI environment
+precedence is not the frozen experiment's configuration policy. Do not run an
+OpenAI configuration assuming the historical USD 50 controller cap protects it.
 
-RepoPilot's original code is licensed under [MIT](LICENSE), consistent with its package
-metadata. Evaluation excerpts and patches from upstream projects retain their respective
-licenses; see [third-party notices](THIRD_PARTY_NOTICES.md) and the
-[frozen dataset description](data/manifests/p7-v1/README.md).
+The published metric tables are readable from Git. Rebuilding them independently
+also requires the separately retained raw archive; a new full execution would
+require private registry access and substantial environment preparation.
+[Evaluation](docs/evaluation.md) documents the distinction and existing read-only
+verification commands. The accepted results remain unchanged.
+
+## Development checks
+
+```bash
+.venv/bin/pytest -q -m "not integration and not real_model and not eval"
+.venv/bin/ruff check src tests scripts
+.venv/bin/ruff format --check src tests scripts
+.venv/bin/mypy src/repopilot
+```
+
+Ordinary checks do not need model credentials or Docker. Optional evidence tests
+skip when their separately retained raw archives are absent, so test counts vary
+by checkout. Original-commit regressions explicitly skip in the public snapshot,
+which excludes private development history; portable positive/negative Git checks
+still run. Real-model, database, Docker and evaluation checks are opt-in, not part
+of the quick start.
+
+## Safety and scope
+
+Repository text, tool output and model-generated patches are untrusted. Production
+tools enforce bounded reads, path controls, a restricted patch grammar and configured
+test commands. The evaluator additionally protects its regression-test paths.
+Docker policy uses network restrictions and resource/privilege
+limits; it is **not a VM boundary or production multi-tenant certification**.
+See the [threat model](docs/threat-model.md) for tested controls and residual risks.
+
+Never commit credentials or raw private-source traces. Paid-provider prompts can
+contain retrieved code. Jina remote model code is disabled by default and requires
+explicit approval plus pinned revisions; pinning does not replace code review.
+
+P0–P6 and the P7 implementation/evaluation work are complete. Final closeout uses
+the [technical report](docs/final-report.md), existing success/failure evidence,
+and [release checks](docs/validation.md); no video or new model experiment is required.
+MCP and Skill micro-experiments (P8) remain deferred, not implemented.
+
+Original code is [MIT-licensed](LICENSE). Upstream issues, evaluator patches and
+third-party components retain their own terms; see [attribution](THIRD_PARTY_NOTICES.md).
+
+## Documentation map
+
+- [Architecture and code map](docs/architecture.md)
+- [Evaluation, costs and reproducibility](docs/evaluation.md)
+- [Failure analysis and unimplemented backlog](docs/error-analysis.md)
+- [Threat model](docs/threat-model.md)
+- [Final technical report](docs/final-report.md)
+- [Configuration and historical guide](docs/technical-guide.md)
+- [Experiment history](docs/experiments.md) and [completion status](docs/development-status.md)
+- [Public snapshot boundaries](docs/publication-notes.md)

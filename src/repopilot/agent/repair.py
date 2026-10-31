@@ -13,6 +13,7 @@ from uuid import UUID, uuid5
 
 from langchain_core.runnables import RunnableConfig, RunnableLambda
 from langgraph.checkpoint.base import BaseCheckpointSaver
+from langgraph.errors import GraphRecursionError
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 from pydantic import JsonValue, ValidationError
@@ -32,14 +33,16 @@ from repopilot.agent.state import (
 )
 from repopilot.agent.trace_recorder import TraceRecorder
 from repopilot.config import RepoPilotSettings
-from repopilot.context import CONTEXT_POLICY_VERSION
+from repopilot.context import CONTEXT_POLICY_VERSION, ContextAccountingError
 from repopilot.enums import (
     AgentFailureKind,
     AgentLoopErrorCode,
     AgentStateErrorCode,
     ErrorType,
+    PatchErrorCode,
     PatchStatus,
     PlanStepStatus,
+    PolicyDecision,
     ProviderErrorCode,
     TerminationReason,
     TestStatus,
@@ -75,10 +78,15 @@ from repopilot.schemas import (
     ToolCall,
     ToolExecutionResult,
 )
-from repopilot.tools.patch import PatchApplicationResult
+from repopilot.tools.patch import (
+    PatchApplicationResult,
+    PatchLimits,
+    PatchValidationError,
+    parse_unified_diff,
+)
 from repopilot.tools.registry import ToolRegistry
 from repopilot.tools.tests import advance_test_state
-from repopilot.trace import AgentTrace, TraceArtifactError
+from repopilot.trace import AgentTrace, TraceArtifactError, TraceEvent
 
 REPRODUCE_STEP = "reproduce"
 SEARCH_STEP = "search"
@@ -98,7 +106,7 @@ STEP_TOOL_CAPABILITIES: dict[str, tuple[str, ...]] = {
     REPRODUCE_STEP: ("run_tests",),
     SEARCH_STEP: ("search_code",),
     INSPECT_STEP: ("inspect_symbol", "read_file"),
-    PATCH_STEP: ("apply_patch",),
+    PATCH_STEP: ("read_file", "inspect_symbol", "apply_patch"),
     VALIDATE_STEP: ("run_tests",),
     FINISH_STEP: (),
 }
@@ -171,13 +179,19 @@ def initialize_repair_plan(state: AgentGraphState) -> AgentGraphUpdate:
             ),
             PlanStep(
                 step_id=INSPECT_STEP,
-                objective="Inspect the most relevant source or symbol.",
-                evidence_required=("A successful bounded source inspection",),
+                objective=(
+                    "Locate relevant symbols if needed, then use read_file to inspect "
+                    "the actual source text before proposing a patch."
+                ),
+                evidence_required=("A successful read_file result with non-empty source text",),
                 dependencies=(SEARCH_STEP,),
             ),
             PlanStep(
                 step_id=PATCH_STEP,
-                objective="Apply one bounded unified diff in the Sandbox.",
+                objective=(
+                    "Read every file to be modified, then apply one bounded unified diff "
+                    "in the Sandbox. Read additional source regions when needed."
+                ),
                 evidence_required=("An artifact-backed applied PatchState",),
                 dependencies=(INSPECT_STEP,),
             ),
@@ -208,6 +222,7 @@ class RepairAgentNodes:
         registry: ToolRegistry,
         max_replans: int = 1,
         prompt_max_chars: int = 50_000,
+        patch_limits: PatchLimits | None = None,
         clock: Clock = system_utc_now,
         trace_recorder: TraceRecorder | None = None,
     ) -> None:
@@ -227,6 +242,12 @@ class RepairAgentNodes:
         self._registry = registry
         self._max_replans = max_replans
         self._prompt_max_chars = prompt_max_chars
+        self._patch_limits = patch_limits or PatchLimits(
+            max_bytes=1_000_000,
+            max_files=100,
+            max_hunks=1_000,
+            max_changed_lines=10_000,
+        )
         self._clock = clock
         self._trace_recorder = trace_recorder or TraceRecorder()
 
@@ -271,7 +292,7 @@ class RepairAgentNodes:
         if budget_stop is not None:
             return _DecisionOutcome(self._terminal_update(snapshot, budget_stop))
 
-        allowed_tools = STEP_TOOL_CAPABILITIES[snapshot.active_step_id]
+        allowed_tools = self._allowed_tools(snapshot)
         request = build_context_aware_provider_request(
             request_id=repair_decision_request_id(
                 snapshot.run_id,
@@ -359,7 +380,11 @@ class RepairAgentNodes:
                 common_update,
                 ProviderErrorCode.TOOL_NOT_ALLOWED,
             )
-        fingerprint = repair_action_fingerprint(snapshot.active_step_id, call)
+        fingerprint = repair_action_fingerprint(
+            snapshot.active_step_id,
+            call,
+            patch_revision=snapshot.patch_state.revision,
+        )
         if call.call_id in snapshot.consumed_call_ids or fingerprint in (
             snapshot.action_fingerprints
         ):
@@ -424,7 +449,9 @@ class RepairAgentNodes:
             or call.call_id in snapshot.consumed_call_ids
         ):
             raise _invalid_transition()
-        result = self._registry.invoke(call)
+        result = self._unread_patch_target_result(snapshot, call)
+        if result is None:
+            result = self._registry.invoke(call)
         update: AgentGraphUpdate = {"pending_tool_result": result}
         return self._trace_recorder.record(
             node=TraceNode.EXECUTE_TOOL,
@@ -480,11 +507,22 @@ class RepairAgentNodes:
             and self._search_is_empty(result.payload)
         ):
             return self._empty_search_update(snapshot, call, committed)
-        if call.tool_name not in STEP_TOOL_CAPABILITIES.get(
-            snapshot.active_step_id or "",
-            (),
-        ):
+        if call.tool_name not in self._allowed_tools(snapshot):
             raise _invalid_transition()
+        if snapshot.active_step_id == INSPECT_STEP and (
+            call.tool_name != "read_file" or not self._read_source_path(result)
+        ):
+            return {
+                **committed,
+                "current_plan": self._revise_active_step(
+                    snapshot,
+                    "Symbol locations or empty reads are not source evidence; use read_file "
+                    "on the relevant source region and inspect non-empty text.",
+                ),
+            }
+        if snapshot.active_step_id == PATCH_STEP:
+            # Additional inspection must never substitute for an applied patch.
+            return committed
         plan, next_step = self._advance_plan(snapshot)
         return {
             **committed,
@@ -554,6 +592,48 @@ class RepairAgentNodes:
             call_id=observation.call_id,
             error_type=test_run.error_type,
         )
+        if (
+            test_run.status is TestStatus.FAILED
+            and test_run.error_type is None
+            and observation.error_type is None
+            and observation.policy_decision is PolicyDecision.ALLOWED
+            and not test_run.truncated
+            and not observation.truncated
+            and snapshot.patch_state.status is PatchStatus.APPLIED
+            and snapshot.replan_count < self._max_replans
+            and not any(
+                prior.kind is AgentFailureKind.TEST_FAILURE and prior.step_id == VALIDATE_STEP
+                for prior in snapshot.failure_history
+            )
+        ):
+            reason = (
+                "The applied candidate failed validation; one bounded repair is allowed. "
+                "Read the current patched source again for every target file before editing. "
+                "Use the available failure evidence to submit a distinct incremental diff "
+                "against the current workspace, then run the configured validation again. "
+                "Tests remain read-only; all existing budgets and safety checks still apply."
+            )
+            return {
+                **test_update,
+                "failure_history": (failure,),
+                "replan_count": snapshot.replan_count + 1,
+                "current_plan": tuple(
+                    step.model_copy(
+                        update={
+                            "status": PlanStepStatus.IN_PROGRESS,
+                            "revision_reason": reason,
+                        }
+                    )
+                    if step.step_id == PATCH_STEP
+                    else step.model_copy(
+                        update={"status": PlanStepStatus.PENDING, "revision_reason": reason}
+                    )
+                    if step.step_id in (VALIDATE_STEP, FINISH_STEP)
+                    else step
+                    for step in snapshot.current_plan
+                ),
+                "active_step_id": PATCH_STEP,
+            }
         return {
             **test_update,
             "failure_history": (failure,),
@@ -600,11 +680,134 @@ class RepairAgentNodes:
             error_type=ErrorType.PATCH_ERROR,
             patch_error_code=patch.error_code,
         )
+        recoverable = patch.error_code in (
+            PatchErrorCode.INVALID_DIFF,
+            PatchErrorCode.APPLY_CONFLICT,
+        )
+        protected_test_rejection = (
+            patch.error_code is PatchErrorCode.PROTECTED_TEST_PATH
+            and patch.patch_state == snapshot.patch_state
+            and patch.observation is not None
+            and patch.observation.call_id == result.call_id
+            and patch.observation.exit_code == 44
+            and patch.observation.error_type is ErrorType.PATCH_ERROR
+            and patch.observation.policy_decision is PolicyDecision.ALLOWED
+        )
+        recoverable = recoverable or protected_test_rejection
+        if recoverable and not any(
+            prior.kind is AgentFailureKind.PATCH_FAILURE for prior in snapshot.failure_history
+        ):
+            correction_instruction = (
+                "The entire candidate was rejected before any source changes were applied. "
+                "Tests and evaluator inputs are read-only. Submit a new source-only diff; "
+                "do not modify, delete, or disable tests. "
+                if protected_test_rejection
+                else "Read the actual target source if needed, then submit a distinct "
+                "corrected diff. "
+            )
+            return {
+                **patch_update,
+                "failure_history": (failure,),
+                "current_plan": self._revise_active_step(
+                    snapshot,
+                    f"Patch rejected ({patch.error_code.value}); one correction remains. "
+                    + correction_instruction
+                    + "Do not repeat the rejected patch.",
+                ),
+            }
         return {
             **patch_update,
             "failure_history": (failure,),
             **self._terminal_update(snapshot, TerminationReason.INVALID_PATCH),
         }
+
+    @staticmethod
+    def _allowed_tools(snapshot: AgentState) -> tuple[str, ...]:
+        allowed = STEP_TOOL_CAPABILITIES.get(snapshot.active_step_id or "", ())
+        if snapshot.active_step_id == PATCH_STEP and snapshot.patch_state.revision > 0:
+            # Symbol indexes describe the immutable base, not the patched workspace.
+            return tuple(name for name in allowed if name != "inspect_symbol")
+        return allowed
+
+    @staticmethod
+    def _read_source_path(result: ToolExecutionResult) -> str | None:
+        if result.tool_name != "read_file" or result.status is not ToolResultStatus.SUCCESS:
+            return None
+        payload = result.payload
+        if payload is None:
+            return None
+        content = payload.get("content")
+        path = payload.get("relative_path", payload.get("path"))
+        if isinstance(content, str) and content.strip() and isinstance(path, str) and path:
+            return path
+        return None
+
+    def _unread_patch_target_result(
+        self,
+        snapshot: AgentState,
+        call: ToolCall,
+    ) -> ToolExecutionResult | None:
+        """Require source evidence for each target without bypassing patch safety checks."""
+
+        if call.tool_name != "apply_patch":
+            return None
+        diff = call.validated_arguments.get("diff")
+        if not isinstance(diff, str):
+            return None
+        try:
+            parsed = parse_unified_diff(diff, self._patch_limits)
+        except PatchValidationError:
+            # The real tool still owns malformed, unsupported and unsafe patch rejection.
+            return None
+        # A read of the original checkout is not evidence about a newly patched file.
+        # Rejected patches do not invalidate reads because no source change occurred.
+        latest_applied = -1
+        for index, result in enumerate(snapshot.tool_results):
+            if (
+                result.tool_name == "apply_patch"
+                and result.status is ToolResultStatus.SUCCESS
+                and result.payload is not None
+                and result.payload.get("status") == PatchStatus.APPLIED.value
+            ):
+                latest_applied = index
+        read_paths = {
+            path
+            for result in snapshot.tool_results[latest_applied + 1 :]
+            if (path := self._read_source_path(result)) is not None
+        }
+        unread = sorted(set(parsed.summary.files_changed) - read_paths)
+        if not unread:
+            return None
+        rejected = PatchApplicationResult(
+            status=PatchStatus.REJECTED,
+            patch_state=snapshot.patch_state,
+            error_code=PatchErrorCode.APPLY_CONFLICT,
+            message=(
+                "Read the current source with read_file after the latest applied patch "
+                "before modifying: " + ", ".join(unread)
+            ),
+        )
+        payload = cast(dict[str, JsonValue], rejected.model_dump(mode="json"))
+        return ToolExecutionResult(
+            call_id=call.call_id,
+            tool_name=call.tool_name,
+            status=ToolResultStatus.SUCCESS,
+            payload=payload,
+            output_bytes=len(
+                json.dumps(
+                    payload, ensure_ascii=False, separators=(",", ":"), sort_keys=True
+                ).encode("utf-8")
+            ),
+        )
+
+    @staticmethod
+    def _revise_active_step(snapshot: AgentState, reason: str) -> tuple[PlanStep, ...]:
+        return tuple(
+            step.model_copy(update={"revision_reason": reason})
+            if step.step_id == snapshot.active_step_id
+            else step
+            for step in snapshot.current_plan
+        )
 
     def finish(self, state: AgentGraphState) -> AgentGraphUpdate:
         snapshot = from_graph_state(state)
@@ -869,6 +1072,7 @@ class RepairAgentGraph:
         checkpointer: BaseCheckpointSaver[str] | None = None,
         max_replans: int = 1,
         prompt_max_chars: int = 50_000,
+        patch_limits: PatchLimits | None = None,
         clock: Clock = system_utc_now,
     ) -> None:
         self._checkpointer = checkpointer or build_in_memory_checkpointer()
@@ -879,6 +1083,7 @@ class RepairAgentGraph:
             registry=registry,
             max_replans=max_replans,
             prompt_max_chars=prompt_max_chars,
+            patch_limits=patch_limits,
             clock=clock,
         )
         builder = StateGraph(AgentGraphState)
@@ -987,6 +1192,7 @@ class RepairAgentGraph:
             checkpointer=checkpointer,
             max_replans=settings.max_replans,
             prompt_max_chars=settings.openai_prompt_max_chars,
+            patch_limits=PatchLimits.from_settings(settings),
             clock=clock,
         )
 
@@ -1022,10 +1228,34 @@ class RepairAgentGraph:
             return from_graph_state(cast(Mapping[str, object], output))
         except (AgentLoopError, AgentStateGraphError):
             raise
-        except (ValidationError, ValueError):
-            raise AgentStateGraphError(AgentStateErrorCode.STATE_CONFLICT) from None
+        except ContextAccountingError:
+            # Preserve the typed context boundary for sanitized failure evidence.
+            raise
+        except GraphRecursionError:
+            raise AgentStateGraphError(
+                AgentStateErrorCode.CHECKPOINT_ERROR, cause_type="graph_recursion_limit"
+            ) from None
+        except ValidationError:
+            raise AgentStateGraphError(
+                AgentStateErrorCode.STATE_CONFLICT, cause_type="validation_error"
+            ) from None
+        except ValueError:
+            raise AgentStateGraphError(
+                AgentStateErrorCode.STATE_CONFLICT, cause_type="invalid_value"
+            ) from None
+        except OSError:
+            raise AgentStateGraphError(
+                AgentStateErrorCode.CHECKPOINT_ERROR, cause_type="local_io_error"
+            ) from None
         except Exception:
-            raise AgentStateGraphError(AgentStateErrorCode.CHECKPOINT_ERROR) from None
+            raise AgentStateGraphError(
+                AgentStateErrorCode.CHECKPOINT_ERROR, cause_type="unexpected_exception"
+            ) from None
+
+    def partial_trace_events(self, run_id: UUID) -> tuple[TraceEvent, ...]:
+        """Return the recorded prefix even if the graph could not reach a final state."""
+
+        return self._nodes.trace_recorder.events(run_id)
 
     def load(self, thread_id: str) -> AgentState:
         state = self._read_optional(self._thread_config(thread_id))
@@ -1088,7 +1318,7 @@ class RepairAgentGraph:
             if not isinstance(output, Mapping):
                 raise TypeError
             return from_graph_state(cast(Mapping[str, object], output))
-        except (AgentLoopError, AgentStateGraphError, WorkingMemoryError):
+        except (AgentLoopError, AgentStateGraphError, WorkingMemoryError, ContextAccountingError):
             raise
         except (ValidationError, ValueError):
             raise WorkingMemoryError(WorkingMemoryErrorCode.INVALID_SNAPSHOT) from None
@@ -1139,15 +1369,21 @@ class RepairAgentGraph:
         return {"configurable": {"thread_id": identity.thread_id}}
 
 
-def repair_action_fingerprint(step_id: str, call: ToolCall) -> str:
-    """Hash a capability request within its plan step, excluding Provider call IDs."""
+def repair_action_fingerprint(step_id: str, call: ToolCall, *, patch_revision: int = 0) -> str:
+    """Scope source reads and validation to a revision; keep patch proposals global."""
 
+    payload: dict[str, object] = {
+        "step_id": step_id,
+        "tool_name": call.tool_name,
+        "validated_arguments": call.validated_arguments,
+    }
+    if patch_revision > 0 and (
+        call.tool_name in ("read_file", "inspect_symbol")
+        or (step_id == VALIDATE_STEP and call.tool_name == "run_tests")
+    ):
+        payload["patch_revision"] = patch_revision
     encoded = json.dumps(
-        {
-            "step_id": step_id,
-            "tool_name": call.tool_name,
-            "validated_arguments": call.validated_arguments,
-        },
+        payload,
         ensure_ascii=False,
         separators=(",", ":"),
         sort_keys=True,

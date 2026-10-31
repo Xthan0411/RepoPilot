@@ -1,11 +1,12 @@
 # RepoPilot Docker Sandbox Threat Model
 
-> Version: P4 Gate / policy schema 1
-> Status: policy, Docker lifecycle/execution, adversarial security, resource, and cleanup Gate complete
+> Current documentation: P7-S9 / policy schema 1
+> Sections 1-19 retain the staged P4-P7 security evidence and its historical scope.
+> Current repair/evaluation boundaries and remaining limits are summarized in sections 20-21.
 
 ## 1. Scope and security claim
 
-RepoPilot eventually executes untrusted repository code and tests. The Sandbox must assume
+RepoPilot executes untrusted repository code and tests. The Sandbox must assume
 that the Issue text, model output, repository files, dependency metadata, test commands,
 test process, and subprocesses are hostile.
 
@@ -24,7 +25,8 @@ P4-S2 adds this narrower runtime claim:
 P4-S3 adds bounded, policy-approved task-command execution, no-follow file reads, output
 previews, persistent artifacts, timeout cleanup, and setup-only network transitions.
 P4-S4 and P4-S5 add adversarial command/path/network/secret/resource and cleanup proof.
-Patch application and diff enforcement remain P5 work.
+At that Gate, patch application and diff enforcement remained P5 work; they are now
+implemented, as recorded in section 15 and updated in section 20.
 
 ## 2. Assets
 
@@ -393,7 +395,9 @@ termination reason:
 - Runtime evidence is intentionally two-level. `metadata_verified` proves identities and
   metadata only. `baseline_failed_gold_passed` additionally requires a digest-pinned
   container, nonzero base+test exit, zero gold exit, expected failure marker, and
-  hash-valid setup/baseline/gold logs. Only Flask 4992 currently has that stronger claim.
+  hash-valid setup/baseline/gold logs. At P7-S2, only Flask 4992 had that stronger claim.
+  This historical statement does not describe the later eight-task environment
+  qualification or the accepted v6 experiment.
 - A malicious upstream Issue can still contain prompt-injection text. Dataset provenance
   does not make Issue text trusted; the existing Context boundary must continue treating
   it as untrusted task data. A malicious dependency or upstream repository can also attack
@@ -401,6 +405,9 @@ termination reason:
   source is permitted.
 
 ## 19. P7-S6 holdout environment and paid-execution boundary
+
+This section records the original USD32, 32-slot protocol. Later authorized diagnostic
+reruns have separately sealed plans; the current v6 distinction is in section 20.
 
 - Paid holdout consent is separate from dev calibration. It must bind the exact 32-slot
   plan, USD 32 application limit, and final in-flight response overshoot acknowledgement;
@@ -439,7 +446,76 @@ termination reason:
   A technical failure stops other slots unless the operator explicitly reviews and opts
   to continue; no result can be deleted or silently retried under changed configuration.
 
-## 20. Residual risk and later phase obligations
+## 20. Current repair and evaluation boundaries
+
+The implemented architecture is a single-Agent LangGraph workflow, not a hierarchy of
+trusted and untrusted subagents. See [architecture.md](architecture.md) for module
+ownership and the distinction between the generic CLI and frozen experiment wiring.
+
+### Evidence-based repair, not model self-certification
+
+- [`agent/repair.py`](../src/repopilot/agent/repair.py) restricts tool capabilities by
+  stage and requires a nonempty source read for each patch target. Reads after the
+  latest successful patch must come from the current workspace before another edit.
+  The guard is file-level; it does not prove comprehension or complete hunk coverage.
+- An ordinary post-patch test failure can trigger at most one validation repair,
+  sharing the configured replan allowance with empty-search recovery. Timeouts,
+  truncated/ambiguous test evidence, policy denials, and infrastructure errors are
+  not repair invitations. All original budgets remain in effect.
+- One rejected-patch correction is available for format/conflict failures and the
+  dedicated `protected_test_path` rejection. The latter must prove no source changes
+  were applied. General `path_denied` and other safety refusals do not acquire this
+  exception. No tool silently strips rejected test edits from a candidate.
+- [`tools/patch.py`](../src/repopilot/tools/patch.py) and
+  [`tools/patch_workspace.py`](../src/repopilot/tools/patch_workspace.py) retain
+  incremental applications and cumulative base-to-current patch evidence. The
+  workflow invalidates earlier validation after a later patch attempt.
+- [`verifier.py`](../src/repopilot/verifier.py) requires reproduced baseline failure,
+  an artifact-backed applied patch, and a distinct fresh passing test observation
+  for the same configured command. It does not call a model or consult a gold answer.
+  A successful configured regression is not proof that every behavior or upstream
+  test suite is correct.
+
+### Evaluator isolation is explicit wiring
+
+[`evals/isolated_tests.py`](../src/repopilot/evals/isolated_tests.py) is the v6
+evaluation boundary. The Agent workspace contains base source and candidate edits;
+a separate private workspace/container contains the evaluator regression patch and
+mirrored source edits. Raw evaluator logs and test-patch contents remain private;
+sanitized test outcomes, including bounded failure hints, cross back into the Agent.
+The expected solution patch is not an Agent input.
+
+The adapter rejects a whole candidate that overlaps its protected regression-test
+paths before either workspace applies it. This is narrower than an OS guarantee
+that every possible test file is immutable: the prompt's general tests-read-only
+rule and the adapter's explicit protected-path enforcement are different controls.
+The normal `repopilot repair` CLI does not automatically install this dual-sandbox
+evaluator or import hidden tests.
+
+### Provenance and budget controls are not experimental claims
+
+The accepted v6 controller in
+[`scripts/p7_postdebug_runner_v6.py`](../scripts/p7_postdebug_runner_v6.py) binds 40
+seen-task slots, explicit prompt/runtime changes, the authorized USD50 cumulative
+application budget, prior spend/unknown-cost reserves, and immutable source/input
+identities. Expensive preflight repetition was explicitly waived, not those
+identity, authorization, history, or cache-integrity checks. V6 is a post-debug
+diagnostic rerun, not a fresh blind holdout. Earlier failures and earlier protocol
+limitations remain evidence rather than being overwritten.
+
+Per-decision cumulative usage is charged after the Provider responds. A final
+in-flight response can exceed the token or dollar limit; its proposed next action
+is then blocked. This is not an upstream billing hard cap, and infrastructure charges
+are separate. Bounded per-request context does not prevent cumulative token
+exhaustion across repeated requests.
+
+Offline replay checks hashes, state continuity, and request/tool correlations; it
+does not re-execute a test or prove an external service returned truthful usage.
+The accepted aggregate's observed tool-policy counts are not an adversarial safety
+success rate. Historical security fixtures in sections 13-14 test specific attacks;
+they do not justify a blanket "100% safe" claim for real workloads.
+
+## 21. Residual risk and unimplemented capabilities
 
 - Docker/container isolation is not a VM boundary; kernel and daemon vulnerabilities
   remain outside the Python policy layer.
@@ -454,6 +530,22 @@ termination reason:
 - The MVP patch grammar intentionally excludes file creation, deletion, rename, binary
   changes, mode changes, whitespace-bearing paths, and files without a representable
   final newline. Supporting them later requires separate policy and rollback proofs.
-- P5-S4 must keep success rule-based: baseline reproduction, artifact-backed applied
-  patch, and explicit post-patch pass are all required. P5-S5/P5-S6 must not let Provider
-  output weaken these boundaries or bypass the Tool/Sandbox path.
+- The host controller, task manifests, Docker daemon, local artifact/Memory roots,
+  vector database, and embedding implementation remain trusted deployment components.
+  Task-container network isolation does not isolate the host's Provider connection,
+  model download, or database connection. Revision-pinned embedding remote code still
+  executes as host application code; pinning is not a security review.
+- Issue text and permitted repository snippets are intentionally sent to the selected
+  model Provider. Redaction and sensitive-path exclusions are not a general data-loss
+  prevention guarantee. Do not place unrelated secrets in task content or publish raw
+  traces without a separate review.
+- Prompt trust labels and deterministic context selection constrain authority but do
+  not prove prompt-injection resistance. A model can still choose poor permitted
+  actions, misunderstand sanitized feedback, or exhaust its budget. Source hashes
+  detect drift; they are not signatures against a malicious local writer.
+- The current CLI is not a hardened multi-user service. Host filesystem permissions,
+  authenticated admission, credential rotation, image provenance/scanning, and
+  independent monitoring remain deployment responsibilities.
+- MCP transport and on-demand Skills are deferred P8 work. Neither is currently an
+  additional security boundary or an implemented capability, and neither may bypass
+  the existing Tool/Sandbox/Verifier controls when added.

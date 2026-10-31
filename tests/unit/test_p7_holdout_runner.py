@@ -30,6 +30,7 @@ from repopilot.enums import (  # noqa: E402
     TerminationReason,
     ValidationStatus,
 )
+from repopilot.evals.baselines import BaselineEvaluationExecutor  # noqa: E402
 from repopilot.evals.runner import (  # noqa: E402
     EvaluationExecutionEvidence,
     EvaluationExecutionRequest,
@@ -134,6 +135,41 @@ def test_executor_uses_task_specific_qualified_image(
     assert isinstance(executor, RepairWorkflowEvaluationExecutor)
     assert executor.sandbox_image_reference == binding.sandbox_image_reference
     assert executor.sandbox_image_reference != controls.plan.frozen_sandbox_image_reference
+    assert executor.sandbox_factory is not None
+
+
+@pytest.mark.parametrize("arm_id", control.EXPECTED_ARM_IDS)
+def test_all_formal_arms_use_isolated_tests(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    arm_id: str,
+) -> None:
+    controls = _controls(monkeypatch)
+    task = controls.agent_inputs.tasks[0].model_copy(
+        update={"repository_path": str(tmp_path), "repository_url": None}
+    )
+    monkeypatch.setattr(runner, "_runtime_task", lambda *args: task)
+    received: list[dict[str, Any]] = []
+    sentinel = object()
+
+    def isolated_factory(**kwargs: Any) -> Any:
+        received.append(kwargs)
+        return lambda output_root: sentinel
+
+    monkeypatch.setattr(runner, "build_isolated_test_sandbox_factory", isolated_factory)
+    executor = runner._real_executor_factory(
+        root=PROJECT_ROOT,
+        controls=controls,
+        openai_api_key="unit-test-key",
+        database_url="postgresql://unit-test",
+    )(arm_id, task.task_id)
+    assert isinstance(executor, (RepairWorkflowEvaluationExecutor, BaselineEvaluationExecutor))
+    assert executor.sandbox_factory is not None
+    assert executor.sandbox_factory(tmp_path) is sentinel
+    assert received[0]["task"] == task
+    assert received[0]["regression_patch"].startswith("diff --git ")
+    assert "gold_patch" not in received[0]
+    assert "expected_patch" not in received[0]
 
 
 def test_manifest_binds_exact_slot_without_serializing_gold_or_host_path(

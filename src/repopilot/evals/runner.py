@@ -32,11 +32,13 @@ from repopilot.enums import (
 from repopilot.memory import MemoryStoreBundle
 from repopilot.providers import ProviderResponse
 from repopilot.repair_workflow import (
+    RepairFailureDetail,
     RepairRunArtifacts,
     RepairRunRequest,
     RepairSandboxFactory,
     RepairWorkflowError,
     run_repair_request,
+    safe_repair_failure_detail,
 )
 from repopilot.schemas import (
     ArtifactRef,
@@ -62,6 +64,7 @@ EVALUATION_RUNNER_VERSION: Literal["eval-runner-v1"] = "eval-runner-v1"
 EVALUATION_MANIFEST_FILENAME = "manifest.json"
 EVALUATION_EVENTS_DIRECTORY = "events"
 EVALUATION_EXECUTIONS_DIRECTORY = "executions"
+EVALUATION_FAILURE_DIAGNOSTIC_FILENAME = "failure-diagnostic-v1.json"
 _MAX_MANIFEST_BYTES = 1_000_000
 _MAX_EVENT_BYTES = 1_000_000
 _MAX_RESULT_ARTIFACT_BYTES = 32 * 1024 * 1024
@@ -126,10 +129,44 @@ class EvaluationRunnerError(RuntimeError):
 class EvaluationTaskExecutionError(RuntimeError):
     """Executor-owned technical failure with no model or repository text attached."""
 
-    def __init__(self) -> None:
+    def __init__(self, detail: RepairFailureDetail | None = None) -> None:
         super().__init__(
             EVALUATION_RUNNER_ERROR_MESSAGES[EvaluationRunnerErrorCode.EXECUTION_FAILURE]
         )
+        self.detail = (
+            RepairFailureDetail(stage="executor", cause_code="execution_failure")
+            if detail is None
+            else RepairFailureDetail.model_validate(detail.model_dump())
+        )
+
+
+class EvaluationFailureDiagnostic(RepairFailureDetail):
+    """Optional, immutable failure sidecar; old manifest/event bytes remain unchanged."""
+
+    diagnostic_version: Literal["evaluation-failure-diagnostic-v1"] = (
+        "evaluation-failure-diagnostic-v1"
+    )
+    manifest_content_sha256: Sha256
+    failed_event_content_sha256: Sha256
+    failed_event_sequence: int = Field(ge=0)
+    run_id: UUID
+    attempt_id: Identifier
+    task_id: TaskId
+    execution_index: int = Field(ge=0, le=9)
+    execution_run_id: UUID
+    recorded_at: AwareDatetime
+    failure_code: EvaluationRunnerErrorCode
+    provider_requests_made: Literal["unknown"] = "unknown"
+    budget_reserve_unchanged: Literal[True] = True
+    raw_exception_serialized: Literal[False] = False
+    content_sha256: Sha256
+
+    @model_validator(mode="after")
+    def validate_digest(self) -> Self:
+        payload = self.model_dump(mode="python", exclude={"content_sha256"})
+        if _canonical_sha256(payload) != self.content_sha256:
+            raise ValueError("failure diagnostic digest does not match")
+        return self
 
 
 class EvaluationRunManifest(StrictModel):
@@ -382,8 +419,8 @@ class RepairWorkflowEvaluationExecutor:
                 vector_store=self.vector_store,
             )
             return evaluation_evidence_from_repair_artifacts(artifacts)
-        except (RepairWorkflowError, ValidationError, ValueError):
-            raise EvaluationTaskExecutionError from None
+        except (RepairWorkflowError, ValidationError, ValueError) as error:
+            raise EvaluationTaskExecutionError(safe_repair_failure_detail(error)) from None
 
 
 def evaluation_evidence_from_repair_artifacts(
@@ -570,7 +607,7 @@ def run_evaluation(
                     execution_root=execution_root,
                     evidence=evidence,
                 )
-            except EvaluationTaskExecutionError:
+            except EvaluationTaskExecutionError as error:
                 failed = _build_event(
                     sequence=len(events),
                     manifest=validated_manifest,
@@ -583,6 +620,7 @@ def run_evaluation(
                 )
                 store.append_event(failed)
                 events = (*events, failed)
+                store.write_failure_diagnostic(validated_manifest, failed, error.detail)
                 continue
             except EvaluationRunnerError as error:
                 if error.code is not EvaluationRunnerErrorCode.ARTIFACT_INTEGRITY:
@@ -599,8 +637,13 @@ def run_evaluation(
                 )
                 store.append_event(failed)
                 events = (*events, failed)
+                store.write_failure_diagnostic(
+                    validated_manifest,
+                    failed,
+                    safe_repair_failure_detail(error, stage="evidence_verification"),
+                )
                 continue
-            except Exception:
+            except Exception as error:
                 failed = _build_event(
                     sequence=len(events),
                     manifest=validated_manifest,
@@ -613,6 +656,9 @@ def run_evaluation(
                 )
                 store.append_event(failed)
                 events = (*events, failed)
+                store.write_failure_diagnostic(
+                    validated_manifest, failed, safe_repair_failure_detail(error)
+                )
                 continue
             completed = _build_event(
                 sequence=len(events),
@@ -757,7 +803,92 @@ class FileEvaluationRunStore:
             events.append(event)
         result = tuple(events)
         self.validate_event_history(manifest, result)
+        for event in result:
+            if event.status is EvaluationAttemptStatus.FAILED:
+                self.read_failure_diagnostic(manifest, event)
         return result
+
+    def _failure_diagnostic_path(self, event: EvaluationAttemptEvent) -> Path:
+        current = self._root
+        self._safe_directory(current, create=False)
+        for part in Path(event.output_path).parts:
+            current = current / part
+            self._safe_directory(current, create=False)
+        return current / EVALUATION_FAILURE_DIAGNOSTIC_FILENAME
+
+    @staticmethod
+    def _failure_bindings(
+        manifest: EvaluationRunManifest, event: EvaluationAttemptEvent
+    ) -> dict[str, object]:
+        if event.status is not EvaluationAttemptStatus.FAILED or event.failure_code is None:
+            raise EvaluationRunnerError(EvaluationRunnerErrorCode.ARTIFACT_INTEGRITY)
+        return {
+            "manifest_content_sha256": manifest.content_sha256,
+            "failed_event_content_sha256": event.content_sha256,
+            "failed_event_sequence": event.sequence,
+            "run_id": manifest.run_id,
+            "attempt_id": event.attempt_id,
+            "task_id": event.task_id,
+            "execution_index": event.execution_index,
+            "execution_run_id": event.execution_run_id,
+            "recorded_at": event.recorded_at,
+            "failure_code": event.failure_code,
+        }
+
+    def write_failure_diagnostic(
+        self,
+        manifest: EvaluationRunManifest,
+        event: EvaluationAttemptEvent,
+        detail: RepairFailureDetail,
+    ) -> EvaluationFailureDiagnostic:
+        """Publish after FAILED is durable; a diagnostic never cancels its cost reserve."""
+
+        payload = {
+            **self._failure_bindings(manifest, event),
+            **RepairFailureDetail(stage=detail.stage, cause_code=detail.cause_code).model_dump(),
+            "diagnostic_version": "evaluation-failure-diagnostic-v1",
+            "provider_requests_made": "unknown",
+            "budget_reserve_unchanged": True,
+            "raw_exception_serialized": False,
+        }
+        diagnostic = EvaluationFailureDiagnostic.model_validate(
+            {**payload, "content_sha256": _canonical_sha256(payload)}
+        )
+        target = self._failure_diagnostic_path(event)
+        if target.exists() or target.is_symlink():
+            raise EvaluationRunnerError(EvaluationRunnerErrorCode.OUTPUT_CONFLICT)
+        self._atomic_create(target, _model_bytes(diagnostic))
+        return diagnostic
+
+    def read_failure_diagnostic(
+        self,
+        manifest: EvaluationRunManifest,
+        event: EvaluationAttemptEvent,
+    ) -> EvaluationFailureDiagnostic | None:
+        """Validate optional evidence; historical failed events without sidecars stay valid."""
+
+        current = self._root
+        for part in Path(event.output_path).parts:
+            current = current / part
+            if current.is_symlink():
+                raise EvaluationRunnerError(EvaluationRunnerErrorCode.PATH_UNSAFE)
+            if not current.exists():
+                return None
+        target = self._failure_diagnostic_path(event)
+        if not target.exists() and not target.is_symlink():
+            return None
+        try:
+            diagnostic = EvaluationFailureDiagnostic.model_validate_json(
+                _read_private_file(target, 16_384)
+            )
+        except (ValidationError, UnicodeError):
+            raise EvaluationRunnerError(EvaluationRunnerErrorCode.ARTIFACT_INTEGRITY) from None
+        if any(
+            getattr(diagnostic, key) != value
+            for key, value in self._failure_bindings(manifest, event).items()
+        ):
+            raise EvaluationRunnerError(EvaluationRunnerErrorCode.ARTIFACT_INTEGRITY)
+        return diagnostic
 
     def append_event(self, event: EvaluationAttemptEvent) -> None:
         """Publish exactly the next event or reject a concurrent writer."""

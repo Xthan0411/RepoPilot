@@ -33,7 +33,7 @@ results/p0-smoke/
 # Learning notes are outside the project execution scope and may contain private values.
 RepoPilot_学习计划_2026.07.md
 
-# Publication snapshot: private notes, transport files, and future local executions
+# Publication boundaries: private notes, transport archives, and raw local runs
 *.bundle
 *.pem
 *.key

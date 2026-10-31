@@ -1,0 +1,22 @@
+{
+  "authorization_version": "holdout-authorization-v3",
+  "authorization_id": "p7-holdout-v3-253eba3487fcd330-usd32-ethan",
+  "approved_by": "ethan",
+  "approved_at": "2026-10-31T05:38:00.605311Z",
+  "experiment_id": "repopilot-p7-v3",
+  "plan_id": "p7-holdout-v3-253eba3487fcd330",
+  "plan_sha256": "43ed09f7736225ebfcfcf471e8fc368c68bb4fe69cda8c867050f19fb011f5c1",
+  "plan_raw_sha256": "21e7eb7d4855b70a23cfb5a4630374b1c6942f3f7bfa84d7274ad5dc8a35a234",
+  "freeze_marker_sha256": "253eba3487fcd3304b7009556c8aa5e5858ac348814ccd22b15606aee71c01be",
+  "freeze_raw_sha256": "807623c34ac2d0cca95a6328633b1a3621e9aa2869f9081b520e8ecd3c32d697",
+  "matrix_sha256": "d75d36d711f23190062aded9e97a8f5abfaba859416466027b227421ea7407e8",
+  "runtime_profile_sha256": "4595d92171b896e548cf489eda9ae1691875ed742a22440ce6a8e606c2b2af42",
+  "carry_forward_sha256": "0656b2d5a5402b71e1c3ba8d82060acf9c9dfd97a564716bd846cb975bfb047d",
+  "carried_unknown_cost_usd": "1.00",
+  "max_total_cost_usd": "32.00",
+  "new_execution_budget_usd": "31.00",
+  "paid_execution_approved": true,
+  "final_in_flight_response_overshoot_acknowledged": true,
+  "readiness_required_before_paid": true,
+  "content_sha256": "0c71a5b5f2bf84b8de3fe568cbb035b05b16bec1c2abcf95c75d5980325d9545"
+}

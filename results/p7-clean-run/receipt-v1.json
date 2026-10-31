@@ -1,0 +1,279 @@
+{
+  "receipt_version": "p7-clean-run-v1",
+  "recorded_date": "2026-10-31",
+  "scope": "fresh_full_git_checkout_and_separate_virtualenv_non_paid_reproduction",
+  "source": {
+    "commit": "905848f405de323dde1fd7557d5a2e7d3f068ff4",
+    "tracked_worktree_clean": true,
+    "shallow_repository": false,
+    "tested_input_file_count": 274,
+    "tested_input_manifest_sha256": "1059e8a37439d45b6a56414730d91f31e3a4f17befb8d8d364080a6757406e05",
+    "tested_inputs_match_s9_worktree": true,
+    "input_hashes": {
+      "pyproject.toml": "2829ff49fae05ddb91619cceaf3859eecf4d19c58e2340e06518f4d618a9250d",
+      "uv.lock": "73ae9e712946a1fd0f79ba27e9e975c57597690679c364f0afa71fade655997a",
+      "configs/default.yaml": "cf76c6b67e60a226919b4a16a1fd461f8fe73ddb3cb0445abe7aac71ca74392e",
+      "configs/eval.yaml": "c7147fdd2f01fde47cac80a070a6d4429b5658cfb281e7b075cebf6605ec26bf",
+      "tests/fixtures/p1_agent_manifest.json": "2fe77ad25c31911a407fc78c7048b4fe3df6f1bc49a8c90ac9f719225fd89228",
+      "tests/fixtures/p2_bm25_baseline_manifest.json": "1501737cb7dd826ef5755496213e4121cfca0abfcf1c9df0f2f3780780e493f6",
+      "tests/unit/test_isolated_repair_workflow.py": "455ab370c738152e47c073bd495e1d6b51cf0acbd318e9ce1dfaea5ca52f8ca8"
+    }
+  },
+  "environment": {
+    "os": "Darwin",
+    "architecture": "arm64",
+    "python": "3.12.12",
+    "uv": "uv 0.9.26 (ee4f00362 2026-01-15)",
+    "separate_virtualenv": true,
+    "installed_distribution_count_including_editable_project": 61,
+    "installation": {
+      "command": "uv sync --locked --offline --python <existing-managed-python-3.12.12>",
+      "exit_code": 0,
+      "existing_interpreter_and_package_cache_reused": true,
+      "new_operating_system_or_empty_package_cache": false
+    },
+    "child_environment_removed_prefixes": [
+      "REPOPILOT_",
+      "OPENAI_",
+      "LANGSMITH_",
+      "LANGCHAIN_",
+      "OTEL_"
+    ],
+    "child_environment_removed_names": [
+      "DATABASE_URL",
+      "PYTHONPATH",
+      "PYTHONHOME",
+      "VIRTUAL_ENV"
+    ],
+    "pytest_plugin_autoload_disabled": true,
+    "dotenv_files_loaded": false
+  },
+  "commands": [
+    {
+      "label": "scripted_investigation",
+      "command": ".venv/bin/repopilot run-fixture --manifest tests/fixtures/p1_agent_manifest.json --output-dir <new-output>/p1 --config configs/default.yaml",
+      "exit_code": 0,
+      "wall_seconds": 5.03
+    },
+    {
+      "label": "investigation_replay",
+      "command": ".venv/bin/repopilot replay --trace <new-output>/p1/trace.json",
+      "exit_code": 0,
+      "wall_seconds": 0.997
+    },
+    {
+      "label": "synthetic_bm25",
+      "command": ".venv/bin/repopilot eval-bm25 --manifest tests/fixtures/p2_bm25_baseline_manifest.json --output-dir <new-output>/bm25 --config configs/eval.yaml",
+      "exit_code": 0,
+      "wall_seconds": 1.028
+    },
+    {
+      "label": "complete_repair_contract",
+      "command": ".venv/bin/pytest -q tests/unit/test_isolated_repair_workflow.py::test_real_repair_graph_uses_isolated_regressions_without_leaking_source --basetemp <new-empty-pytest-output>",
+      "exit_code": 0,
+      "passed": 2,
+      "pytest_seconds": 2.13,
+      "wall_seconds": 3.169
+    },
+    {
+      "label": "ordinary_offline_suite",
+      "command": ".venv/bin/pytest -q -m \"not integration and not real_model and not eval\"",
+      "exit_code": 0,
+      "passed": 2112,
+      "skipped": 10,
+      "deselected": 21,
+      "pytest_seconds": 57.1
+    },
+    {
+      "label": "lint",
+      "command": ".venv/bin/ruff check src tests scripts",
+      "exit_code": 0
+    },
+    {
+      "label": "format",
+      "command": ".venv/bin/ruff format --check src tests scripts",
+      "exit_code": 0,
+      "already_formatted_files": 246
+    },
+    {
+      "label": "typecheck",
+      "command": ".venv/bin/mypy src/repopilot",
+      "exit_code": 0,
+      "checked_source_files": 89
+    }
+  ],
+  "scripted_investigation": {
+    "status": "stopped",
+    "termination_reason": "agent_stopped",
+    "task_metrics": {
+      "issue_reproduced": false,
+      "patch_applied": false,
+      "tests_passed": true,
+      "task_success": false,
+      "tool_steps": 3
+    },
+    "fake_provider": true,
+    "fake_sandbox": true,
+    "token_and_cost_values_are_simulated": true,
+    "replay_passed": true,
+    "files": [
+      {
+        "relative_path": "artifacts/p7-clean-run-v1/investigation/result.json",
+        "sha256": "b648a586f8ca1c6a26638ea34a4943eeaa54de678f1e4aae1581fa02fc020abe",
+        "size_bytes": 1145
+      },
+      {
+        "relative_path": "artifacts/p7-clean-run-v1/investigation/trace.json",
+        "sha256": "1209f474504ccad5557a9a3dc8e7d0d5b0e22f2e0fcce07e7f24607bfe5e6df8",
+        "size_bytes": 347569
+      }
+    ]
+  },
+  "repair_contract": {
+    "production_repair_workflow_and_verifier": true,
+    "fake_provider": true,
+    "sandbox": "test_only_trusted_local_fixture_adapter",
+    "actual_git_apply_and_pytest": true,
+    "docker_isolation": false,
+    "external_repository_host_execution": false,
+    "hidden_regression_isolation_assertions_passed": true,
+    "cases": [
+      {
+        "case": "repair-fixed",
+        "status": "success",
+        "termination_reason": "success",
+        "task_metrics": {
+          "issue_reproduced": true,
+          "patch_applied": true,
+          "tests_passed": true,
+          "task_success": true,
+          "tool_steps": 5
+        },
+        "reproduction_status": "reproduced",
+        "validation_status": "passed",
+        "replay_passed": true,
+        "verifier_reconstruction_passed": true,
+        "verified_artifact_references": 11,
+        "files": [
+          {
+            "relative_path": "artifacts/p7-clean-run-v1/repair-fixed/result.json",
+            "sha256": "8d187293e00dff0ea85ecce845158357e0052890aecf2f17dabe0235ff38dcec",
+            "size_bytes": 3844
+          },
+          {
+            "relative_path": "artifacts/p7-clean-run-v1/repair-fixed/trace.json",
+            "sha256": "c689ac71398f75d5f2e9e31f7fcf05f21de79782340db356b3bc90ac57ac7d2a",
+            "size_bytes": 860413
+          },
+          {
+            "relative_path": "artifacts/p7-clean-run-v1/repair-fixed/artifacts.json",
+            "sha256": "aa01f4ae58f562b2e0ac2cf0872401167d05eefba9d137060a1a9d39b028b217",
+            "size_bytes": 3925
+          }
+        ]
+      },
+      {
+        "case": "repair-still-fails",
+        "status": "stopped",
+        "termination_reason": "max_steps",
+        "task_metrics": {
+          "issue_reproduced": true,
+          "patch_applied": true,
+          "tests_passed": false,
+          "task_success": false,
+          "tool_steps": 5
+        },
+        "reproduction_status": "reproduced",
+        "validation_status": "failed",
+        "replay_passed": true,
+        "verifier_reconstruction_passed": true,
+        "verified_artifact_references": 11,
+        "files": [
+          {
+            "relative_path": "artifacts/p7-clean-run-v1/repair-still-fails/result.json",
+            "sha256": "1ebfad17635bd250a2f38c3836ad3abd3e9e12c402e5b941be5e4e2e863e3a0c",
+            "size_bytes": 3954
+          },
+          {
+            "relative_path": "artifacts/p7-clean-run-v1/repair-still-fails/trace.json",
+            "sha256": "e7956a5d44fda3b933fd7a960d147ac0092a7a274e77e0f2eeaf9254fafbca29",
+            "size_bytes": 809741
+          },
+          {
+            "relative_path": "artifacts/p7-clean-run-v1/repair-still-fails/artifacts.json",
+            "sha256": "03780caee34e32978dbab85f970d1d44e1ad1da900c25ed63cfcb39e5584fce8",
+            "size_bytes": 3926
+          }
+        ]
+      }
+    ]
+  },
+  "synthetic_bm25": {
+    "benchmark_id": "p2.synthetic-smoke",
+    "task_count": 3,
+    "summary": {
+      "task_count": 3,
+      "tasks_with_relevant_file": 3,
+      "mean_file_recall_at_1": 1.0,
+      "mean_file_recall_at_3": 1.0,
+      "mean_file_recall_at_5": 1.0,
+      "mean_reciprocal_rank": 1.0,
+      "indexing_latency_ms": 35,
+      "total_retrieval_latency_ms": 1,
+      "mean_retrieval_latency_ms": 0.3333333333333333
+    },
+    "real_world_accuracy_claim": false,
+    "files": [
+      {
+        "relative_path": "artifacts/p7-clean-run-v1/bm25/baseline.json",
+        "sha256": "0387ffb8435d710539a611a270a37f899e564776f0631b0465fe2e88354db197",
+        "size_bytes": 5541
+      },
+      {
+        "relative_path": "artifacts/p7-clean-run-v1/bm25/bm25-index.json",
+        "sha256": "f684eae94d7a105282e9d02eef084aaa6da739dc43c2ded087b3fe84c6c5bcbc",
+        "size_bytes": 20604
+      },
+      {
+        "relative_path": "artifacts/p7-clean-run-v1/bm25/chunks.jsonl",
+        "sha256": "ebe530d8f437ab70690570b8f99c11907e6d1e8ac2f8e1abac44e27b2969dceb",
+        "size_bytes": 11567
+      },
+      {
+        "relative_path": "artifacts/p7-clean-run-v1/bm25/summary.md",
+        "sha256": "a5af78794b1e40721682c06be796189ecc47695a6c33ffe7c36b31e56d099a9a",
+        "size_bytes": 909
+      },
+      {
+        "relative_path": "artifacts/p7-clean-run-v1/bm25/tasks.csv",
+        "sha256": "358fb9d2ef0b826223b3ddbbc696b90a3e28ee6856ddccaf32bd01bf21384f94",
+        "size_bytes": 937
+      },
+      {
+        "relative_path": "artifacts/p7-clean-run-v1/bm25/tasks.jsonl",
+        "sha256": "75212e31fd160088ea45ed1b74c64c3f9d45ef2727dbaf14251cc5f972dbd880",
+        "size_bytes": 3011
+      }
+    ]
+  },
+  "side_effects": {
+    "live_provider_requests": 0,
+    "paid_requests": 0,
+    "docker_requests": 0,
+    "embedding_model_loads": 0,
+    "cloud_mutations": 0,
+    "existing_v6_scores_changed": false,
+    "network_packet_audit_performed": false
+  },
+  "limitations": [
+    "A fresh full Git checkout and separate virtual environment were tested, not a fresh OS or uncached dependency download.",
+    "The tested runtime/config/test/lock input hashes match the S9 worktree. The source commit precedes documentation-only S9 edits.",
+    "Fake Provider fixtures validate workflow contracts, not autonomous LLM problem-solving or real-world repair accuracy.",
+    "The trusted local fixture adapter is not the production Docker sandbox; no new Docker compatibility claim is made.",
+    "Full-history Git tests and locally retained raw evidence availability affect skip counts. Opt-in integration, real-model and eval tests were excluded.",
+    "Retained output files are local ignored artifacts, not bundled in Git; this receipt publishes observed hashes and checks, not a signed attestation.",
+    "Fresh reruns vary in timestamps, artifact IDs and local paths; semantic outcomes are reproducible, output bytes need not be identical.",
+    "Recorded timings are one local smoke run, not performance benchmarks; v6 metrics and earlier paid-accounting estimates remain unchanged."
+  ],
+  "content_sha256": "de65d148b4e8cc32302c6da6128b00f5a202b9e2ab54d6f7dbbc9ceb5a3c357d"
+}

@@ -176,6 +176,26 @@ def test_parser_returns_bounded_safe_summary() -> None:
     assert parsed.summary.sha256 == hashlib.sha256(VALID_DIFF.encode()).hexdigest()
 
 
+def test_normalization_artifact_is_what_the_sandbox_receives() -> None:
+    task = make_task()
+    sandbox = StubPatchSandbox()
+    session = PatchToolSession(
+        sandbox=sandbox,
+        handle=make_handle(task),
+        task=task,
+        limits=limits(),
+        preview_bytes=1_000,
+    )
+    proposal = VALID_DIFF.replace("-1,2 +1,2", "-1,20 +1,1")
+    result = session.apply(proposal, call=make_call("apply_patch", {"diff": proposal}))
+    assert result.status is PatchStatus.APPLIED
+    assert sandbox.staged == [VALID_DIFF.encode()]
+    assert result.summary is not None
+    assert result.summary.original_sha256 == hashlib.sha256(proposal.encode()).hexdigest()
+    assert result.patch_state.diff_ref is not None
+    assert result.patch_state.diff_ref.sha256 == result.summary.sha256
+
+
 @pytest.mark.parametrize(
     ("candidate", "code"),
     [
@@ -198,10 +218,6 @@ def test_parser_returns_bounded_safe_summary() -> None:
         (
             VALID_DIFF.replace("--- a/pkg/module.py\n", "new file mode 100644\n"),
             PatchErrorCode.UNSUPPORTED_PATCH,
-        ),
-        (
-            VALID_DIFF.replace("@@ -1,2 +1,2 @@", "@@ -1,3 +1,2 @@"),
-            PatchErrorCode.INVALID_DIFF,
         ),
         (
             TWO_HUNK_DIFF.replace("@@ -3 +3 @@", "@@ -3 +1 @@"),
@@ -344,6 +360,32 @@ def test_sandbox_conflict_and_artifact_mismatch_are_typed_rejections() -> None:
     assert conflict_result.patch_state.status is PatchStatus.NONE
     assert mismatch_result.error_code is PatchErrorCode.ARTIFACT_MISMATCH
     assert mismatch_result.observation is None
+
+
+def test_protected_test_rejection_preserves_unchanged_candidate_state() -> None:
+    task = make_task()
+    rejection = observation(
+        exit_code=44,
+        error_type=ErrorType.PATCH_ERROR,
+        stderr="repopilot_patch_error:protected_test_path\n",
+    )
+    session = PatchToolSession(
+        sandbox=StubPatchSandbox(observations=[rejection]),
+        handle=make_handle(task),
+        task=task,
+        limits=limits(),
+        preview_bytes=64,
+    )
+    before = session.state
+
+    result = session.apply(VALID_DIFF, call=make_call("apply_patch", {"diff": VALID_DIFF}))
+
+    assert result.error_code is PatchErrorCode.PROTECTED_TEST_PATH
+    assert result.patch_state == before == session.state
+    assert result.observation == rejection
+    assert "no candidate source changes were applied" in result.message
+    assert "source-only patch" in result.message
+    assert not session.inspect().available
 
 
 def test_inspect_before_success_is_explicitly_unavailable() -> None:

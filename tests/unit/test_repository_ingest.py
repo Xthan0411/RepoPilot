@@ -18,6 +18,7 @@ from repopilot.retrieval import (
     RepositoryIgnorePolicy,
     RepositoryIngestError,
     RepositoryIngestor,
+    RepositoryIngestScanPolicy,
     RepositoryManifest,
     RepositorySource,
     SkippedRepositorySource,
@@ -129,6 +130,13 @@ def test_fixture_manifest_is_complete_sorted_and_repeatable() -> None:
     assert all(len(source.content_hash) == 64 for source in first.files)
     assert len({source.source_id for source in first.files}) == len(first.files)
     verify_repository_manifest_integrity(first)
+    # The internal scan ceiling is not part of source identity. Existing complete
+    # inventories retain their pre-separation digest and manifest schema.
+    assert first.content_sha256 == (
+        "1abeb9390f06d7099094be1542f0dfe02bb1bc6b5cf1eedfb9cc67ef7a9749e6"
+    )
+    assert first.schema_version == 1
+    assert "scan_policy" not in first.model_dump()
 
 
 def test_manifest_order_does_not_depend_on_repository_listing_order(
@@ -254,18 +262,20 @@ def test_binary_invalid_utf8_oversized_and_symlink_sources_are_typed_skips(
     )
 
 
-def test_listing_limit_is_fatal_instead_of_producing_partial_manifest(
+def test_internal_listing_limit_is_fatal_instead_of_producing_partial_manifest(
     tmp_path: Path,
 ) -> None:
     for name in ("a.py", "b.py", "c.py"):
         tmp_path.joinpath(name).write_text(f"{name}\n", encoding="utf-8")
-    repository = ReadOnlyRepository(
-        tmp_path,
-        policy=RepositoryAccessPolicy(max_list_entries=2),
-    )
+    repository = ReadOnlyRepository(tmp_path)
 
     with pytest.raises(RepositoryIngestError) as captured:
-        ingest_repository(repository, repository_id=REPOSITORY_ID, commit=COMMIT)
+        ingest_repository(
+            repository,
+            repository_id=REPOSITORY_ID,
+            commit=COMMIT,
+            scan_policy=RepositoryIngestScanPolicy(max_list_entries=2),
+        )
 
     assert_ingest_error(captured, RepositoryIngestErrorCode.LISTING_TRUNCATED)
     assert "a.py" not in str(captured.value)
@@ -500,5 +510,72 @@ def test_ingestor_object_exposes_effective_policy_and_empty_repository(
     manifest = ingestor.build(repository_id=REPOSITORY_ID, commit=COMMIT)
 
     assert ingestor.ignore_policy == manifest.ignore_policy
+    assert ingestor.scan_policy == RepositoryIngestScanPolicy()
     assert manifest.files == ()
     assert manifest.skipped_sources == ()
+
+
+@pytest.mark.parametrize("invalid_limit", [0, -1, 20_001, True, 2.0, "2000", None])
+def test_internal_scan_limit_is_strict_positive_and_bounded(invalid_limit: object) -> None:
+    with pytest.raises(ValidationError):
+        RepositoryIngestScanPolicy.model_validate({"max_list_entries": invalid_limit})
+
+
+def test_internal_scan_policy_is_versioned_and_does_not_change_agent_policy(
+    tmp_path: Path,
+) -> None:
+    repository = ReadOnlyRepository(tmp_path, policy=RepositoryAccessPolicy(max_list_entries=7))
+    scan_policy = RepositoryIngestScanPolicy(max_list_entries=19)
+    ingestor = RepositoryIngestor(repository, scan_policy=scan_policy)
+
+    assert ingestor.scan_policy == scan_policy
+    assert ingestor.scan_policy.policy_version == 1
+    assert repository.policy.max_list_entries == 7
+    assert RepositoryIngestScanPolicy().max_list_entries == 20_000
+    with pytest.raises(ValidationError):
+        RepositoryIngestScanPolicy.model_validate({"policy_version": 2})
+
+
+def test_over_2000_real_entries_index_completely_while_agent_listing_stays_bounded(
+    tmp_path: Path,
+) -> None:
+    for index in range(2_005):
+        (tmp_path / f"source_{index:04d}.py").write_text("value = 1\n", encoding="utf-8")
+    repository = ReadOnlyRepository(tmp_path)
+    first = ingest_repository(repository, repository_id=REPOSITORY_ID, commit=COMMIT)
+    second = ingest_repository(repository, repository_id=REPOSITORY_ID, commit=COMMIT)
+    listing = repository.list_directory()
+
+    assert first == second
+    assert len(first.files) == 2_005
+    assert first.files[-1].relative_path == "source_2004.py"
+    assert first.skipped_sources == ()
+    assert listing.truncated
+    assert len(listing.entries) == repository.policy.max_list_entries == 2_000
+
+
+def test_internal_scan_ceiling_counts_directories_and_accepts_exact_boundary(
+    tmp_path: Path,
+) -> None:
+    nested = tmp_path / "pkg"
+    nested.mkdir()
+    (nested / "source.py").write_text("value = 1\n", encoding="utf-8")
+    repository = ReadOnlyRepository(tmp_path)
+    exact = ingest_repository(
+        repository,
+        repository_id=REPOSITORY_ID,
+        commit=COMMIT,
+        scan_policy=RepositoryIngestScanPolicy(max_list_entries=2),
+    )
+    larger = ingest_repository(repository, repository_id=REPOSITORY_ID, commit=COMMIT)
+
+    assert tuple(source.relative_path for source in exact.files) == ("pkg/source.py",)
+    assert exact == larger
+    with pytest.raises(RepositoryIngestError) as captured:
+        ingest_repository(
+            repository,
+            repository_id=REPOSITORY_ID,
+            commit=COMMIT,
+            scan_policy=RepositoryIngestScanPolicy(max_list_entries=1),
+        )
+    assert_ingest_error(captured, RepositoryIngestErrorCode.LISTING_TRUNCATED)

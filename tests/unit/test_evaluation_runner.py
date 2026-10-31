@@ -13,6 +13,7 @@ from uuid import UUID
 import pytest
 from pydantic import ValidationError
 
+from repopilot import repair_workflow as workflow
 from repopilot.config import RepoPilotSettings
 from repopilot.enums import (
     DatasetSplit,
@@ -20,6 +21,8 @@ from repopilot.enums import (
     EvaluationRunnerErrorCode,
     MemoryAccessMode,
     ModelProvider,
+    RepairWorkflowErrorCode,
+    RepositoryIngestErrorCode,
     ReproductionStatus,
     RunStatus,
     TerminationReason,
@@ -41,6 +44,8 @@ from repopilot.evals import (
     load_evaluation_run_manifest,
     run_evaluation,
 )
+from repopilot.evals import runner as runner_module
+from repopilot.retrieval import RepositoryIngestError
 from repopilot.schemas import (
     ArtifactRef,
     EvaluationTaskSpec,
@@ -52,6 +57,7 @@ from repopilot.schemas import (
     UsageMetrics,
     ValidationResult,
 )
+from repopilot.tools import ReadOnlyRepository
 
 FIXTURES = Path(__file__).parents[1] / "fixtures"
 RUN_ID = UUID("622bb729-f4bf-4dd8-b6f3-a591ee3f45ea")
@@ -128,6 +134,19 @@ def _artifact_ref(path: Path) -> ArtifactRef:
         sha256=hashlib.sha256(content).hexdigest(),
         size_bytes=len(content),
         media_type="application/json",
+    )
+
+
+def _failed_diagnostic(
+    root: Path, manifest: EvaluationRunManifest
+) -> tuple[Path, runner_module.EvaluationFailureDiagnostic]:
+    store = FileEvaluationRunStore(root)
+    event = store.read_events(manifest)[-1]
+    diagnostic = store.read_failure_diagnostic(manifest, event)
+    assert diagnostic is not None
+    return (
+        root / event.output_path / runner_module.EVALUATION_FAILURE_DIAGNOSTIC_FILENAME,
+        diagnostic,
     )
 
 
@@ -626,3 +645,235 @@ def test_runner_rejects_unsafe_roots_conflicts_concurrency_and_resume_overflow(
             clock=lambda: CREATED_AT,
         )
     assert unsafe.value.code is EvaluationRunnerErrorCode.PATH_UNSAFE
+
+
+@pytest.mark.parametrize("unexpected", [False, True])
+def test_retrieval_failure_preserves_safe_ingest_stage(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, unexpected: bool
+) -> None:
+    task = _tasks(tmp_path, count=1)[0].task.model_copy(update={"repository_path": str(tmp_path)})
+    secret = "sk-private-secret postgresql://user:password@host/db hidden prompt"
+
+    class UnprintableError(RuntimeError):
+        def __str__(self) -> str:
+            raise AssertionError("exception message must never be rendered")
+
+    def fail_ingest(*args: object, **kwargs: object) -> Any:
+        if unexpected:
+            raise UnprintableError(secret)
+        error = RepositoryIngestError(RepositoryIngestErrorCode.LISTING_TRUNCATED)
+        error.args = (secret,)
+        raise error
+
+    monkeypatch.setattr(workflow, "ingest_repository", fail_ingest)
+    with pytest.raises(workflow.RepairWorkflowError) as error:
+        workflow.build_repair_retrieval_context(
+            ReadOnlyRepository(tmp_path), task, RepoPilotSettings()
+        )
+    assert error.value.code is RepairWorkflowErrorCode.RETRIEVAL_FAILURE
+    assert error.value.detail.stage == "ingest"
+    assert error.value.detail.cause_code == (
+        "unexpected_exception" if unexpected else "listing_truncated"
+    )
+    assert secret not in error.value.detail.model_dump_json()
+
+
+def test_workflow_detail_survives_executor_and_binds_failed_event(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    tasks = _tasks(tmp_path, count=1)
+    manifest = _manifest(tasks)
+    detail = workflow.RepairFailureDetail(stage="ingest", cause_code="listing_truncated")
+
+    def fail_workflow(*args: object, **kwargs: object) -> Any:
+        raise workflow.RepairWorkflowError(RepairWorkflowErrorCode.RETRIEVAL_FAILURE, detail=detail)
+
+    monkeypatch.setattr(runner_module, "run_repair_request", fail_workflow)
+    root = tmp_path / "run"
+    report = run_evaluation(
+        manifest=manifest,
+        tasks=tasks,
+        output_dir=root,
+        executor=runner_module.RepairWorkflowEvaluationExecutor(RepoPilotSettings(), IMAGE),
+        clock=lambda: CREATED_AT,
+    )
+    path, diagnostic = _failed_diagnostic(root, manifest)
+    event = FileEvaluationRunStore(root).read_events(manifest)[-1]
+    assert diagnostic.stage == detail.stage
+    assert diagnostic.cause_code == detail.cause_code
+    assert diagnostic.failed_event_content_sha256 == event.content_sha256
+    assert diagnostic.manifest_content_sha256 == manifest.content_sha256
+    assert diagnostic.execution_run_id == event.execution_run_id
+    assert diagnostic.run_id == manifest.run_id
+    assert diagnostic.task_id == tasks[0].task.task_id
+    assert diagnostic.provider_requests_made == "unknown"
+    assert diagnostic.budget_reserve_unchanged
+    assert report.failed_attempts == 1
+    assert report.attempts[0].execution_count == 1
+    assert report.attempts[0].failure_code is EvaluationRunnerErrorCode.EXECUTION_FAILURE
+    assert path.stat().st_mode & 0o777 == 0o600
+    assert not (path.parent / "trace.json").exists()
+    assert "diagnostic" not in event.model_dump_json()
+
+
+def test_unexpected_error_never_serializes_arbitrary_message_code_or_class(tmp_path: Path) -> None:
+    tasks = _tasks(tmp_path, count=1)
+    manifest = _manifest(tasks)
+    secret = "sk-private-key postgresql://private:secret@host/db PROMPT_PRIVATE"
+
+    class LeakyError(RuntimeError):
+        code: str
+
+    class FailedExecutor:
+        def execute(self, request: EvaluationExecutionRequest) -> EvaluationExecutionEvidence:
+            error = LeakyError(secret)
+            error.code = secret
+            raise error
+
+    root = tmp_path / "run"
+    run_evaluation(manifest=manifest, tasks=tasks, output_dir=root, executor=FailedExecutor())
+    path, diagnostic = _failed_diagnostic(root, manifest)
+    assert diagnostic.stage == "executor"
+    assert diagnostic.cause_code == "unexpected_exception"
+    for forbidden in (secret, "LeakyError", "Traceback", "PROMPT_PRIVATE", "postgresql://"):
+        assert forbidden not in path.read_text(encoding="utf-8")
+    with pytest.raises(ValidationError):
+        workflow.RepairFailureDetail(stage="executor", cause_code=secret)
+    with pytest.raises(ValidationError):
+        workflow.RepairFailureDetail(stage=secret, cause_code="unexpected_exception")  # type: ignore[arg-type]
+
+
+def test_diagnostic_create_only_and_legacy_event_compatibility(tmp_path: Path) -> None:
+    tasks = _tasks(tmp_path, count=1)
+    manifest = _manifest(tasks)
+    root = tmp_path / "run"
+    run_evaluation(
+        manifest=manifest,
+        tasks=tasks,
+        output_dir=root,
+        executor=JsonFakeExecutor(manifest, fail_task_id=tasks[0].task.task_id),
+    )
+    path, diagnostic = _failed_diagnostic(root, manifest)
+    original = path.read_bytes()
+    store = FileEvaluationRunStore(root)
+    failed = store.read_events(manifest)[-1]
+    with pytest.raises(EvaluationRunnerError) as conflict:
+        store.write_failure_diagnostic(manifest, failed, diagnostic)
+    assert conflict.value.code is EvaluationRunnerErrorCode.OUTPUT_CONFLICT
+    assert path.read_bytes() == original
+    events_before = tuple(p.read_bytes() for p in sorted((root / "events").glob("*.json")))
+    path.unlink()  # Simulate a retained historical FAILED event without the new optional sidecar.
+    old_report = inspect_evaluation_run(root)
+    assert old_report.failed_attempts == 1
+    assert store.read_failure_diagnostic(manifest, failed) is None
+    assert events_before == tuple(p.read_bytes() for p in sorted((root / "events").glob("*.json")))
+
+
+@pytest.mark.parametrize("tamper", ["digest", "binding", "symlink"])
+def test_existing_failure_diagnostic_is_validated(tmp_path: Path, tamper: str) -> None:
+    tasks = _tasks(tmp_path, count=1)
+    manifest = _manifest(tasks)
+    root = tmp_path / "run"
+    run_evaluation(
+        manifest=manifest,
+        tasks=tasks,
+        output_dir=root,
+        executor=JsonFakeExecutor(manifest, fail_task_id=tasks[0].task.task_id),
+    )
+    path, diagnostic = _failed_diagnostic(root, manifest)
+    if tamper == "symlink":
+        outside = tmp_path / "outside.json"
+        outside.write_bytes(path.read_bytes())
+        path.unlink()
+        path.symlink_to(outside)
+    else:
+        payload = diagnostic.model_dump(mode="python", exclude={"content_sha256"})
+        payload["task_id"] = "different-task"
+        payload["content_sha256"] = (
+            runner_module._canonical_sha256(payload) if tamper == "binding" else "a" * 64
+        )
+        path.write_text(runner_module._canonical_json(payload), encoding="utf-8")
+    with pytest.raises(EvaluationRunnerError) as invalid:
+        inspect_evaluation_run(root)
+    assert invalid.value.code in {
+        EvaluationRunnerErrorCode.ARTIFACT_INTEGRITY,
+        EvaluationRunnerErrorCode.PATH_UNSAFE,
+    }
+
+
+@pytest.mark.parametrize("symlink", [False, True])
+def test_failure_diagnostic_collision_retains_original_failed_event(
+    tmp_path: Path, symlink: bool
+) -> None:
+    tasks = _tasks(tmp_path, count=1)
+    manifest = _manifest(tasks)
+    outside = tmp_path / "outside"
+    outside.write_text("untouched", encoding="utf-8")
+
+    class CollisionExecutor:
+        def execute(self, request: EvaluationExecutionRequest) -> EvaluationExecutionEvidence:
+            target = request.output_dir / runner_module.EVALUATION_FAILURE_DIAGNOSTIC_FILENAME
+            if symlink:
+                target.symlink_to(outside)
+            else:
+                target.write_text("untouched", encoding="utf-8")
+            raise RuntimeError("not serialized")
+
+    root = tmp_path / "run"
+    with pytest.raises(EvaluationRunnerError) as conflict:
+        run_evaluation(
+            manifest=manifest,
+            tasks=tasks,
+            output_dir=root,
+            executor=CollisionExecutor(),
+        )
+    assert conflict.value.code is EvaluationRunnerErrorCode.OUTPUT_CONFLICT
+    events = tuple(
+        runner_module.EvaluationAttemptEvent.model_validate_json(path.read_bytes())
+        for path in sorted((root / "events").glob("*.json"))
+    )
+    assert events[-1].status is EvaluationAttemptStatus.FAILED
+    assert events[-1].failure_code is EvaluationRunnerErrorCode.EXECUTION_FAILURE
+    assert outside.read_text(encoding="utf-8") == "untouched"
+
+
+def test_artifact_integrity_failure_has_safe_evidence_stage(tmp_path: Path) -> None:
+    tasks = _tasks(tmp_path, count=1)
+    manifest = _manifest(tasks)
+    root = tmp_path / "run"
+    run_evaluation(
+        manifest=manifest,
+        tasks=tasks,
+        output_dir=root,
+        executor=JsonFakeExecutor(manifest, corrupt_reference=True),
+    )
+    _, diagnostic = _failed_diagnostic(root, manifest)
+    assert diagnostic.stage == "evidence_verification"
+    assert diagnostic.cause_code == "artifact_integrity"
+
+
+def test_diagnostic_refuses_a_symlinked_execution_parent(tmp_path: Path) -> None:
+    tasks = _tasks(tmp_path, count=1)
+    manifest = _manifest(tasks)
+    root = tmp_path / "run"
+    run_evaluation(
+        manifest=manifest,
+        tasks=tasks,
+        output_dir=root,
+        executor=JsonFakeExecutor(manifest, fail_task_id=tasks[0].task.task_id),
+    )
+    path, diagnostic = _failed_diagnostic(root, manifest)
+    store = FileEvaluationRunStore(root)
+    event = store.read_events(manifest)[-1]
+    original_bytes = path.read_bytes()
+    original_parent = path.parent
+    saved = tmp_path / "saved-execution"
+    original_parent.rename(saved)
+    original_parent.symlink_to(saved, target_is_directory=True)
+    with pytest.raises(EvaluationRunnerError) as invalid:
+        store.write_failure_diagnostic(manifest, event, diagnostic)
+    assert invalid.value.code is EvaluationRunnerErrorCode.PATH_UNSAFE
+    assert saved.joinpath(path.name).read_bytes() == original_bytes
+    with pytest.raises(EvaluationRunnerError) as read_invalid:
+        inspect_evaluation_run(root)
+    assert read_invalid.value.code is EvaluationRunnerErrorCode.PATH_UNSAFE

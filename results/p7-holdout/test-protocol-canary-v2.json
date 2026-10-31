@@ -1,0 +1,298 @@
+{
+  "protocol_version": "isolated-regression-tests-v1",
+  "controller_commit": "19cb83dd0370c4f450319040fe604f39cd002b3c",
+  "environment_raw_sha256": "b7c6f04283433859e462edb7105ad5411700703fa3557b1281fafc3ccb99890d",
+  "test_inputs_raw_sha256": "eeff30648f37afe50e512e48a7c828b6eb8149652161c266d55f81e46818fb4e",
+  "checked_at": "2026-10-29T02:40:11.410410+00:00",
+  "tasks": [
+    {
+      "task_id": "django__django-15902",
+      "base_commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+      "regression_patch_sha256": "67a72edaa143f54f78a735eb2bb65b0cf3499eb9bc8a219c44b4aec52ce3333a",
+      "baseline": [
+        {
+          "command_index": 0,
+          "status": "failed",
+          "category": "test_error",
+          "exit_code": 1,
+          "tests_run": 157,
+          "failures": 0,
+          "errors": 1,
+          "failing_test_count": 1,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "gold": [
+        {
+          "command_index": 0,
+          "status": "passed",
+          "category": "passed",
+          "exit_code": 0,
+          "tests_run": 157,
+          "failures": 0,
+          "errors": 0,
+          "failing_test_count": 0,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "baseline_reproduced": true,
+      "gold_verified": true
+    },
+    {
+      "task_id": "mwaskom__seaborn-3190",
+      "base_commit": "4a9e54962a29c12a8b103d75f838e0e795a6974d",
+      "regression_patch_sha256": "01e17193a78a28dd4f466984444568127713dc21a3f1fc6a75a30ddec5aacefe",
+      "baseline": [
+        {
+          "command_index": 0,
+          "status": "failed",
+          "category": "assertion_failure",
+          "exit_code": 1,
+          "tests_run": 1,
+          "failures": 1,
+          "errors": 0,
+          "failing_test_count": 1,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "gold": [
+        {
+          "command_index": 0,
+          "status": "passed",
+          "category": "passed",
+          "exit_code": 0,
+          "tests_run": 1,
+          "failures": 0,
+          "errors": 0,
+          "failing_test_count": 0,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "baseline_reproduced": true,
+      "gold_verified": true
+    },
+    {
+      "task_id": "pallets__flask-4992",
+      "base_commit": "4c288bc97ea371817199908d0d9b12de9dae327e",
+      "regression_patch_sha256": "851c94393511592a1e3b65ea1d909b73b342ef55388819c6bd9632edb71ad304",
+      "baseline": [
+        {
+          "command_index": 0,
+          "status": "failed",
+          "category": "assertion_failure",
+          "exit_code": 1,
+          "tests_run": 1,
+          "failures": 1,
+          "errors": 0,
+          "failing_test_count": 1,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "gold": [
+        {
+          "command_index": 0,
+          "status": "passed",
+          "category": "passed",
+          "exit_code": 0,
+          "tests_run": 1,
+          "failures": 0,
+          "errors": 0,
+          "failing_test_count": 0,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "baseline_reproduced": true,
+      "gold_verified": true
+    },
+    {
+      "task_id": "pydata__xarray-4094",
+      "base_commit": "a64cf2d5476e7bbda099b34c40b7be1880dbd39a",
+      "regression_patch_sha256": "3caf7bfbd1a31fc971a0aff74f090c426939bd36946300c3c5f54c30908ad24b",
+      "baseline": [
+        {
+          "command_index": 0,
+          "status": "failed",
+          "category": "assertion_failure",
+          "exit_code": 1,
+          "tests_run": 1,
+          "failures": 1,
+          "errors": 0,
+          "failing_test_count": 1,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "gold": [
+        {
+          "command_index": 0,
+          "status": "passed",
+          "category": "passed",
+          "exit_code": 0,
+          "tests_run": 1,
+          "failures": 0,
+          "errors": 0,
+          "failing_test_count": 0,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "baseline_reproduced": true,
+      "gold_verified": true
+    },
+    {
+      "task_id": "pydata__xarray-5131",
+      "base_commit": "e56905889c836c736152b11a7e6117a229715975",
+      "regression_patch_sha256": "fbdd3d0181400d2d880cdcf4f57e03ab279e07c46dffa8e0e5b68df67ea4e345",
+      "baseline": [
+        {
+          "command_index": 0,
+          "status": "failed",
+          "category": "assertion_failure",
+          "exit_code": 1,
+          "tests_run": 34,
+          "failures": 10,
+          "errors": 0,
+          "failing_test_count": 10,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "gold": [
+        {
+          "command_index": 0,
+          "status": "passed",
+          "category": "passed",
+          "exit_code": 0,
+          "tests_run": 34,
+          "failures": 0,
+          "errors": 0,
+          "failing_test_count": 0,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "baseline_reproduced": true,
+      "gold_verified": true
+    },
+    {
+      "task_id": "pytest-dev__pytest-11143",
+      "base_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+      "regression_patch_sha256": "ac7917b3fc8ece1dcdc386e506ca0f85153df928912f15cf264c46b3e08565f6",
+      "baseline": [
+        {
+          "command_index": 0,
+          "status": "failed",
+          "category": "assertion_failure",
+          "exit_code": 1,
+          "tests_run": 1,
+          "failures": 1,
+          "errors": 0,
+          "failing_test_count": 1,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "gold": [
+        {
+          "command_index": 0,
+          "status": "passed",
+          "category": "passed",
+          "exit_code": 0,
+          "tests_run": 1,
+          "failures": 0,
+          "errors": 0,
+          "failing_test_count": 0,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "baseline_reproduced": true,
+      "gold_verified": true
+    },
+    {
+      "task_id": "pytest-dev__pytest-11148",
+      "base_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+      "regression_patch_sha256": "2de425c018454ccdc21c39faab9d52436f7acfbde774b65f5df24354881fd6d6",
+      "baseline": [
+        {
+          "command_index": 0,
+          "status": "failed",
+          "category": "assertion_failure",
+          "exit_code": 1,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "failing_test_count": 2,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "gold": [
+        {
+          "command_index": 0,
+          "status": "passed",
+          "category": "passed",
+          "exit_code": 0,
+          "tests_run": 2,
+          "failures": 0,
+          "errors": 0,
+          "failing_test_count": 0,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "baseline_reproduced": true,
+      "gold_verified": true
+    },
+    {
+      "task_id": "sympy__sympy-20590",
+      "base_commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+      "regression_patch_sha256": "6d707e09c191585bacc8cde388d740f9539228ff19e7feab87221b6527f147f2",
+      "baseline": [
+        {
+          "command_index": 0,
+          "status": "failed",
+          "category": "assertion_failure",
+          "exit_code": 1,
+          "tests_run": 1,
+          "failures": 1,
+          "errors": 0,
+          "failing_test_count": 1,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "gold": [
+        {
+          "command_index": 0,
+          "status": "passed",
+          "category": "passed",
+          "exit_code": 0,
+          "tests_run": 1,
+          "failures": 0,
+          "errors": 0,
+          "failing_test_count": 0,
+          "truncated": false,
+          "verifier_accepts_evidence": true
+        }
+      ],
+      "baseline_reproduced": true,
+      "gold_verified": true
+    }
+  ],
+  "provider_requests_made": 0,
+  "paid_requests_made": 0,
+  "agent_constructed": false,
+  "gold_persisted_outside_temporary_evaluator": false,
+  "formal_environment_ready": false,
+  "formal_blockers": [
+    "new_source_freeze_and_authorization_required"
+  ],
+  "content_sha256": "327ae01c9ff1a0e45af53b4f9f2c5b76d0dd4a57e517a537edaba6e3666c1759"
+}

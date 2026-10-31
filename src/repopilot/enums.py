@@ -628,6 +628,7 @@ class PatchErrorCode(StrEnum):
     ROLLBACK_FAILED = "rollback_failed"
     INSPECT_UNAVAILABLE = "inspect_unavailable"
     SANDBOX_ERROR = "sandbox_error"
+    PROTECTED_TEST_PATH = "protected_test_path"
 
 
 @unique

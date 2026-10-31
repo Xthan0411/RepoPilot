@@ -1,5 +1,11 @@
 # P7-S6 authorization and zero-paid runtime readiness
 
+> **2026-10-28: this document records the historical v1 gate.** The new pytest and
+> isolated-evaluator source changes are outside its archive-mtime-only exception. A
+> replacement VM and new versioned controls must be qualified before paid execution;
+> the old source guard is intentionally unchanged. See
+> [the current repair note](p7-s6-test-protocol-repair.md).
+
 ## Status and purpose
 
 This is still P7-S6. P7-S7 begins only after all formal Holdout raw runs have reached a

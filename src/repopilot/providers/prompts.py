@@ -36,7 +36,7 @@ from repopilot.enums import (
 from repopilot.providers.base import ProviderRequest
 from repopilot.schemas import AgentState, PlanStep
 
-PROMPT_VERSION = "repopilot-agent-v1"
+PROMPT_VERSION = "repopilot-agent-v2"
 SYSTEM_INSTRUCTIONS = """\
 You are RepoPilot's decision component. Choose exactly one supplied function tool.
 
@@ -51,6 +51,17 @@ Use only a supplied tool and only its declared arguments. Do not invent paths, c
 tools, test argv, permissions, credentials, or evaluator answers. Select finish only when
 the active plan step is finish and the recorded evidence is sufficient. Finish is a
 request to enter deterministic verification; it is never proof that the repair succeeded.
+
+Repair production source only. Tests and evaluator inputs are read-only: do not modify,
+delete, disable, or bypass them. A protected-test rejection rejects the entire candidate;
+if one correction is offered, submit a new source-only diff, not the rejected candidate.
+
+Read the actual target source before editing. Prefer small, targeted read_file windows
+(roughly 40-100 lines) around relevant symbols; avoid repeated overlapping reads. During
+the patch step, once the source evidence is sufficient, propose a minimal patch instead
+of continuing broad inspection. Track the remaining budget and reserve enough decisions
+and tokens for apply_patch, run_tests, and finish. Budget pressure never permits skipping
+validation or claiming success without evidence.
 """
 _MAX_ITEM_STRING_CHARS = 8_000
 _MAX_RECENT_ITEMS = 10
@@ -234,7 +245,7 @@ def _render_agent_prompt(
     *,
     max_chars: int,
 ) -> str:
-    """Preserve the P5 Prompt rendering and selection behavior exactly."""
+    """Render bounded state with explicit remaining budgets and unchanged limits."""
 
     if isinstance(max_chars, bool) or not 4_096 <= max_chars <= 200_000:
         raise PromptBuildError("prompt character limit is invalid")
@@ -285,10 +296,15 @@ def _render_agent_prompt(
             "budget": {
                 "steps_used": state.budget.steps_used,
                 "max_steps": state.budget.max_steps,
+                "steps_remaining": max(0, state.budget.max_steps - state.budget.steps_used),
                 "tokens_used": state.budget.tokens_used,
                 "max_tokens": state.budget.max_tokens,
+                "tokens_remaining": max(0, state.budget.max_tokens - state.budget.tokens_used),
                 "cost_used_usd": str(state.budget.cost_used_usd),
                 "max_cost_usd": str(state.budget.max_cost_usd),
+                "cost_remaining_usd": str(
+                    max(0, state.budget.max_cost_usd - state.budget.cost_used_usd)
+                ),
                 "deadline_at": state.budget.deadline_at.isoformat(),
             },
             "repository_memory": [],

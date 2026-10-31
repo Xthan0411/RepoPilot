@@ -1,7 +1,9 @@
 # Third-party notices / 第三方来源说明
 
 RepoPilot original code is MIT-licensed. Upstream issue excerpts and evaluator patches in
-`data/manifests/p7-v1/source-rows.json` remain subject to their upstream licenses; the
+`data/manifests/p7-v1/source-rows.json`, the issue text in
+`results/p7-holdout/agent-inputs-v1.json`, and evaluator regressions in
+`results/p7-holdout/regression-tests-v1.json` remain subject to their upstream licenses; the
 RepoPilot license does not relicense them. The frozen manifest records each base commit,
 license blob identity, PR/issue URL, and source-row identity.
 
@@ -37,8 +39,25 @@ contains its own bundled third-party notices, retained in full.
 
 Runtime and development dependencies are declared in `pyproject.toml` and locked in
 `uv.lock`; their code and model weights are not vendored in this snapshot. Installing or
-downloading them uses their respective upstream terms. Optional Jina model code is
-revision-pinned and requires explicit remote-code trust configuration.
+downloading them uses their respective upstream terms. This is source attribution,
+not a claim of exhaustive legal or transitive-dependency license review.
+
+Key external components include [LangGraph](https://github.com/langchain-ai/langgraph),
+[LangChain Core](https://github.com/langchain-ai/langchain),
+[OpenAI Python SDK](https://github.com/openai/openai-python),
+[Pydantic](https://github.com/pydantic/pydantic),
+[Psycopg](https://github.com/psycopg/psycopg),
+[pgvector](https://github.com/pgvector/pgvector),
+[Sentence Transformers](https://github.com/huggingface/sentence-transformers),
+[Transformers](https://github.com/huggingface/transformers) and
+[PyTorch](https://github.com/pytorch/pytorch). The Docker daemon, task images, model
+weights and dependency sources are not distributed by this repository.
+
+The optional [Jina code embedding model](https://huggingface.co/jinaai/jina-embeddings-v2-base-code/tree/516f4baf13dec4ddddda8631e019b5737c8bc250)
+and its [remote implementation](https://huggingface.co/jinaai/jina-bert-v2-qk-post-norm/tree/3baf9e3ac750e76e8edd3019170176884695fb94)
+are revision-pinned; remote code requires explicit trust configuration. Consult the
+upstream terms before downloading or redistributing them. RepoPilot's MIT license
+does not grant rights to those weights, images or remote code.
 
 ## 中文说明
 

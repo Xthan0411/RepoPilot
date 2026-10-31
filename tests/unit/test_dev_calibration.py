@@ -13,6 +13,7 @@ import pytest
 from repopilot.enums import (
     CalibrationErrorCode,
     DatasetSplit,
+    ExperimentErrorCode,
     ReproductionStatus,
     RunStatus,
     TerminationReason,
@@ -26,6 +27,7 @@ from repopilot.evals import (
     EvaluationExecutionEvidence,
     EvaluationExecutionRequest,
     ExperimentArmSelection,
+    ExperimentError,
     ExperimentMatrix,
     PaidCalibrationAuthorization,
     build_dev_calibration_plan,
@@ -37,6 +39,7 @@ from repopilot.evals import (
     run_dev_calibration,
     write_calibration_artifact,
 )
+from repopilot.evals.experiments import FROZEN_PROMPT_VERSION
 from repopilot.schemas import (
     ArtifactRef,
     FinalResult,
@@ -185,6 +188,7 @@ def test_dev_loader_plan_and_preflight_never_load_holdout(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
+    monkeypatch.setattr("repopilot.evals.experiments.PROMPT_VERSION", FROZEN_PROMPT_VERSION)
     matrix = load_experiment_matrix(MATRIX_PATH, repository_root=PROJECT_ROOT)
     monkeypatch.setattr(
         "repopilot.evals.dataset.load_frozen_dataset",
@@ -275,7 +279,9 @@ def test_plan_rejects_wrong_approval_and_holdout_task() -> None:
 
 def test_fake_dev_matrix_retains_all_raw_runs_and_builds_clean_freeze(
     tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    monkeypatch.setattr("repopilot.evals.experiments.PROMPT_VERSION", FROZEN_PROMPT_VERSION)
     matrix = load_experiment_matrix(MATRIX_PATH, repository_root=PROJECT_ROOT)
     tasks = load_dev_calibration_tasks(matrix, repository_root=PROJECT_ROOT)
     authorization = _authorization(matrix)
@@ -357,7 +363,9 @@ def test_fake_dev_matrix_retains_all_raw_runs_and_builds_clean_freeze(
 
 def test_reported_cost_overrun_stops_before_another_arm_and_retains_raw_run(
     tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    monkeypatch.setattr("repopilot.evals.experiments.PROMPT_VERSION", FROZEN_PROMPT_VERSION)
     matrix = load_experiment_matrix(MATRIX_PATH, repository_root=PROJECT_ROOT)
     tasks = load_dev_calibration_tasks(matrix, repository_root=PROJECT_ROOT)
     authorization = _authorization(matrix)
@@ -399,3 +407,50 @@ def test_reported_cost_overrun_stops_before_another_arm_and_retains_raw_run(
     second = tmp_path / plan.run_slots[1].output_path
     assert first.joinpath("manifest.json").is_file()
     assert not second.exists()
+
+
+def test_old_dev_plan_cannot_execute_with_new_prompt_even_if_machine_report_was_ready(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr("repopilot.evals.experiments.PROMPT_VERSION", "repopilot-agent-v2")
+    monkeypatch.setattr(
+        "repopilot.evals.experiments.RepairWorkflowEvaluationExecutor",
+        lambda **_kwargs: pytest.fail("old dev plan must stop before executor construction"),
+    )
+    matrix = load_experiment_matrix(MATRIX_PATH, repository_root=PROJECT_ROOT)
+    tasks = load_dev_calibration_tasks(matrix, repository_root=PROJECT_ROOT)
+    authorization = _authorization(matrix)
+    tmp_path.joinpath("uv.lock").write_bytes(PROJECT_ROOT.joinpath("uv.lock").read_bytes())
+    preflight = build_dev_calibration_preflight(
+        matrix=matrix,
+        tasks=tasks,
+        repository_root=tmp_path,
+        checked_at=NOW,
+        facts=_facts(clean=True),
+    )
+    plan = build_dev_calibration_plan(
+        matrix=matrix,
+        authorization=authorization,
+        tasks=tasks,
+        created_at=NOW,
+        source_commit=COMMIT,
+        source_dirty=False,
+    )
+    assert preflight.ready_for_paid_dev  # A stored machine check cannot authorize Prompt drift.
+
+    with pytest.raises(ExperimentError) as caught:
+        run_dev_calibration(
+            plan=plan,
+            matrix=matrix,
+            authorization=authorization,
+            preflight=preflight,
+            tasks=tasks,
+            repository_root=tmp_path,
+            openai_api_key="placeholder-not-used",
+            database_url="postgresql://placeholder-not-used",
+            completed_at=NOW,
+        )
+
+    assert caught.value.code is ExperimentErrorCode.FAIRNESS_VIOLATION
+    assert not tmp_path.joinpath(plan.run_slots[0].output_path).exists()

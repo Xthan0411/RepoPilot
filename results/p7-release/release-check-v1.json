@@ -1,0 +1,133 @@
+{
+  "receipt_version": "p7-public-release-check-v1",
+  "checked_on": "2026-10-31",
+  "scope": "P7-S10 core MVP report and curated public snapshot; no video or new experiment",
+  "public_repository": "https://github.com/Xthan0411/RepoPilot",
+  "public_parent_commit": "309b67a41a576394826a3aec32fbde2adc145f4f",
+  "internal_source_parent": "be77085bbfdee6c986ac4f1250d9e498afb984be",
+  "environment": {
+    "os": "darwin",
+    "machine": "arm64",
+    "python": "3.12.12",
+    "uv": "0.9.26",
+    "separate_public_clone": true,
+    "independent_virtualenv": true,
+    "existing_python_and_dependency_cache_reused": true,
+    "empty_cache_or_fresh_os_install": false
+  },
+  "test_program_inputs": {
+    "file_count": 278,
+    "sha256": "ff94707d160e1fc8f0892d405bfdac108974bd99f43c71de091986c5173f02c5",
+    "selection": [
+      "src/",
+      "tests/",
+      "scripts/",
+      "configs/",
+      "migrations/",
+      ".github/",
+      "pyproject.toml",
+      "uv.lock",
+      "compose.yaml",
+      ".python-version"
+    ],
+    "hash_protocol": "SHA-256 of UTF-8 compact JSON, sorted keys, sorted list of {path, sha256}; paths relative to repository"
+  },
+  "checks": {
+    "dependency_install": {
+      "command": "uv sync --locked --offline --python <cached-python-3.12>",
+      "passed": true
+    },
+    "pytest": {
+      "command": ".venv/bin/pytest -q -rs --tb=short -m 'not integration and not real_model and not eval'",
+      "passed": 2112,
+      "skipped": 13,
+      "deselected": 21,
+      "failed": 0,
+      "errors": 0,
+      "elapsed_seconds": 54.95,
+      "third_party_plugin_autoload_disabled": true,
+      "model_database_tracing_overrides_removed": true,
+      "skips": {
+        "excluded_raw_archives": 10,
+        "private_historical_git_objects": 3
+      }
+    },
+    "ruff_lint": {
+      "command": ".venv/bin/ruff check src tests scripts",
+      "passed": true
+    },
+    "ruff_format": {
+      "command": ".venv/bin/ruff format --check src tests scripts",
+      "passed": true,
+      "file_count": 246
+    },
+    "mypy": {
+      "command": ".venv/bin/mypy src/repopilot",
+      "passed": true,
+      "source_file_count": 89
+    },
+    "lock_check": {
+      "command": "uv lock --check --offline",
+      "passed": true,
+      "resolved_packages": 104
+    },
+    "aggregate_reconstruction": {
+      "module": "scripts.p7_aggregate_report",
+      "check_only": true,
+      "external_retained_raw_evidence_used": true,
+      "passed": true,
+      "slots": 40,
+      "content_sha256": "ad86e73c0acaa5a2d3ff4125d4540b9b615a19bd740832eace68442ebd674a5b"
+    },
+    "failure_inventory_reconstruction": {
+      "module": "scripts.p7_error_analysis",
+      "check_only": true,
+      "external_retained_raw_evidence_used": true,
+      "passed": true,
+      "failed_slots": 20,
+      "content_sha256": "8895fb8a6502e6bf58217717ecba3fcdca58d1fb6f88389193159cd2b7fb0756"
+    }
+  },
+  "publication_scan_before_this_receipt": {
+    "scope": "git ls-files --cached --others --exclude-standard; candidate bytes only; ignored files not read",
+    "excluded_receipt_path": "results/p7-release/release-check-v1.json",
+    "file_count": 391,
+    "total_bytes": 6036268,
+    "inventory_sha256": "36b4d6b2872789da310499f1b8261b5cf3ce8e171ff55e02dc14dd15fab77dab",
+    "largest_file": {
+      "path": "results/p7-holdout/error-analysis-v6.json",
+      "bytes": 515635,
+      "sha256": "20e8d5d963bd92037ed684f09b194d144d04e11c27b8cdb97beefb4be5b82143"
+    },
+    "forbidden_candidates": 0,
+    "nonregular_candidates": 0,
+    "nontext_candidates": 0,
+    "unresolved_credential_matches": 0,
+    "exact_upstream_license_matches": 9,
+    "existing_project_license_retained": true,
+    "history_root": "309b67a41a576394826a3aec32fbde2adc145f4f",
+    "history_commit_count": 1,
+    "limitation": "Reviewed regex/known-sentinel matches and scoped file checks, not a guarantee of no secrets or a legal/security certification."
+  },
+  "changes": {
+    "production_src_scripts_configs_lock_changed": false,
+    "accepted_v6_outcomes_changed": false,
+    "test_only_private_history_portability_repairs": true
+  },
+  "activities": {
+    "live_provider_requests": 0,
+    "paid_requests": 0,
+    "docker_test_requests": 0,
+    "embedding_model_loads": 0,
+    "cloud_mutations": 0,
+    "resource_cleanup": false
+  },
+  "publication_status": "This pre-publication receipt does not assert a future push or GitHub Actions result; inspect the public commit and Actions run.",
+  "deferred": [
+    "P8 MCP/Skill micro-experiments",
+    "Memory effectiveness ablation",
+    "unseen-task and repeated evaluation",
+    "corrected single-shot comparison",
+    "production multi-tenant deployment"
+  ]
+}

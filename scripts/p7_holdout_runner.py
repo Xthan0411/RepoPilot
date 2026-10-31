@@ -15,12 +15,12 @@ import os
 import platform
 import subprocess
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import UTC, datetime
 from decimal import Decimal
 from enum import StrEnum, unique
 from pathlib import Path
-from typing import Literal, Self
+from typing import TYPE_CHECKING, Literal, Protocol, Self
 from uuid import UUID
 
 from pydantic import AwareDatetime, Field, ValidationError, model_validator
@@ -41,6 +41,7 @@ from repopilot.enums import (
 )
 from repopilot.evals import load_experiment_matrix, select_experiment_arm
 from repopilot.evals.baselines import BaselineEvaluationExecutor, load_baseline_definition
+from repopilot.evals.isolated_tests import build_isolated_test_sandbox_factory
 from repopilot.evals.runner import (
     EvaluationRunManifest,
     EvaluationRunnerError,
@@ -51,6 +52,7 @@ from repopilot.evals.runner import (
     inspect_evaluation_run,
     run_evaluation,
 )
+from repopilot.repair_workflow import RepairSandbox
 from repopilot.sandbox import DockerCliClient, DockerClientError
 from repopilot.schemas import (
     ArtifactRef,
@@ -88,6 +90,14 @@ from scripts.p7_holdout_readiness import (
     ReadinessError,
     _verify_frozen_runtime,
 )
+from scripts.p7_holdout_test_inputs import TEST_INPUTS_RAW_SHA256, load_test_inputs
+
+if TYPE_CHECKING:
+    from scripts.p7_holdout_gpu import GpuAuthorization, GpuPlan, GpuReadiness
+    from scripts.p7_holdout_requalification import HoldoutApplicationPlanV2
+    from scripts.p7_holdout_v2 import HoldoutRuntimeReadinessV2, PaidHoldoutAuthorizationV2
+    from scripts.p7_postdebug_runner import PostDebugAuthorization, PostDebugPlan
+    from scripts.p7_postdebug_runner_v5 import PostDebugAuthorizationV5, PostDebugPlanV5
 
 EXECUTION_REPORT_PATH = Path("results/p7-holdout/execution-report-v1.json")
 EXECUTION_VERSION: Literal["holdout-execution-v1"] = "holdout-execution-v1"
@@ -119,6 +129,8 @@ class HoldoutRunnerErrorCode(StrEnum):
     OUTPUT_CONFLICT = "output_conflict"
     BUDGET_EXHAUSTED = "budget_exhausted"
     TECHNICAL_FAILURE = "technical_failure"
+    CONCURRENT_EXECUTION = "concurrent_execution"
+    LOCAL_DEPENDENCY_UNAVAILABLE = "local_dependency_unavailable"
 
 
 class HoldoutRunnerError(RuntimeError):
@@ -233,10 +245,22 @@ class HoldoutExecutionReport(StrictModel):
 
 @dataclass(frozen=True)
 class _Controls:
-    plan: HoldoutApplicationPlan
-    authorization: PaidHoldoutAuthorization
+    plan: (
+        HoldoutApplicationPlan
+        | HoldoutApplicationPlanV2
+        | GpuPlan
+        | PostDebugPlan
+        | PostDebugPlanV5
+    )
+    authorization: (
+        PaidHoldoutAuthorization
+        | PaidHoldoutAuthorizationV2
+        | GpuAuthorization
+        | PostDebugAuthorization
+        | PostDebugAuthorizationV5
+    )
     environment: HoldoutEnvironmentManifest
-    readiness: HoldoutRuntimeReadiness
+    readiness: HoldoutRuntimeReadiness | HoldoutRuntimeReadinessV2 | GpuReadiness
     agent_inputs: HoldoutAgentInputs
     readiness_raw: bytes
     agent_inputs_raw: bytes
@@ -250,10 +274,11 @@ class _Progress:
     interrupted_slots: tuple[HoldoutRunSlot, ...]
     known_cost_usd: Decimal
     reserved_unknown_cost_usd: Decimal
+    carried_cost_usd: Decimal = Decimal("0")
 
     @property
     def accounted_cost_usd(self) -> Decimal:
-        return self.known_cost_usd + self.reserved_unknown_cost_usd
+        return self.known_cost_usd + self.reserved_unknown_cost_usd + self.carried_cost_usd
 
     @property
     def technical_failures(self) -> int:
@@ -261,6 +286,19 @@ class _Progress:
 
 
 ExecutorFactory = Callable[[str, str], EvaluationTaskExecutor]
+
+
+class ExecutorFactoryBuilder(Protocol):
+    """Versioned execution-resource factory, constructed only after paid gates."""
+
+    def __call__(
+        self,
+        *,
+        root: Path,
+        controls: _Controls,
+        openai_api_key: str,
+        database_url: str,
+    ) -> ExecutorFactory: ...
 
 
 def main() -> int:
@@ -286,20 +324,56 @@ def main() -> int:
     except OSError:
         raise HoldoutRunnerError(HoldoutRunnerErrorCode.INVALID_CONFIGURATION) from None
     controls = _load_and_verify_controls(root, require_credential=arguments.execute)
-    progress = _inspect_progress(root, controls)
-    _print_progress(progress, execute=arguments.execute, slot_executions_started=0)
-    if not arguments.execute:
+    return _run_loaded_controls(
+        root=root,
+        controls=controls,
+        execute=arguments.execute,
+        confirm_plan_sha256=arguments.confirm_plan_sha256,
+        max_new_slots=arguments.max_new_slots,
+        continue_after_technical_failure=arguments.continue_after_technical_failure,
+        report_writer=_write_final_report_if_complete,
+    )
+
+
+def _run_loaded_controls(
+    *,
+    root: Path,
+    controls: _Controls,
+    execute: bool,
+    confirm_plan_sha256: str | None,
+    max_new_slots: int,
+    continue_after_technical_failure: bool,
+    report_writer: Callable[[Path, _Controls, _Progress], object],
+    executor_factory_builder: ExecutorFactoryBuilder | None = None,
+    carried_cost_usd: Decimal = Decimal("0"),
+) -> int:
+    """Execute validated controls without choosing or weakening their versioned gates."""
+
+    if (
+        not 1 <= max_new_slots <= len(controls.plan.run_slots)
+        or not isinstance(carried_cost_usd, Decimal)
+        or not carried_cost_usd.is_finite()
+        or carried_cost_usd < 0
+    ):
+        raise HoldoutRunnerError(HoldoutRunnerErrorCode.INVALID_CONFIGURATION)
+
+    def inspect_progress() -> _Progress:
+        return replace(_inspect_progress(root, controls), carried_cost_usd=carried_cost_usd)
+
+    progress = inspect_progress()
+    _print_progress(progress, execute=execute, slot_executions_started=0)
+    if not execute:
         print(
             "holdout_execution_preflight_passed=true execute=false external_mutations=0 "
             "provider_requests=0"
         )
         return 0
-    if arguments.confirm_plan_sha256 != controls.plan.content_sha256:
+    if confirm_plan_sha256 != controls.plan.content_sha256:
         raise HoldoutRunnerError(HoldoutRunnerErrorCode.INVALID_CONFIGURATION)
-    if progress.technical_failures and not arguments.continue_after_technical_failure:
+    if progress.technical_failures and not continue_after_technical_failure:
         raise HoldoutRunnerError(HoldoutRunnerErrorCode.TECHNICAL_FAILURE)
     if not progress.pending_slots and not progress.interrupted_slots:
-        _write_final_report_if_complete(root, controls, progress)
+        report_writer(root, controls, progress)
         return 0
 
     os.environ["HF_HUB_OFFLINE"] = "1"
@@ -311,7 +385,7 @@ def main() -> int:
         "postgresql://repopilot:repopilot@localhost:55433/repopilot",
     )
     try:
-        executor_factory = _real_executor_factory(
+        executor_factory = (executor_factory_builder or _real_executor_factory)(
             root=root,
             controls=controls,
             openai_api_key=api_key,
@@ -321,12 +395,12 @@ def main() -> int:
         raise HoldoutRunnerError(HoldoutRunnerErrorCode.TECHNICAL_FAILURE) from None
     executed = 0
     for slot in controls.plan.run_slots:
-        if executed >= arguments.max_new_slots:
+        if executed >= max_new_slots:
             break
-        current = _inspect_progress(root, controls)
+        current = inspect_progress()
         if any(item.run_id == slot.run_id for item in current.outcomes):
             continue
-        if current.technical_failures and not arguments.continue_after_technical_failure:
+        if current.technical_failures and not continue_after_technical_failure:
             raise HoldoutRunnerError(HoldoutRunnerErrorCode.TECHNICAL_FAILURE)
         if (
             current.accounted_cost_usd + PER_ATTEMPT_UNKNOWN_COST_RESERVE_USD
@@ -341,24 +415,28 @@ def main() -> int:
             accounted_cost_before=current.accounted_cost_usd,
         )
         executed += 1
-        after = _inspect_progress(root, controls)
+        after = inspect_progress()
         outcome = next(item for item in after.outcomes if item.run_id == slot.run_id)
         print(
             f"holdout_slot_terminal=true arm={slot.arm_id} task={slot.task_id} "
             f"status={outcome.attempt_status} accounted_cost_usd={after.accounted_cost_usd}",
             flush=True,
         )
-        if outcome.attempt_status == "technical_failure" and not (
-            arguments.continue_after_technical_failure
-        ):
+        if outcome.attempt_status == "technical_failure" and not continue_after_technical_failure:
             raise HoldoutRunnerError(HoldoutRunnerErrorCode.TECHNICAL_FAILURE)
         if after.accounted_cost_usd > controls.authorization.max_total_cost_usd:
+            if (
+                not after.pending_slots
+                and not after.interrupted_slots
+                and len(after.outcomes) == len(controls.plan.run_slots)
+            ):
+                report_writer(root, controls, after)
             raise HoldoutRunnerError(HoldoutRunnerErrorCode.BUDGET_EXHAUSTED)
 
-    final = _inspect_progress(root, controls)
+    final = inspect_progress()
     _print_progress(final, execute=True, slot_executions_started=executed)
     if not final.pending_slots and not final.interrupted_slots:
-        _write_final_report_if_complete(root, controls, final)
+        report_writer(root, controls, final)
     else:
         print(
             f"holdout_execution_invocation_complete=true slot_executions_started={executed} "
@@ -394,6 +472,9 @@ def _load_and_verify_controls(root: Path, *, require_credential: bool) -> _Contr
         environment = HoldoutEnvironmentManifest.model_validate_json(environment_raw)
         readiness = HoldoutRuntimeReadiness.model_validate_json(readiness_raw)
         agent_inputs = HoldoutAgentInputs.model_validate_json(agent_inputs_raw)
+        load_test_inputs(
+            root, agent_inputs=agent_inputs, expected_raw_sha256=TEST_INPUTS_RAW_SHA256
+        )
         matrix = load_experiment_matrix(root / MATRIX_PATH, repository_root=root)
     except (OSError, ValidationError, ValueError):
         raise HoldoutRunnerError(HoldoutRunnerErrorCode.SOURCE_ARTIFACT_INVALID) from None
@@ -514,7 +595,26 @@ def _expected_manifest(
     slot: HoldoutRunSlot,
 ) -> EvaluationRunManifest:
     matrix = load_experiment_matrix(root / MATRIX_PATH, repository_root=root)
-    selection = select_experiment_arm(matrix, slot.arm_id)
+    single_shot = slot.arm_id == "single-shot-hybrid-context-v1"
+    selection = select_experiment_arm(matrix, "hybrid-rrf-v1" if single_shot else slot.arm_id)
+    configuration = selection.configuration_snapshot
+    prompt_versions = controls.plan.prompt_versions
+    if single_shot:
+        from scripts.p7_postdebug_runner_v6 import (
+            SINGLE_SHOT_PROMPT_VERSION,
+            PostDebugPlanV6,
+            baseline_configuration,
+        )
+
+        try:
+            # `python -m` creates the CLI plan in __main__, not this module's
+            # imported class. Validate its complete sealed contract, not Python
+            # class identity, while still rejecting older/unsealed plan versions.
+            PostDebugPlanV6.model_validate(controls.plan.model_dump())
+        except ValueError as error:
+            raise HoldoutRunnerError(HoldoutRunnerErrorCode.INVALID_CONFIGURATION) from error
+        configuration = baseline_configuration(root)
+        prompt_versions = (SINGLE_SHOT_PROMPT_VERSION,)
     binding = next(item for item in controls.environment.bindings if item.task_id == slot.task_id)
     task = _runner_task(_runtime_task(root, controls, slot.task_id))
     settings = selection.settings(
@@ -528,14 +628,14 @@ def _expected_manifest(
         source_commit=controls.plan.frozen_source_commit,
         dependency_lock_sha256=controls.plan.dependency_lock_sha256,
         dataset_manifest_sha256=controls.plan.dataset_manifest_sha256,
-        configuration=selection.configuration_snapshot,
+        configuration=configuration,
         split=DatasetSplit.HOLDOUT,
         arm_id=slot.arm_id,
         tasks=(task,),
         memory_namespace=None,
         model_provider=settings.model_provider,
         model=settings.model,
-        prompt_versions=controls.plan.prompt_versions,
+        prompt_versions=prompt_versions,
         sandbox_image_reference=binding.sandbox_image_reference,
         repetitions=1,
         max_execution_attempts=MAX_EXECUTION_ATTEMPTS,
@@ -715,16 +815,28 @@ def _real_executor_factory(
     controls: _Controls,
     openai_api_key: str,
     database_url: str,
+    embedding_provider: EmbeddingProvider | None = None,
+    embedding_cache: LocalEmbeddingCache | None = None,
 ) -> ExecutorFactory:
+    if (embedding_provider is None) != (embedding_cache is None):
+        raise HoldoutRunnerError(HoldoutRunnerErrorCode.INVALID_CONFIGURATION)
+    test_inputs = load_test_inputs(
+        root, agent_inputs=controls.agent_inputs, expected_raw_sha256=TEST_INPUTS_RAW_SHA256
+    )
     matrix = load_experiment_matrix(root / MATRIX_PATH, repository_root=root)
     dense_settings = select_experiment_arm(matrix, "dense-only-v1").settings(
         openai_api_key=openai_api_key,
         database_url=database_url,
     )
-    shared_embedding_provider: EmbeddingProvider = embedding_provider_from_settings(dense_settings)
-    shared_embedding_cache: LocalEmbeddingCache = embedding_cache_from_settings(
-        dense_settings,
-        project_root=root,
+    shared_embedding_provider = (
+        embedding_provider
+        if embedding_provider is not None
+        else embedding_provider_from_settings(dense_settings)
+    )
+    shared_embedding_cache = (
+        embedding_cache
+        if embedding_cache is not None
+        else embedding_cache_from_settings(dense_settings, project_root=root)
     )
     shared_vector_store: VectorStore = PostgresVectorStore(dense_settings)
 
@@ -735,6 +847,17 @@ def _real_executor_factory(
             database_url=database_url,
         )
         binding = next(item for item in controls.environment.bindings if item.task_id == task_id)
+        tests = next(item for item in test_inputs.tasks if item.task_id == task_id)
+
+        def sandbox_factory(output_root: Path) -> RepairSandbox:
+            task = _runtime_task(root, controls, task_id)
+            return build_isolated_test_sandbox_factory(
+                settings=settings,
+                sandbox_image_reference=binding.sandbox_image_reference,
+                task=task,
+                regression_patch=tests.regression_patch,
+            )(output_root)
+
         if selection.arm.baseline_config_ref is not None:
             definition = load_baseline_definition(
                 root / selection.arm.baseline_config_ref.relative_path
@@ -744,6 +867,7 @@ def _real_executor_factory(
                 settings=settings,
                 sandbox_image_reference=binding.sandbox_image_reference,
                 evaluation_configuration_sha256=selection.configuration_sha256,
+                sandbox_factory=sandbox_factory,
             )
         return RepairWorkflowEvaluationExecutor(
             settings=settings,
@@ -753,6 +877,7 @@ def _real_executor_factory(
             embedding_provider=shared_embedding_provider,
             embedding_cache=shared_embedding_cache,
             vector_store=shared_vector_store,
+            sandbox_factory=sandbox_factory,
         )
 
     return build
@@ -860,6 +985,11 @@ def _print_progress(
                 "execute": execute,
                 "interrupted_slots": len(progress.interrupted_slots),
                 "known_cost_usd": str(progress.known_cost_usd),
+                **(
+                    {"carried_cost_usd": str(progress.carried_cost_usd)}
+                    if progress.carried_cost_usd
+                    else {}
+                ),
                 "pending_slots": len(progress.pending_slots),
                 "reserved_unknown_cost_usd": str(progress.reserved_unknown_cost_usd),
                 "slot_executions_started_by_this_invocation": slot_executions_started,

@@ -55,7 +55,11 @@ from repopilot.retrieval.hybrid import (
     is_test_path,
     reciprocal_rank_fusion,
 )
-from repopilot.retrieval.ingest import RepositoryIngestor, ingest_repository
+from repopilot.retrieval.ingest import (
+    RepositoryIngestor,
+    RepositoryIngestScanPolicy,
+    ingest_repository,
+)
 from repopilot.retrieval.manifest import (
     REPOSITORY_MANIFEST_SCHEMA_VERSION,
     RepositoryIgnorePolicy,
@@ -144,6 +148,7 @@ __all__ = [
     "RepositoryChunkCorpusBuilder",
     "RepositoryIgnorePolicy",
     "RepositoryIngestError",
+    "RepositoryIngestScanPolicy",
     "RepositoryIngestor",
     "RepositoryManifest",
     "RepositorySource",

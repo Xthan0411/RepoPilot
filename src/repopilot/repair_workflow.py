@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import time
 from collections.abc import Callable
@@ -17,8 +18,15 @@ from uuid import UUID, uuid4, uuid5
 
 from pydantic import Field, ValidationError, field_validator, model_validator
 
-from repopilot.agent import RepairAgentGraph, repair_decision_request_id
+from repopilot.agent import (
+    AgentLoopError,
+    AgentStateGraphError,
+    RepairAgentGraph,
+    repair_decision_request_id,
+)
+from repopilot.agent.graph import GraphFailureCause
 from repopilot.config import RepoPilotSettings
+from repopilot.context import ContextAccountingError
 from repopilot.embeddings import (
     EmbeddingError,
     EmbeddingIndexer,
@@ -29,12 +37,24 @@ from repopilot.embeddings import (
     embedding_provider_from_settings,
 )
 from repopilot.enums import (
+    AgentLoopErrorCode,
+    AgentStateErrorCode,
+    BM25ErrorCode,
+    ChunkCorpusErrorCode,
+    ContextErrorCode,
+    DenseRetrievalErrorCode,
+    DockerSandboxErrorCode,
+    EmbeddingErrorCode,
     ErrorCategory,
+    EvaluationRunnerErrorCode,
+    HybridRetrievalErrorCode,
     MemoryAccessMode,
     ModelProvider,
     PolicyDecision,
     RepairContextMode,
     RepairWorkflowErrorCode,
+    RepositoryErrorCode,
+    RepositoryIngestErrorCode,
     RepositoryMemoryErrorCode,
     RepositoryMemoryLookupStatus,
     ReproductionStatus,
@@ -44,6 +64,9 @@ from repopilot.enums import (
     SandboxLifecycle,
     SandboxNetworkMode,
     TerminationReason,
+    TraceErrorCode,
+    TraceNode,
+    VectorStoreErrorCode,
     VerifiedEpisodeLookupStatus,
 )
 from repopilot.memory import (
@@ -89,6 +112,7 @@ from repopilot.sandbox import (
     SandboxHandle,
     SandboxPolicy,
 )
+from repopilot.sandbox.artifacts import SandboxArtifactError, SandboxArtifactStore
 from repopilot.schemas import (
     AgentState,
     ArtifactRef,
@@ -98,6 +122,7 @@ from repopilot.schemas import (
     MemoryLoadAudit,
     MemoryNamespace,
     Observation,
+    PatchState,
     RelativePath,
     RepositoryMemoryItem,
     ReproductionResult,
@@ -105,6 +130,7 @@ from repopilot.schemas import (
     StrictModel,
     TaskId,
     TaskSpec,
+    TestRunResult,
     UsageMetrics,
     VerifiedEpisodeMemoryItem,
 )
@@ -124,10 +150,13 @@ from repopilot.tools import (
     ToolRegistry,
     build_reproduction_result,
 )
-from repopilot.tools.patch import PatchCapableSandbox
+from repopilot.tools.output_projection import RepositoryToolOutputProjector
+from repopilot.tools.patch import CurrentSourceReadTool, PatchApplicationResult, PatchCapableSandbox
+from repopilot.tools.sandbox import RunTestsResult
 from repopilot.trace import (
     AgentTrace,
     TraceArtifactError,
+    TraceEvent,
     write_trace,
 )
 from repopilot.verifier import (
@@ -143,17 +172,262 @@ ARTIFACT_MANIFEST_SCHEMA_VERSION: Literal[1] = 1
 RESULT_FILENAME: RelativePath = "result.json"
 TRACE_FILENAME: RelativePath = "trace.json"
 ARTIFACT_MANIFEST_FILENAME: RelativePath = "artifacts.json"
+INCOMPLETE_AGENT_EVIDENCE_FILENAME: RelativePath = "incomplete-agent-evidence-v1.json"
 ARTIFACT_ROOT: RelativePath = "artifacts"
 _MAX_INPUT_BYTES = 1_000_000
 _IMAGE_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._/:~-]{0,439}@sha256:[0-9a-f]{64}$")
 MonotonicClock = Callable[[], float]
 RepairSandboxFactory = Callable[[Path], "RepairSandbox"]
 
+FailureStage = Literal[
+    "executor",
+    "input",
+    "repository",
+    "ingest",
+    "chunking",
+    "embedding",
+    "retrieval",
+    "sandbox_preparation",
+    "setup",
+    "provider_configuration",
+    "agent",
+    "trace",
+    "cleanup",
+    "output",
+    "memory",
+    "evidence_verification",
+]
+_SAFE_CAUSE_ENUMS = (
+    AgentLoopErrorCode,
+    AgentStateErrorCode,
+    BM25ErrorCode,
+    ChunkCorpusErrorCode,
+    ContextErrorCode,
+    DenseRetrievalErrorCode,
+    DockerSandboxErrorCode,
+    EmbeddingErrorCode,
+    EvaluationRunnerErrorCode,
+    HybridRetrievalErrorCode,
+    RepairWorkflowErrorCode,
+    RepositoryErrorCode,
+    RepositoryIngestErrorCode,
+    RepositoryMemoryErrorCode,
+    TraceErrorCode,
+    VectorStoreErrorCode,
+)
+_SAFE_DIAGNOSTIC_CAUSES = frozenset(
+    {code.value for enum in _SAFE_CAUSE_ENUMS for code in enum}
+    | {
+        "unexpected_exception",
+        "validation_error",
+        "invalid_value",
+        "local_io_error",
+        "sandbox_error",
+    }
+)
+
+
+class RepairFailureDetail(StrictModel):
+    """Only static taxonomy values; never exception messages, prompts, paths, or secrets."""
+
+    stage: FailureStage
+    cause_code: str
+
+    @field_validator("cause_code")
+    @classmethod
+    def validate_cause_code(cls, value: str) -> str:
+        if value not in _SAFE_DIAGNOSTIC_CAUSES:
+            raise ValueError("unapproved failure diagnostic cause")
+        return value
+
+
+SafeToolName = Literal[
+    "list_files",
+    "search_code",
+    "read_file",
+    "inspect_symbol",
+    "apply_patch",
+    "inspect_diff",
+    "run_tests",
+    "unrecognized_tool",
+]
+_SAFE_TOOL_NAMES = frozenset(
+    {
+        "list_files",
+        "search_code",
+        "read_file",
+        "inspect_symbol",
+        "apply_patch",
+        "inspect_diff",
+        "run_tests",
+    }
+)
+SafeExceptionKind = Literal[
+    "context_accounting_error",
+    "agent_state_graph_error",
+    "agent_loop_error",
+    "trace_artifact_error",
+    "validation_error",
+    "invalid_value",
+    "local_io_error",
+    "unexpected_exception",
+]
+
+
+class IncompleteAgentEventSummary(StrictModel):
+    """Content-free prefix metadata, never a replayable successful Trace."""
+
+    sequence: int = Field(ge=0)
+    node: TraceNode
+    tool_name: SafeToolName | None = None
+    provider_response_recorded: bool
+
+
+class IncompleteAgentEvidence(StrictModel):
+    """Best-effort lower-bound diagnostics; cannot settle a failed-slot reserve."""
+
+    evidence_version: Literal["incomplete-agent-evidence-v1"] = "incomplete-agent-evidence-v1"
+    complete: Literal[False] = False
+    replayable: Literal[False] = False
+    budget_reserve_unchanged: Literal[True] = True
+    raw_payloads_serialized: Literal[False] = False
+    run_id: UUID
+    task_id: TaskId
+    failure: RepairFailureDetail
+    exception_kind: SafeExceptionKind
+    graph_cause_type: GraphFailureCause | None = None
+    recorded_event_count: int = Field(ge=0)
+    last_completed_node: TraceNode | None = None
+    last_tool_name: SafeToolName | None = None
+    recorded_provider_responses: int = Field(ge=0)
+    provider_requests_made: Literal["unknown"] = "unknown"
+    recorded_usage_lower_bound: UsageMetrics
+    events: tuple[IncompleteAgentEventSummary, ...]
+
+
+def safe_repair_failure_detail(
+    error: BaseException, *, stage: FailureStage = "executor"
+) -> RepairFailureDetail:
+    """Classify known enum codes without rendering arbitrary exception attributes."""
+
+    if isinstance(error, RepairWorkflowError):
+        return RepairFailureDetail.model_validate(error.detail.model_dump())
+    code = vars(error).get("code")
+    if isinstance(code, _SAFE_CAUSE_ENUMS):
+        cause = code.value
+    elif isinstance(error, ValidationError):
+        cause = "validation_error"
+    elif isinstance(error, ValueError):
+        cause = "invalid_value"
+    elif isinstance(error, OSError):
+        cause = "local_io_error"
+    elif isinstance(error, SandboxError):
+        cause = "sandbox_error"
+    else:
+        cause = "unexpected_exception"
+    return RepairFailureDetail(stage=stage, cause_code=cause)
+
+
+def _incomplete_agent_evidence(
+    *,
+    request: RepairRunRequest,
+    error: BaseException,
+    stage: FailureStage,
+    events: tuple[TraceEvent, ...],
+) -> IncompleteAgentEvidence:
+    """Project only allowlisted metadata; unrecorded in-flight usage remains unknown."""
+
+    summaries: list[IncompleteAgentEventSummary] = []
+    for event in events:
+        name = event.tool_call.tool_name if event.tool_call is not None else None
+        summaries.append(
+            IncompleteAgentEventSummary(
+                sequence=event.sequence,
+                node=event.node,
+                tool_name=(
+                    None
+                    if name is None
+                    else cast(SafeToolName, name)
+                    if name in _SAFE_TOOL_NAMES
+                    else "unrecognized_tool"
+                ),
+                provider_response_recorded=event.provider_response is not None,
+            )
+        )
+    responses = tuple(
+        event.provider_response for event in events if event.provider_response is not None
+    )
+    kind: SafeExceptionKind
+    if isinstance(error, ContextAccountingError):
+        kind = "context_accounting_error"
+    elif isinstance(error, AgentStateGraphError):
+        kind = "agent_state_graph_error"
+    elif isinstance(error, AgentLoopError):
+        kind = "agent_loop_error"
+    elif isinstance(error, TraceArtifactError):
+        kind = "trace_artifact_error"
+    elif isinstance(error, ValidationError):
+        kind = "validation_error"
+    elif isinstance(error, ValueError):
+        kind = "invalid_value"
+    elif isinstance(error, OSError):
+        kind = "local_io_error"
+    else:
+        kind = "unexpected_exception"
+    return IncompleteAgentEvidence(
+        run_id=request.run_id,
+        task_id=request.task.task_id,
+        failure=safe_repair_failure_detail(error, stage=stage),
+        exception_kind=kind,
+        graph_cause_type=(error.cause_type if isinstance(error, AgentStateGraphError) else None),
+        recorded_event_count=len(events),
+        last_completed_node=summaries[-1].node if summaries else None,
+        last_tool_name=next(
+            (item.tool_name for item in reversed(summaries) if item.tool_name is not None), None
+        ),
+        recorded_provider_responses=len(responses),
+        recorded_usage_lower_bound=UsageMetrics(
+            input_tokens=sum(response.usage.input_tokens for response in responses),
+            output_tokens=sum(response.usage.output_tokens for response in responses),
+            total_tokens=sum(response.usage.total_tokens for response in responses),
+            estimated_cost_usd=sum(
+                (response.usage.estimated_cost_usd for response in responses), Decimal("0")
+            ),
+            latency_ms=sum(response.usage.latency_ms for response in responses),
+        ),
+        events=tuple(summaries),
+    )
+
+
+def _persist_incomplete_agent_evidence(
+    *,
+    root: Path,
+    request: RepairRunRequest,
+    graph: RepairAgentGraph,
+    error: BaseException,
+    stage: FailureStage,
+) -> None:
+    """Do not mask the original failure, overwrite evidence, or write successful artifacts."""
+
+    events: tuple[TraceEvent, ...] = ()
+    with suppress(Exception):
+        events = graph.partial_trace_events(request.run_id)
+    with suppress(Exception):
+        evidence = _incomplete_agent_evidence(
+            request=request, error=error, stage=stage, events=events
+        )
+        path = root / INCOMPLETE_AGENT_EVIDENCE_FILENAME
+        descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        with os.fdopen(descriptor, "w", encoding="utf-8") as output:
+            output.write(f"{evidence.model_dump_json(indent=2)}\n")
+
 
 class RepairWorkflowError(RuntimeError):
     """Safe orchestration failure carrying no source, command, path, or secret."""
 
-    def __init__(self, code: RepairWorkflowErrorCode) -> None:
+    def __init__(
+        self, code: RepairWorkflowErrorCode, *, detail: RepairFailureDetail | None = None
+    ) -> None:
         super().__init__(
             {
                 RepairWorkflowErrorCode.INPUT_IO_ERROR: "repair input is unavailable",
@@ -178,6 +452,26 @@ class RepairWorkflowError(RuntimeError):
             }[code]
         )
         self.code = code
+        stages: dict[RepairWorkflowErrorCode, FailureStage] = {
+            RepairWorkflowErrorCode.INPUT_IO_ERROR: "input",
+            RepairWorkflowErrorCode.INVALID_TASK: "input",
+            RepairWorkflowErrorCode.INVALID_PROVIDER_SCRIPT: "provider_configuration",
+            RepairWorkflowErrorCode.INVALID_OUTPUT: "output",
+            RepairWorkflowErrorCode.PROVIDER_CONFIGURATION: "provider_configuration",
+            RepairWorkflowErrorCode.RETRIEVAL_FAILURE: "retrieval",
+            RepairWorkflowErrorCode.MEMORY_FAILURE: "memory",
+            RepairWorkflowErrorCode.SANDBOX_PREPARATION: "sandbox_preparation",
+            RepairWorkflowErrorCode.SETUP_FAILURE: "setup",
+            RepairWorkflowErrorCode.AGENT_FAILURE: "agent",
+            RepairWorkflowErrorCode.TRACE_FAILURE: "trace",
+            RepairWorkflowErrorCode.CLEANUP_FAILURE: "cleanup",
+            RepairWorkflowErrorCode.OUTPUT_IO_ERROR: "output",
+        }
+        self.detail = (
+            RepairFailureDetail(stage=stages[code], cause_code=code.value)
+            if detail is None
+            else RepairFailureDetail.model_validate(detail.model_dump())
+        )
 
 
 class RepairSandbox(SandboxAdapter, PatchCapableSandbox, Protocol):
@@ -458,20 +752,33 @@ def run_repair_request(
     try:
         try:
             handle = active_sandbox.prepare(request.task)
-        except SandboxError:
-            raise RepairWorkflowError(RepairWorkflowErrorCode.SANDBOX_PREPARATION) from None
+        except SandboxError as error:
+            raise RepairWorkflowError(
+                RepairWorkflowErrorCode.SANDBOX_PREPARATION,
+                detail=safe_repair_failure_detail(error, stage="sandbox_preparation"),
+            ) from None
         setup_observations = _run_setup_commands(
             active_sandbox,
             handle,
             request,
             settings,
         )
+        try:
+            tool_artifact_store = SandboxArtifactStore(root / ARTIFACT_ROOT)
+            tool_artifact_store.prepare(
+                f"tool-output-{request.run_id.hex}",
+                repository_source=repository.root,
+            )
+        except SandboxArtifactError:
+            raise RepairWorkflowError(RepairWorkflowErrorCode.OUTPUT_IO_ERROR) from None
         registry, tools = _build_repair_registry(
             repository=repository,
             sandbox=active_sandbox,
             handle=handle,
             task=request.task,
             settings=settings,
+            output_projector=RepositoryToolOutputProjector(tool_artifact_store),
+            artifact_store=tool_artifact_store,
         )
         provider = _build_provider(
             request=request,
@@ -513,10 +820,22 @@ def run_repair_request(
             )
             trace = graph.build_trace(request.thread_id, settings=settings)
             replay_trace(trace)
-        except TraceArtifactError:
-            raise RepairWorkflowError(RepairWorkflowErrorCode.TRACE_FAILURE) from None
-        except Exception:
-            raise RepairWorkflowError(RepairWorkflowErrorCode.AGENT_FAILURE) from None
+        except TraceArtifactError as error:
+            _persist_incomplete_agent_evidence(
+                root=root, request=request, graph=graph, error=error, stage="trace"
+            )
+            raise RepairWorkflowError(
+                RepairWorkflowErrorCode.TRACE_FAILURE,
+                detail=safe_repair_failure_detail(error, stage="trace"),
+            ) from None
+        except Exception as error:
+            _persist_incomplete_agent_evidence(
+                root=root, request=request, graph=graph, error=error, stage="agent"
+            )
+            raise RepairWorkflowError(
+                RepairWorkflowErrorCode.AGENT_FAILURE,
+                detail=safe_repair_failure_detail(error, stage="agent"),
+            ) from None
         result = _build_result(
             request=request,
             final_state=final_state,
@@ -526,12 +845,15 @@ def run_repair_request(
         try:
             artifacts = tuple(
                 sorted(
-                    active_sandbox.collect_artifacts(handle),
+                    (*active_sandbox.collect_artifacts(handle), *tool_artifact_store.collect()),
                     key=lambda item: item.relative_path,
                 )
             )
-        except SandboxError:
-            raise RepairWorkflowError(RepairWorkflowErrorCode.AGENT_FAILURE) from None
+        except (SandboxError, SandboxArtifactError) as error:
+            raise RepairWorkflowError(
+                RepairWorkflowErrorCode.AGENT_FAILURE,
+                detail=safe_repair_failure_detail(error, stage="output"),
+            ) from None
         completed = (result, trace, final_state, artifacts)
     except RepairWorkflowError as error:
         primary_error = error
@@ -539,8 +861,11 @@ def run_repair_request(
         if handle is not None and active_sandbox.lifecycle is SandboxLifecycle.PREPARED:
             try:
                 active_sandbox.destroy(handle)
-            except SandboxError:
-                raise RepairWorkflowError(RepairWorkflowErrorCode.CLEANUP_FAILURE) from None
+            except SandboxError as error:
+                raise RepairWorkflowError(
+                    RepairWorkflowErrorCode.CLEANUP_FAILURE,
+                    detail=safe_repair_failure_detail(error, stage="cleanup"),
+                ) from None
     if primary_error is not None:
         raise primary_error
     if completed is None:
@@ -574,8 +899,11 @@ def run_repair_request(
         write_trace(trace_path, trace)
         _write_model(result_path, result)
         _write_model(artifact_manifest_path, artifact_manifest)
-    except (OSError, TraceArtifactError):
-        raise RepairWorkflowError(RepairWorkflowErrorCode.OUTPUT_IO_ERROR) from None
+    except (OSError, TraceArtifactError) as error:
+        raise RepairWorkflowError(
+            RepairWorkflowErrorCode.OUTPUT_IO_ERROR,
+            detail=safe_repair_failure_detail(error, stage="output"),
+        ) from None
     verified_episode: VerifiedEpisodicRecord | None = None
     if (
         memory_stores is not None
@@ -635,6 +963,7 @@ def build_repair_retrieval_context(
     if repository_memory_store is not None and memory_stores is not None:
         raise ValueError("provide either legacy Repository Memory or a namespace bundle")
     repository_id = repository_id_for_task(task)
+    stage: FailureStage = "ingest"
     try:
         indexing_started = monotonic()
         manifest = ingest_repository(
@@ -642,6 +971,7 @@ def build_repair_retrieval_context(
             repository_id=repository_id,
             commit=task.base_commit,
         )
+        stage = "chunking"
         corpus = (
             RepositoryChunkCorpusBuilder.from_settings(
                 repository,
@@ -650,6 +980,7 @@ def build_repair_retrieval_context(
             .build(manifest)
             .corpus
         )
+        stage = "retrieval"
         sparse_retriever = (
             BM25Retriever.from_corpus(
                 corpus,
@@ -660,6 +991,7 @@ def build_repair_retrieval_context(
         )
         dense_retriever: DenseRetriever | None = None
         if settings.retrieval_mode in (RetrievalMode.DENSE, RetrievalMode.HYBRID):
+            stage = "embedding"
             effective_provider = (
                 embedding_provider
                 if embedding_provider is not None
@@ -684,6 +1016,7 @@ def build_repair_retrieval_context(
                 executor=executor,
                 vector_store=effective_store,
             )
+        stage = "retrieval"
         retriever = HybridRetriever(
             corpus=corpus,
             sparse_retriever=sparse_retriever,
@@ -715,8 +1048,16 @@ def build_repair_retrieval_context(
         VectorStoreError,
         ValidationError,
         ValueError,
-    ):
-        raise RepairWorkflowError(RepairWorkflowErrorCode.RETRIEVAL_FAILURE) from None
+    ) as error:
+        raise RepairWorkflowError(
+            RepairWorkflowErrorCode.RETRIEVAL_FAILURE,
+            detail=safe_repair_failure_detail(error, stage=stage),
+        ) from None
+    except Exception as error:
+        raise RepairWorkflowError(
+            RepairWorkflowErrorCode.RETRIEVAL_FAILURE,
+            detail=safe_repair_failure_detail(error, stage=stage),
+        ) from None
 
     chunks = {chunk.chunk_id: chunk for chunk in corpus.chunks}
     summaries: list[str] = []
@@ -847,8 +1188,16 @@ def build_repair_no_precomputed_context(
         RepositoryIngestError,
         ValidationError,
         ValueError,
-    ):
-        raise RepairWorkflowError(RepairWorkflowErrorCode.RETRIEVAL_FAILURE) from None
+    ) as error:
+        raise RepairWorkflowError(
+            RepairWorkflowErrorCode.RETRIEVAL_FAILURE,
+            detail=safe_repair_failure_detail(error, stage="ingest"),
+        ) from None
+    except Exception as error:
+        raise RepairWorkflowError(
+            RepairWorkflowErrorCode.RETRIEVAL_FAILURE,
+            detail=safe_repair_failure_detail(error, stage="ingest"),
+        ) from None
     return RepairRetrievalContext(
         repository_id=repository_id,
         repository_content_sha256=manifest.content_sha256,
@@ -868,8 +1217,11 @@ def repository_id_for_task(task: TaskSpec) -> str:
     if task.repository_path is not None:
         try:
             location = str(Path(task.repository_path).resolve(strict=True))
-        except OSError:
-            raise RepairWorkflowError(RepairWorkflowErrorCode.INVALID_TASK) from None
+        except OSError as error:
+            raise RepairWorkflowError(
+                RepairWorkflowErrorCode.INVALID_TASK,
+                detail=safe_repair_failure_detail(error, stage="repository"),
+            ) from None
         location_kind = "local_path"
     elif task.repository_url is not None:
         location = str(task.repository_url)
@@ -893,8 +1245,11 @@ def _repository(task: TaskSpec, settings: RepoPilotSettings) -> ReadOnlyReposito
         raise RepairWorkflowError(RepairWorkflowErrorCode.INVALID_TASK)
     try:
         return ReadOnlyRepository.from_settings(Path(task.repository_path), settings)
-    except (RepositoryAccessError, ValueError):
-        raise RepairWorkflowError(RepairWorkflowErrorCode.INVALID_TASK) from None
+    except (RepositoryAccessError, ValueError) as error:
+        raise RepairWorkflowError(
+            RepairWorkflowErrorCode.INVALID_TASK,
+            detail=safe_repair_failure_detail(error, stage="repository"),
+        ) from None
 
 
 def _build_repair_registry(
@@ -904,23 +1259,29 @@ def _build_repair_registry(
     handle: SandboxHandle,
     task: TaskSpec,
     settings: RepoPilotSettings,
+    output_projector: RepositoryToolOutputProjector | None = None,
+    artifact_store: SandboxArtifactStore | None = None,
 ) -> tuple[ToolRegistry, tuple[RegisteredTool, ...]]:
     patch_session = PatchToolSession.from_settings(
         sandbox=sandbox,
         handle=handle,
         task=task,
         settings=settings,
+        repository=repository if artifact_store is not None else None,
+        artifact_store=artifact_store,
     )
     tools: tuple[RegisteredTool, ...] = (
         ListFilesTool(repository),
-        ReadFileTool(repository),
+        CurrentSourceReadTool(patch_session)
+        if artifact_store is not None
+        else ReadFileTool(repository),
         SearchCodeTool.from_settings(repository, settings),
         InspectSymbolTool.from_settings(repository, settings),
         RunTestsTool(sandbox=sandbox, handle=handle, task=task),
         ApplyPatchTool(patch_session),
         InspectDiffTool(patch_session),
     )
-    registry = ToolRegistry.from_settings(settings)
+    registry = ToolRegistry.from_settings(settings, output_projector=output_projector)
     for tool in tools:
         registry.register(tool)
     return registry, tools
@@ -946,8 +1307,11 @@ def _build_provider(
             settings=settings,
             tools=tools,
         )
-    except Exception:
-        raise RepairWorkflowError(RepairWorkflowErrorCode.PROVIDER_CONFIGURATION) from None
+    except Exception as error:
+        raise RepairWorkflowError(
+            RepairWorkflowErrorCode.PROVIDER_CONFIGURATION,
+            detail=safe_repair_failure_detail(error, stage="provider_configuration"),
+        ) from None
 
 
 def _run_setup_commands(
@@ -969,8 +1333,11 @@ def _run_setup_commands(
                     network_requested=(settings.sandbox_network is SandboxNetworkMode.SETUP_ONLY),
                 ),
             )
-        except SandboxError:
-            raise RepairWorkflowError(RepairWorkflowErrorCode.SETUP_FAILURE) from None
+        except SandboxError as error:
+            raise RepairWorkflowError(
+                RepairWorkflowErrorCode.SETUP_FAILURE,
+                detail=safe_repair_failure_detail(error, stage="setup"),
+            ) from None
         observations.append(observation)
         if (
             observation.exit_code != 0
@@ -979,6 +1346,38 @@ def _run_setup_commands(
         ):
             raise RepairWorkflowError(RepairWorkflowErrorCode.SETUP_FAILURE)
     return tuple(observations)
+
+
+def _fresh_validation_test(final_state: AgentState) -> TestRunResult | None:
+    """A test proves only the exact patch state preceding it in the append-only history."""
+    from repopilot.enums import PatchStatus, ToolResultStatus
+
+    observed_patch: PatchState | None = None
+    latest: TestRunResult | None = None
+    for result in final_state.tool_results:
+        if result.tool_name == "apply_patch":
+            # Even an unparseable application invalidates a previous pass.
+            latest = None
+            if result.status is not ToolResultStatus.SUCCESS or result.payload is None:
+                observed_patch = None
+                continue
+            try:
+                applied = PatchApplicationResult.model_validate(result.payload)
+            except ValueError:
+                observed_patch = None
+                continue
+            observed_patch = applied.patch_state if applied.status is PatchStatus.APPLIED else None
+        elif result.tool_name == "run_tests" and observed_patch == final_state.patch_state:
+            if result.status is not ToolResultStatus.SUCCESS or result.payload is None:
+                latest = None
+                continue
+            try:
+                latest = RunTestsResult.model_validate(result.payload).test_run
+            except ValueError:
+                latest = None
+    if latest != final_state.test_state.last_result:
+        return None
+    return latest
 
 
 def _build_result(
@@ -1015,9 +1414,7 @@ def _build_result(
         if final_state.baseline_test_result is None
         else build_reproduction_result(final_state.baseline_test_result)
     )
-    validation_test = (
-        final_state.test_state.last_result if final_state.test_state.commands_run >= 2 else None
-    )
+    validation_test = _fresh_validation_test(final_state)
     decision = RuleBasedVerifier().verify(
         VerificationEvidence(
             reproduction_result=reproduction,

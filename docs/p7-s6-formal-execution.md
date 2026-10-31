@@ -1,5 +1,10 @@
 # P7-S6 formal holdout execution
 
+> **2026-10-28: historical v1 operator contract. Do not execute the paid commands below
+> with the repaired source.** The pytest/isolated-evaluator repair requires replacement-VM
+> qualification and a newly bound freeze/plan/readiness/authorization. Formal paid
+> Holdout remains 0/32. See [the current repair note](p7-s6-test-protocol-repair.md).
+
 ## Scope and current boundary
 
 P7-S6 owns the raw paid execution only. It runs the frozen four-arm, eight-task,

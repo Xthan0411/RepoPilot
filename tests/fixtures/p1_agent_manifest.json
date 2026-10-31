@@ -131,7 +131,13 @@
         "started_at": "2026-08-05T08:00:02Z",
         "duration_ms": 23,
         "exit_code": 0,
-        "stdout_ref": null,
+        "stdout_ref": {
+          "relative_path": "stdout.txt",
+          "sha256": "877905694edf8b7063733cd5b687d3fc4f3b25c505aa0a95fd833c7cff530590",
+          "size_bytes": 18,
+          "media_type": "text/plain"
+        },
+        "stdout_preview": "1 passed in 0.01s\n",
         "stderr_ref": null,
         "truncated": false,
         "sandbox_id": "sandbox-p1-cli",

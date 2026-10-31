@@ -308,6 +308,17 @@ class PythonAstChunker:
                 mode=PythonChunkMode.EMPTY,
                 chunks=(),
             )
+        # Windowing a parent symbol can place later windows before its nested definitions.
+        # Apply the result contract to final chunks, not only to their unsplit source units.
+        chunks.sort(
+            key=lambda chunk: (
+                chunk.start_line,
+                chunk.end_line,
+                chunk.symbol_type.value,
+                chunk.symbol_name or "",
+                chunk.chunk_id,
+            )
+        )
         return PythonSourceChunkResult(
             source_id=source.source_id,
             relative_path=source.relative_path,
